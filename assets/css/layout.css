@@ -22,7 +22,7 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(10, 10, 12, 0.88);
+  background: var(--bg-deep-alpha);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border);

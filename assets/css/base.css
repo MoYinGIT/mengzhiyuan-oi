@@ -26,18 +26,23 @@
   /* 强调色 */
   --primary: #4caf7d;
   --accent: #d4a44c;
+  --accent-dim: rgba(212, 164, 76, 0.15);
   --red: #e05555;
   --green: #4caf7d;
   --cyan: #4aafbf;
   --orange: #e08a3a;
   --purple: #9a5cd0;
+  --red-soft: #d4a0a0;
+  --border-dim: rgba(42, 42, 51, 0.5);
+  --bg-deep-alpha: rgba(10, 10, 12, 0.88);
+  --shadow-color: rgba(0, 0, 0, 0.3);
   
   /* 八级颜色体系 */
   --level1: #4caf7d;  --level1-dim: rgba(76, 175, 125, 0.15);
   --level2: #5bb896;  --level2-dim: rgba(91, 184, 150, 0.15);
   --level3: #d4a44c;  --level3-dim: rgba(212, 164, 76, 0.15);
   --level4: #e08a3a;  --level4-dim: rgba(224, 138, 58, 0.15);
-  --level5: #e05555;  --level5-dim: rgba(224, 85, 85, 0.15);
+  --level5: #e05555;  --level5-dim: rgba(224, 85, 85, 0.2);
   --level6: #c74a7a;  --level6-dim: rgba(199, 74, 122, 0.15);
   --level7: #9a5cd0;  --level7-dim: rgba(154, 92, 208, 0.15);
   --level8: #4aafbf;  --level8-dim: rgba(74, 175, 191, 0.15);

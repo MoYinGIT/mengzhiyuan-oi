@@ -158,7 +158,7 @@ void dfs(int x, int y) {
           {"addr":"Step1","cells":["A","","",""],"var":"访问A"},
           {"addr":"Step2","cells":["B","","",""],"var":"A→B"},
           {"addr":"Step3","cells":["A","","",""],"var":"B→A(无visited会死循环)"},
-          {"addr":"Step3'","cells":["B","","",""],"var":"有visited时B发现A已访问，跳过"}
+          {"addr":"Step3","cells":["B","","",""],"var":"有visited时B发现A已访问，跳过"}
         ]'></div>
         <p>
           <code class="inline-code">visited</code> 数组的作用就是"走过的路不再走"。

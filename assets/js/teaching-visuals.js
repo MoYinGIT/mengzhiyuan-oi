@@ -67,7 +67,7 @@ const TeachingVisuals = {
     } catch (error) {
       console.error('[TeachingVisuals] 渲染失败:', error);
       el.innerHTML = `
-        <div style="color: #e05555; padding: 16px; border: 1px solid #e05555; border-radius: 8px;">
+        <div class="visual-error">
           <strong>可视化组件渲染失败</strong><br>
           ${this.escapeHtml(error.message)}
         </div>
@@ -145,7 +145,7 @@ const TeachingVisuals = {
       } catch (error) {
         console.error('[TeachingVisuals] Mermaid加载失败:', error);
         // 降级显示：显示原始文本
-        el.innerHTML = `<pre style="background:#14141b;padding:16px;border-radius:8px;overflow:auto;font-family:monospace;font-size:12px;">${this.escapeHtml(originalContent)}</pre>`;
+        el.innerHTML = `<pre class="visual-fallback-pre">${this.escapeHtml(originalContent)}</pre>`;
         return;
       }
     }
@@ -171,7 +171,7 @@ const TeachingVisuals = {
       console.log('[TeachingVisuals] Mermaid渲染完成');
     } catch (error) {
       console.error('[TeachingVisuals] Mermaid渲染失败:', error);
-      el.innerHTML = `<pre style="background:#14141b;padding:16px;border-radius:8px;overflow:auto;font-family:monospace;font-size:12px;">${this.escapeHtml(originalContent)}</pre>`;
+      el.innerHTML = `<pre class="visual-fallback-pre">${this.escapeHtml(originalContent)}</pre>`;
     }
   },
 
@@ -188,8 +188,21 @@ const TeachingVisuals = {
 
     el.classList.add('variable-tracker-wrapper');
 
-    const headers = data.headers || ['步骤', '变量', '值', '说明'];
-    const rows = data.rows || [];
+    let headers, rows;
+    if (Array.isArray(data)) {
+      // [{step, vars:[{name,value,highlight}], desc}] format
+      headers = ['步骤', '变量状态', '说明'];
+      rows = data.map(step => {
+        const varStr = (step.vars || []).map(v => {
+          const hl = v.highlight ? ' ★' : '';
+          return `${v.name}=${v.value}${hl}`;
+        }).join(', ');
+        return [step.step || '', varStr, step.desc || ''];
+      });
+    } else {
+      headers = data.headers || ['步骤', '变量', '值', '说明'];
+      rows = data.rows || [];
+    }
 
     el.innerHTML = `
       <table class="variable-tracker">

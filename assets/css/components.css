@@ -27,8 +27,8 @@
 }
 
 .btn-primary:hover {
-  background: #e5b55c;
-  border-color: #e5b55c;
+  background: var(--accent);
+  border-color: var(--accent);
   color: var(--bg-deep);
 }
 
@@ -193,7 +193,7 @@
 /* ---- 陷阱提示框 ---- */
 .trap-box {
   background: var(--level5-dim);
-  border: 1px solid rgba(224, 85, 85, 0.2);
+  border: 1px solid var(--level5-dim);
   border-radius: var(--radius-md);
   padding: var(--sp-4);
   margin: var(--sp-4) 0;
@@ -212,7 +212,7 @@
 }
 
 .trap-box p {
-  color: #d4a0a0;
+  color: var(--red-soft);
   margin: 0;
   font-size: 13px;
   line-height: 1.6;
@@ -278,7 +278,7 @@
   color: var(--fg-muted);
   padding: var(--sp-2) 0 var(--sp-2) var(--sp-5);
   position: relative;
-  border-bottom: 1px solid rgba(42, 42, 51, 0.5);
+  border-bottom: 1px solid var(--border-dim);
 }
 
 .checklist-box li:last-child {

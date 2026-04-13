@@ -60,7 +60,7 @@
 .cell:hover,
 .cell:focus {
   transform: scale(1.05);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 8px var(--shadow-color);
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
@@ -176,6 +176,25 @@
 .mermaid .edgeLabel {
   background: var(--bg-card) !important;
   color: var(--fg-muted) !important;
+}
+
+
+/* ---- 错误降级显示 ---- */
+.visual-error {
+  color: var(--red);
+  padding: 16px;
+  border: 1px solid var(--red);
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+}
+
+.visual-fallback-pre {
+  background: var(--bg-card);
+  padding: 16px;
+  border-radius: var(--radius-md);
+  overflow: auto;
+  font-family: var(--font-mono);
+  font-size: 12px;
 }
 
 /* ---- 可访问性支持 ---- */

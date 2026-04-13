@@ -238,7 +238,7 @@
 }
 
 .cm-prep {
-  background: rgba(255,255,255,0.03);
+  background: var(--bg-hover);
   color: var(--fg-dim);
   font-style: italic;
 }
