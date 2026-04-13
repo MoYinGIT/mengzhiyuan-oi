@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L3-05 简单DP入门 · 蒙知苑·OI</title>
+  <meta name="description" content="学习递推思想、用数组存储状态，掌握斐波那契和爬楼梯等经典DP入门问题。">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../../assets/css/base.css">
+  <link rel="stylesheet" href="../../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../../assets/css/components.css">
+  <link rel="stylesheet" href="../../../assets/css/teaching-visuals.css">
+  <link rel="stylesheet" href="../../../assets/css/level.css">
+  
+  <style>
+    :root { --lv-color: var(--level3); --lv-dim: var(--level3-dim); }
+  </style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels" class="active">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+  
+  <div class="mobile-menu">
+    <a href="../../../philosophy/index.html">教学理念</a>
+    <a href="../../../mainlines/index.html">能力主线</a>
+    <a href="../../../index.html#levels">八级体系</a>
+    <a href="../../../resources/index.html">学习资源</a>
+  </div>
+
+  <div class="lesson-top-info">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../../../index.html">首页</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="../index.html">L3 数组期</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>L3-05</span>
+      </div>
+      <div class="lesson-header-row">
+        <div>
+          <h1 class="lesson-title-main">简单DP入门</h1>
+          <p class="lesson-subtitle">递推思想、数组存储状态、斐波那契、爬楼梯</p>
+        </div>
+        <div class="lesson-meta">
+          <div class="meta-item"><i class="fas fa-clock"></i> 12课时</div>
+          <div class="meta-item"><i class="fas fa-calendar"></i> 约3周</div>
+          <div class="meta-item"><i class="fas fa-signal"></i> 难度 <span class="difficulty-star"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="main-content">
+    <div class="container">
+
+      <div class="goals-card reveal">
+        <h4><i class="fas fa-bullseye"></i> 本课三维目标</h4>
+        <div class="goals-grid">
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--red-dim); color: var(--red);">知识</span>
+            <span class="goal-text">递推关系、状态定义、状态转移方程、初始条件</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--green-dim); color: var(--green);">技能</span>
+            <span class="goal-text">能用数组递推解决斐波那契、爬楼梯、简单路径计数</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--blue-dim); color: var(--blue);">思维</span>
+            <span class="goal-text">建立"大问题拆成小问题，小问题存数组复用"的DP思维</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="coach-quote reveal">
+        <p>
+          DP（动态规划）是很多学生竞赛生涯中的"鬼门关"。
+        </p>
+        <p>
+          但DP的起点一点都不神秘，它就是<strong>递推 + 数组存结果</strong>。
+          斐波那契数列本质上就是一个最简单的DP。
+        </p>
+        <p style="margin-bottom: 0;">
+          在L3引入简单DP，不是为了让学生立刻会做背包问题，而是为了在他们心中种下一颗种子：
+          <strong>数组不只是存数据，还可以存状态、存子问题的答案。</strong>
+        </p>
+      </div>
+
+      <section class="reveal">
+        <h2>1. 从斐波那契看DP的本质</h2>
+        <p>
+          斐波那契数列：1, 1, 2, 3, 5, 8, 13... 每一项都是前两项之和。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">斐波那契的递推写法</span>
+            <button class="copy-btn" data-clipboard-target="#code1">复制</button>
+          </div>
+          <pre><code id="code1" class="language-cpp">long long f[100];
+f[0] = 1;      // 初始条件
+f[1] = 1;      // 初始条件
+for (int i = 2; i < n; i++) {
+    f[i] = f[i-1] + f[i-2];  // 状态转移方程
+}
+cout << f[n-1] << endl;</code></pre>
+        </div>
+        <p>
+          这里 <code class="inline-code">f[i]</code> 就是<strong>状态</strong>："第 i 个斐波那契数的值"。<br>
+          <code class="inline-code">f[i] = f[i-1] + f[i-2]</code> 就是<strong>状态转移方程</strong>。<br>
+          <code class="inline-code">f[0]=1, f[1]=1</code> 就是<strong>初始条件/边界</strong>。
+        </p>
+        <div class="note-box">
+          <p>
+            <strong>核心发现：</strong>如果没有数组存储中间结果，而是用递归反复计算 <code class="inline-code">fib(n-1)</code> 和 <code class="inline-code">fib(n-2)</code>，
+            同样的问题会被计算无数次。数组的作用就是<strong>记忆化</strong>——把算过的答案存下来，下次直接查表。
+          </p>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>2. 经典问题：爬楼梯</h2>
+        <p>
+          问题：有 n 级台阶，每次可以爬 1 级或 2 级，问有多少种不同的爬法？
+        </p>
+        <p>
+          <strong>思考方式：</strong>要爬到第 n 级，最后一步只能从第 n-1 级跨1步，或者从第 n-2 级跨2步。
+          所以：
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">爬楼梯的状态转移</span>
+            <button class="copy-btn" data-clipboard-target="#code2">复制</button>
+          </div>
+          <pre><code id="code2" class="language-cpp">// f[i] = 爬到第 i 级台阶的方法数
+f[0] = 1; // 地面，认为有1种方法（起点）
+f[1] = 1; // 只有1级，只能跨1步
+
+for (int i = 2; i <= n; i++) {
+    f[i] = f[i-1] + f[i-2];
+}</code></pre>
+        </div>
+        <p>
+          发现和斐波那契完全一样！很多看似不同的题目，背后的数学结构是相通的。
+          这就是学DP的价值——学会<strong>抽象状态、发现递推关系</strong>。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>3. DP的三要素</h2>
+        <p>每一个DP问题，都要明确回答三个问题：</p>
+        <ol>
+          <li>
+            <strong>状态是什么？</strong><br>
+            用一个数组元素表示什么含义？（如 <code class="inline-code">f[i]</code> = 到第 i 级台阶的方法数）
+          </li>
+          <li>
+            <strong>状态转移方程是什么？</strong><br>
+            当前状态如何从之前的状态推导出来？（如 <code class="inline-code">f[i] = f[i-1] + f[i-2]</code>）
+          </li>
+          <li>
+            <strong>初始条件/边界是什么？</strong><br>
+            最小问题的答案是什么？（如 <code class="inline-code">f[0]=1, f[1]=1</code>）
+          </li>
+        </ol>
+        <div class="note-box">
+          <p>
+            <strong>教练口诀：</strong>"定义状态、写转移方程、别忘了边界！"
+            这三句话从L3一直用到国家队选拔。
+          </p>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>4. 变量追踪：爬楼梯的执行过程</h2>
+        <div class="visual-demo" data-type="tracker" data-tracker='[
+          {"step":"初始化","vars":[{"name":"f[0]","value":"1"},{"name":"f[1]","value":"1"},{"name":"f[2]","value":"?"},{"name":"f[3]","value":"?"},{"name":"f[4]","value":"?"}]},
+          {"step":"i=2: f[2]=f[1]+f[0]","vars":[{"name":"f[0]","value":"1","highlight":false},{"name":"f[1]","value":"1","highlight":false},{"name":"f[2]","value":"2","highlight":true},{"name":"f[3]","value":"?"},{"name":"f[4]","value":"?"}]},
+          {"step":"i=3: f[3]=f[2]+f[1]","vars":[{"name":"f[0]","value":"1"},{"name":"f[1]","value":"1"},{"name":"f[2]","value":"2","highlight":false},{"name":"f[3]","value":"3","highlight":true},{"name":"f[4]","value":"?"}]},
+          {"step":"i=4: f[4]=f[3]+f[2]","vars":[{"name":"f[0]","value":"1"},{"name":"f[1]","value":"1"},{"name":"f[2]","value":"2"},{"name":"f[3]","value":"3","highlight":false},{"name":"f[4]","value":"5","highlight":true}]}
+        ]'></div>
+      </section>
+
+      <section class="reveal">
+        <h2>5. 空间优化：滚动数组</h2>
+        <p>
+          在爬楼梯问题中，计算 <code class="inline-code">f[i]</code> 只需要 <code class="inline-code">f[i-1]</code> 和 <code class="inline-code">f[i-2]</code>，
+          所以不需要保存整个数组。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">空间优化到 O(1)</span>
+            <button class="copy-btn" data-clipboard-target="#code3">复制</button>
+          </div>
+          <pre><code id="code3" class="language-cpp">long long a = 1, b = 1, c;
+for (int i = 2; i <= n; i++) {
+    c = a + b;  // c 就是 f[i]
+    a = b;      // a 变成 f[i-1]
+    b = c;      // b 变成 f[i]
+}
+cout << b << endl;</code></pre>
+        </div>
+        <p>
+          滚动数组是DP优化的基础技巧。在L3阶段，先让学生理解"为什么可以优化"，
+          不需要强求他们每次都写优化版本。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>6. 拓展：路径计数</h2>
+        <p>
+          问题：在一个 n×m 的网格中，从左上角 (0,0) 走到右下角 (n-1,m-1)，每次只能向右或向下走，问有多少种不同的走法？
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">网格路径计数</span>
+            <button class="copy-btn" data-clipboard-target="#code4">复制</button>
+          </div>
+          <pre><code id="code4" class="language-cpp">// f[i][j] = 走到 (i,j) 的路径数
+// 只能从上方 (i-1,j) 或左方 (i,j-1) 过来
+f[0][0] = 1;
+for (int i = 0; i < n; i++) {
+    for (int j = 0; j < m; j++) {
+        if (i > 0) f[i][j] += f[i-1][j];
+        if (j > 0) f[i][j] += f[i][j-1];
+    }
+}</code></pre>
+        </div>
+        <p>
+          这是二维DP的最简单形态，也是为后续背包、区间DP打基础。
+        </p>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="reveal">
+        <h2>IOI教练常见教学陷阱</h2>
+        <div class="traps-grid">
+          <div class="trap-card">
+            <div class="trap-title">陷阱1：一开口就讲"动态规划"四个字</div>
+            <p class="trap-desc">
+              "动态规划"这个术语对初学者很有压迫感。L3阶段不要强调这个词，
+              而是说"递推"、"用数组存答案"。等学生习惯了递推，再告诉他们这就是DP。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱2：只给模板不给推导过程</div>
+            <p class="trap-desc">
+              DP最难的是"怎么想到状态定义和转移方程"。
+              教学中要放慢速度，从具体例子出发，让学生自己发现递推关系。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱3：跳过边界条件</div>
+            <p class="trap-desc">
+              很多DP代码错误都出在边界条件上。要反复强调：写转移方程之前，先把最小的情况手动算出来。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>课后练习题</h2>
+        <div class="exercise-list">
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">1</span>
+              <h4 class="exercise-title">斐波那契数列</h4>
+              <span class="exercise-tag easy">入门</span>
+            </div>
+            <p>用数组递推求第 n 个斐波那契数。n ≤ 50。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">2</span>
+              <h4 class="exercise-title">爬楼梯</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>n 级台阶，每次可以爬 1 级或 2 级，求爬到顶的方法数。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">3</span>
+              <h4 class="exercise-title">跳台阶变体</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>n 级台阶，每次可以爬 1 级、2 级或 3 级，求爬到顶的方法数。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">4</span>
+              <h4 class="exercise-title">网格路径计数</h4>
+              <span class="exercise-tag hard">挑战</span>
+            </div>
+            <p>在 n×m 网格中，从左上角走到右下角，只能向右或向下，求路径总数。</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="checklist-box reveal">
+        <h4><i class="fas fa-clipboard-check"></i> 本课自测清单</h4>
+        <ul>
+          <li>能说出DP三要素：状态、转移方程、边界条件</li>
+          <li>能独立写出斐波那契和爬楼梯的递推代码</li>
+          <li>理解为什么用数组存储中间结果比递归快</li>
+          <li>能分析简单问题的状态定义（如 f[i] 代表什么）</li>
+          <li>能写出二维网格路径计数的DP代码</li>
+          <li class="blocker">如果任何一条不满足，不要进入L4函数期</li>
+        </ul>
+      </div>
+
+      <div class="lesson-nav reveal">
+        <a href="L3-04-前缀和.html" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> 上一课：前缀和
+        </a>
+        <a href="../index.html" class="btn btn-primary" style="background: var(--level3); border-color: var(--level3);">
+          返回L3首页 <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container">
+      <div class="footer-links">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+    </div>
+  </footer>
+
+  <script src="../../../assets/js/main.js"></script>
+</body>
+</html>

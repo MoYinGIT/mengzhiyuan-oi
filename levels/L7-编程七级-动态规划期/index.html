@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L7 编程七级动态规划期 · 蒙知苑·OI</title>
+  <meta name="description" content="L7编程七级动态规划期：48课时，学习背包问题、区间DP、树形DP、字符串算法、数论基础。">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../assets/css/base.css">
+  <link rel="stylesheet" href="../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../assets/css/components.css">
+  <link rel="stylesheet" href="../../assets/css/teaching-visuals.css">
+  <link rel="stylesheet" href="../../assets/css/level.css">
+  
+  <style>
+    :root { --lv-color: var(--level7); --lv-dim: var(--level7-dim); }
+  </style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../philosophy/index.html">教学理念</a>
+        <a href="../../mainlines/index.html">能力主线</a>
+        <a href="../../index.html#levels" class="active">八级体系</a>
+        <a href="../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+  
+  <div class="mobile-menu">
+    <a href="../../philosophy/index.html">教学理念</a>
+    <a href="../../mainlines/index.html">能力主线</a>
+    <a href="../../index.html#levels">八级体系</a>
+    <a href="../../resources/index.html">学习资源</a>
+  </div>
+
+  <header class="lv-hero">
+    <div class="container">
+      <div class="breadcrumb" style="justify-content: center;">
+        <a href="../../index.html">首页</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>八级体系</span>
+      </div>
+      <div class="lv-badge" style="border-color: var(--level7); color: var(--level7);">
+        <i class="fas fa-brain"></i> 编程动态规划期
+      </div>
+      <h1 class="lv-title">L7 编程七级动态规划期</h1>
+      <p style="color: var(--fg-muted); max-width: 600px; margin: 0 auto;">
+        数组DP线的高潮：从线性DP到背包、区间、树形DP；数学工具线正式启动
+      </p>
+      <div class="lv-stats">
+        <div class="lv-stat">
+          <div class="lv-stat-num">48</div>
+          <div class="lv-stat-label">总课时</div>
+        </div>
+        <div class="lv-stat">
+          <div class="lv-stat-num">12</div>
+          <div class="lv-stat-label">学习周数</div>
+        </div>
+        <div class="lv-stat">
+          <div class="lv-stat-num">5</div>
+          <div class="lv-stat-label">核心知识点</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container">
+
+      <div class="coach-quote reveal">
+        <p>
+          L7是数组DP线的全面升华，也是从"会写简单递推"到"掌握竞赛DP武器库"的关键转折点。
+        </p>
+        <p>
+          背包问题、区间DP、树形DP——这三种DP类型覆盖了CSP-J/S和省选中80%以上的DP题目。
+          同时，我们正式启动<strong>数学工具线</strong>，为数论、组合数学在竞赛中的应用打下基础。
+        </p>
+        <p style="margin-bottom: 0;">
+          L7的内容密度很大，但只要你L3-L5的基础扎实，这里的每一步都是自然的延伸。
+          如果L3的前缀和、L5的状态表示学得扎实，L7的DP会轻松很多。
+        </p>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2 class="reveal">核心知识点</h2>
+      <div class="lv-topics reveal">
+        <a href="lessons/L7-01-背包问题.html" class="lv-topic-card">
+          <div class="lv-topic-icon"><i class="fas fa-shopping-bag"></i></div>
+          <div class="lv-topic-title">背包问题</div>
+          <div class="lv-topic-desc">0/1背包、完全背包、多重背包、空间优化、经典变形</div>
+          <div class="lv-topic-meta">
+            <span><i class="fas fa-clock"></i> 10课时</span>
+            <span><i class="fas fa-book"></i> 第1课</span>
+          </div>
+        </a>
+        <a href="lessons/L7-02-区间DP.html" class="lv-topic-card">
+          <div class="lv-topic-icon"><i class="fas fa-arrows-alt-h"></i></div>
+          <div class="lv-topic-title">区间DP</div>
+          <div class="lv-topic-desc">区间合并、石子合并、矩阵链乘、区间最值</div>
+          <div class="lv-topic-meta">
+            <span><i class="fas fa-clock"></i> 10课时</span>
+            <span><i class="fas fa-book"></i> 第2课</span>
+          </div>
+        </a>
+        <a href="lessons/L7-03-树形DP.html" class="lv-topic-card">
+          <div class="lv-topic-icon"><i class="fas fa-tree"></i></div>
+          <div class="lv-topic-title">树形DP</div>
+          <div class="lv-topic-desc">树上最大独立集、树的最长路径、依赖背包、换根DP入门</div>
+          <div class="lv-topic-meta">
+            <span><i class="fas fa-clock"></i> 10课时</span>
+            <span><i class="fas fa-book"></i> 第3课</span>
+          </div>
+        </a>
+        <a href="lessons/L7-04-字符串匹配.html" class="lv-topic-card">
+          <div class="lv-topic-icon"><i class="fas fa-font"></i></div>
+          <div class="lv-topic-title">字符串匹配</div>
+          <div class="lv-topic-desc">KMP算法、next数组、Trie树入门、字符串哈希</div>
+          <div class="lv-topic-meta">
+            <span><i class="fas fa-clock"></i> 8课时</span>
+            <span><i class="fas fa-book"></i> 第4课</span>
+          </div>
+        </a>
+        <a href="lessons/L7-05-数论基础.html" class="lv-topic-card">
+          <div class="lv-topic-icon"><i class="fas fa-calculator"></i></div>
+          <div class="lv-topic-title">数论基础</div>
+          <div class="lv-topic-desc">素数筛、GCD与LCM、快速幂、同余与逆元入门</div>
+          <div class="lv-topic-meta">
+            <span><i class="fas fa-clock"></i> 10课时</span>
+            <span><i class="fas fa-book"></i> 第5课</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2 class="reveal">课时列表</h2>
+      <div class="lesson-list reveal">
+        <a href="lessons/L7-01-背包问题.html" class="lesson-item">
+          <div class="lesson-num">01</div>
+          <div class="lesson-content">
+            <div class="lesson-title">背包问题</div>
+            <div class="lesson-desc">0/1背包、完全背包、多重背包、空间优化、经典变形</div>
+          </div>
+          <div class="lesson-hours">10课时</div>
+        </a>
+        <a href="lessons/L7-02-区间DP.html" class="lesson-item">
+          <div class="lesson-num">02</div>
+          <div class="lesson-content">
+            <div class="lesson-title">区间DP</div>
+            <div class="lesson-desc">区间合并、石子合并、矩阵链乘、区间最值</div>
+          </div>
+          <div class="lesson-hours">10课时</div>
+        </a>
+        <a href="lessons/L7-03-树形DP.html" class="lesson-item">
+          <div class="lesson-num">03</div>
+          <div class="lesson-content">
+            <div class="lesson-title">树形DP</div>
+            <div class="lesson-desc">树上最大独立集、树的最长路径、依赖背包、换根DP入门</div>
+          </div>
+          <div class="lesson-hours">10课时</div>
+        </a>
+        <a href="lessons/L7-04-字符串匹配.html" class="lesson-item">
+          <div class="lesson-num">04</div>
+          <div class="lesson-content">
+            <div class="lesson-title">字符串匹配</div>
+            <div class="lesson-desc">KMP算法、next数组、Trie树入门、字符串哈希</div>
+          </div>
+          <div class="lesson-hours">8课时</div>
+        </a>
+        <a href="lessons/L7-05-数论基础.html" class="lesson-item">
+          <div class="lesson-num">05</div>
+          <div class="lesson-content">
+            <div class="lesson-title">数论基础</div>
+            <div class="lesson-desc">素数筛、GCD与LCM、快速幂、同余与逆元入门</div>
+          </div>
+          <div class="lesson-hours">10课时</div>
+        </a>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2 class="reveal">能力主线交汇</h2>
+      <div class="reveal">
+        <div class="card" style="margin-bottom: var(--sp-4);">
+          <div class="card-header">
+            <div class="card-icon" style="background: var(--level1-dim); color: var(--level1);">
+              <i class="fas fa-table"></i>
+            </div>
+            <h3 class="card-title">数组DP线 - L7高潮</h3>
+          </div>
+          <p class="card-desc">
+            从L3的前缀和，到L5的状态表示，再到L7的背包、区间、树形DP——数组DP线在此达到竞赛核心难度。
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon" style="background: var(--level6-dim); color: var(--level6);">
+              <i class="fas fa-calculator"></i>
+            </div>
+            <h3 class="card-title">数学工具线 - L7正式启动</h3>
+          </div>
+          <p class="card-desc">
+            数论是竞赛中独立的得分模块，也是很多高级算法（如密码学、组合计数）的基础。
+          </p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2 class="reveal">升级检验标准</h2>
+      <div class="checklist-box reveal">
+        <h4><i class="fas fa-clipboard-check"></i> L7 升级检查清单</h4>
+        <ul>
+          <li>看到"在容量限制下求最值"类题目，能秒想到背包模型</li>
+          <li>能独立写出0/1背包和完全背包的滚动数组优化代码</li>
+          <li>理解区间DP"从小到大枚举区间长度"的核心套路</li>
+          <li>能用树形DP解决简单的树上最优化问题</li>
+          <li>能独立写出KMP的next数组求解代码</li>
+          <li>能使用埃氏筛/欧拉筛求素数，会用快速幂和GCD</li>
+          <li class="blocker">如果以上任何一条不满足，不要进入L8</li>
+        </ul>
+      </div>
+
+      <div class="coach-quote reveal">
+        <p style="margin-bottom: 0;">
+          <strong>给家长的话：</strong>L7是竞赛知识体系成型的阶段。从这里开始，
+          孩子接触的题目已经接近CSP-J/S提高组的难度。如果孩子在某类DP上反复卡壳，
+          不要焦虑——DP本身就是OI中最需要反复磨练的模块。
+        </p>
+      </div>
+
+      <div class="lesson-nav reveal">
+        <a href="../L6-编程六级-图论期/index.html" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> L6 编程图论期
+        </a>
+        <a href="lessons/L7-01-背包问题.html" class="btn btn-primary" style="background: var(--level7); border-color: var(--level7);">
+          开始学习第一课 <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container">
+      <div class="footer-links">
+        <a href="../../philosophy/index.html">教学理念</a>
+        <a href="../../mainlines/index.html">能力主线</a>
+        <a href="../../index.html#levels">八级体系</a>
+        <a href="../../resources/index.html">学习资源</a>
+      </div>
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+    </div>
+  </footer>
+
+  <script src="../../assets/js/main.js"></script>
+</body>
+</html>

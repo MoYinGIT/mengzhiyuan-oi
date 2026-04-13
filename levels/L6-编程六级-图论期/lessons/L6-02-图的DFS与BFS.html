@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L6-02 图的DFS与BFS · 蒙知苑·OI</title>
+  <meta name="description" content="学习图上的DFS与BFS遍历，掌握连通分量、判环、拓扑序检测等核心技能。">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../../assets/css/base.css">
+  <link rel="stylesheet" href="../../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../../assets/css/components.css">
+  <link rel="stylesheet" href="../../../assets/css/teaching-visuals.css">
+  <link rel="stylesheet" href="../../../assets/css/level.css">
+  
+  <style>
+    :root { --lv-color: var(--level6); --lv-dim: var(--level6-dim); }
+  </style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels" class="active">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+  
+  <div class="mobile-menu">
+    <a href="../../../philosophy/index.html">教学理念</a>
+    <a href="../../../mainlines/index.html">能力主线</a>
+    <a href="../../../index.html#levels">八级体系</a>
+    <a href="../../../resources/index.html">学习资源</a>
+  </div>
+
+  <div class="lesson-top-info">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../../../index.html">首页</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="../index.html">L6 图论期</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>L6-02</span>
+      </div>
+      <div class="lesson-header-row">
+        <div>
+          <h1 class="lesson-title-main">图的DFS与BFS</h1>
+          <p class="lesson-subtitle">连通分量、判环、拓扑序检测、图的遍历模板</p>
+        </div>
+        <div class="lesson-meta">
+          <div class="meta-item"><i class="fas fa-clock"></i> 8课时</div>
+          <div class="meta-item"><i class="fas fa-calendar"></i> 约2周</div>
+          <div class="meta-item"><i class="fas fa-signal"></i> 难度 <span class="difficulty-star"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="main-content">
+    <div class="container">
+
+      <div class="goals-card reveal">
+        <h4><i class="fas fa-bullseye"></i> 本课三维目标</h4>
+        <div class="goals-grid">
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--red-dim); color: var(--red);">知识</span>
+            <span class="goal-text">图的DFS/BFS模板、连通分量、判环原理、入度出度</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--green-dim); color: var(--green);">技能</span>
+            <span class="goal-text">能用DFS/BFS求连通分量数量、判断图是否存在环</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--blue-dim); color: var(--blue);">思维</span>
+            <span class="goal-text">理解图上遍历与网格遍历的本质联系与差异</span>
+          </div>
+        </div>
+      </div>
+
+      <section class="reveal">
+        <h2>1. 图上的DFS模板</h2>
+        <p>
+          图上的DFS与网格上的DFS思想完全一致，只是"邻居"的定义从上下左右变成了邻接表中的节点。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">图的DFS模板</span>
+            <button class="copy-btn" data-clipboard-target="#code1">复制</button>
+          </div>
+          <pre><code id="code1" class="language-cpp">const int MAXN = 100005;
+vector&lt;int&gt; adj[MAXN];
+bool visited[MAXN];
+
+void dfs(int u) {
+    visited[u] = true;
+    for (int v : adj[u]) {
+        if (!visited[v]) {
+            dfs(v);
+        }
+    }
+}</code></pre>
+        </div>
+        <p>
+          核心依然是：标记访问 → 遍历邻居 → 递归深入。不同的是，图的邻居由输入决定，而不是固定的四个方向。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>2. 连通分量计数</h2>
+        <p>
+          在无向图中，如果任意两点之间都有路径相连，这个子图就是一个<strong>连通分量</strong>。
+          求连通分量数量的方法和L5的岛屿计数如出一辙。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">连通分量计数</span>
+            <button class="copy-btn" data-clipboard-target="#code2">复制</button>
+          </div>
+          <pre><code id="code2" class="language-cpp">int countComponents(int n) {
+    int count = 0;
+    for (int i = 1; i <= n; i++) {
+        if (!visited[i]) {
+            dfs(i);
+            count++;
+        }
+    }
+    return count;
+}</code></pre>
+        </div>
+        <p>
+          每发现一个未被访问的节点，就从这个节点开始一次DFS，所有能到达的节点都属于同一个连通分量。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>3. 图的判环</h2>
+        <p>
+          <strong>无向图判环</strong>：在DFS中，如果从节点u走到节点v，而v已经被访问过且v不是u的父亲节点，
+          说明存在环。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">无向图判环</span>
+            <button class="copy-btn" data-clipboard-target="#code3">复制</button>
+          </div>
+          <pre><code id="code3" class="language-cpp">bool hasCycle = false;
+
+void dfs(int u, int parent) {
+    visited[u] = true;
+    for (int v : adj[u]) {
+        if (!visited[v]) {
+            dfs(v, u);
+        } else if (v != parent) {
+            // v已被访问且不是父节点，说明有环
+            hasCycle = true;
+        }
+    }
+}</code></pre>
+        </div>
+        <p>
+          <strong>有向图判环</strong>：需要使用三种状态标记：0=未访问，1=正在访问（在当前递归栈中），2=已处理完。
+          如果在DFS中遇到一个状态为1的节点，说明存在回边，即存在环。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">有向图判环</span>
+            <button class="copy-btn" data-clipboard-target="#code4">复制</button>
+          </div>
+          <pre><code id="code4" class="language-cpp">int state[MAXN];  // 0=未访问, 1=访问中, 2=已结束
+bool hasCycle = false;
+
+void dfs(int u) {
+    state[u] = 1;  // 标记为访问中
+    for (int v : adj[u]) {
+        if (state[v] == 0) {
+            dfs(v);
+        } else if (state[v] == 1) {
+            // 遇到回边，存在环
+            hasCycle = true;
+        }
+    }
+    state[u] = 2;  // 标记为已结束
+}</code></pre>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>4. 图上的BFS</h2>
+        <p>
+          图上的BFS同样使用队列，与L5的网格BFS完全一致。BFS在图上常用于求单源最短路径（无权图）。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">图的BFS模板</span>
+            <button class="copy-btn" data-clipboard-target="#code5">复制</button>
+          </div>
+          <pre><code id="code5" class="language-cpp">int dist[MAXN];
+
+void bfs(int start) {
+    queue&lt;int&gt; q;
+    for (int i = 1; i <= n; i++) dist[i] = -1;
+    
+    dist[start] = 0;
+    q.push(start);
+    
+    while (!q.empty()) {
+        int u = q.front();
+        q.pop();
+        
+        for (int v : adj[u]) {
+            if (dist[v] == -1) {
+                dist[v] = dist[u] + 1;
+                q.push(v);
+            }
+        }
+    }
+}</code></pre>
+        </div>
+        <p>
+          BFS结束后，<code class="inline-code">dist[v]</code> 就是从起点到v的最短路径长度（边数）。
+          这是无权图上求最短路径的标准做法。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>5. 二分图判定（拓展）</h2>
+        <p>
+          二分图是指顶点可以被分成两组，使得每条边的两个端点都在不同组中。
+          可以用DFS/BFS进行二色染色判定。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">二分图判定</span>
+            <button class="copy-btn" data-clipboard-target="#code6">复制</button>
+          </div>
+          <pre><code id="code6" class="language-cpp">int color[MAXN];  // 0=未染色, 1=颜色A, -1=颜色B
+bool isBipartite = true;
+
+void dfs(int u, int c) {
+    color[u] = c;
+    for (int v : adj[u]) {
+        if (color[v] == 0) {
+            dfs(v, -c);
+        } else if (color[v] == c) {
+            isBipartite = false;
+        }
+    }
+}</code></pre>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="reveal">
+        <h2>IOI教练常见教学陷阱</h2>
+        <div class="traps-grid">
+          <div class="trap-card">
+            <div class="trap-title">陷阱1：无向图判环时忽略父节点</div>
+            <p class="trap-desc">
+              在无向图中，u-v是双向边。如果不记录父节点，DFS会认为自己从u到了v，
+              然后v又"发现"u已被访问，误判为环。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱2：有向图判环只用visited数组</div>
+            <p class="trap-desc">
+              有向图的环检测必须用三色标记法（0/1/2）。单纯的visited数组无法区分"祖先节点"和"已经处理完的分支"。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱3：图不连通时只从一个点开始遍历</div>
+            <p class="trap-desc">
+              很多图可能由多个连通分量组成。遍历图时要用外层循环扫描所有节点，确保不遗漏。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>课后练习题</h2>
+        <div class="exercise-list">
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">1</span>
+              <h4 class="exercise-title">连通分量数量</h4>
+              <span class="exercise-tag easy">入门</span>
+            </div>
+            <p>给定无向图，输出连通分量的数量。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">2</span>
+              <h4 class="exercise-title">图中是否存在环</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>分别判断给定的无向图和有向图是否存在环。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">3</span>
+              <h4 class="exercise-title">无权图最短路径</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>给定无权无向图和起点s、终点t，求s到t的最短路径长度。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">4</span>
+              <h4 class="exercise-title">二分图判定</h4>
+              <span class="exercise-tag hard">挑战</span>
+            </div>
+            <p>给定无向图，判断它是否为二分图。如果是，输出一种合法的染色方案。</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="checklist-box reveal">
+        <h4><i class="fas fa-clipboard-check"></i> 本课自测清单</h4>
+        <ul>
+          <li>能独立写出图的DFS和BFS模板</li>
+          <li>能求无向图的连通分量数量</li>
+          <li>能区分无向图和有向图的判环方法</li>
+          <li>能用BFS求无权图的单源最短路径</li>
+          <li>理解图不连通时需要用外层循环扫描所有节点</li>
+          <li class="blocker">如果任何一条不满足，不要进入L6-03最短路径</li>
+        </ul>
+      </div>
+
+      <div class="lesson-nav reveal">
+        <a href="L6-01-图的表示.html" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> 上一课：图的表示
+        </a>
+        <a href="L6-03-最短路径.html" class="btn btn-primary" style="background: var(--level6); border-color: var(--level6);">
+          下一课：最短路径 <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container">
+      <div class="footer-links">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+    </div>
+  </footer>
+
+  <script src="../../../assets/js/main.js"></script>
+</body>
+</html>

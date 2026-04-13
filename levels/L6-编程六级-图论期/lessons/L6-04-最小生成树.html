@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L6-04 最小生成树 · 蒙知苑·OI</title>
+  <meta name="description" content="学习Kruskal和Prim算法，理解并查集在最小生成树中的作用，掌握贪心正确性。">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../../assets/css/base.css">
+  <link rel="stylesheet" href="../../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../../assets/css/components.css">
+  <link rel="stylesheet" href="../../../assets/css/teaching-visuals.css">
+  <link rel="stylesheet" href="../../../assets/css/level.css">
+  
+  <style>
+    :root { --lv-color: var(--level6); --lv-dim: var(--level6-dim); }
+  </style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels" class="active">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+  
+  <div class="mobile-menu">
+    <a href="../../../philosophy/index.html">教学理念</a>
+    <a href="../../../mainlines/index.html">能力主线</a>
+    <a href="../../../index.html#levels">八级体系</a>
+    <a href="../../../resources/index.html">学习资源</a>
+  </div>
+
+  <div class="lesson-top-info">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../../../index.html">首页</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="../index.html">L6 图论期</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>L6-04</span>
+      </div>
+      <div class="lesson-header-row">
+        <div>
+          <h1 class="lesson-title-main">最小生成树</h1>
+          <p class="lesson-subtitle">Kruskal、Prim、并查集、贪心正确性理解</p>
+        </div>
+        <div class="lesson-meta">
+          <div class="meta-item"><i class="fas fa-clock"></i> 8课时</div>
+          <div class="meta-item"><i class="fas fa-calendar"></i> 约2周</div>
+          <div class="meta-item"><i class="fas fa-signal"></i> 难度 <span class="difficulty-star"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="main-content">
+    <div class="container">
+
+      <div class="goals-card reveal">
+        <h4><i class="fas fa-bullseye"></i> 本课三维目标</h4>
+        <div class="goals-grid">
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--red-dim); color: var(--red);">知识</span>
+            <span class="goal-text">最小生成树定义、Kruskal算法、Prim算法、并查集</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--green-dim); color: var(--green);">技能</span>
+            <span class="goal-text">能独立写出Kruskal算法（含并查集），理解Prim的核心思想</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--blue-dim); color: var(--blue);">思维</span>
+            <span class="goal-text">理解"贪心选择+安全边定理"在MST问题中的正确性保证</span>
+          </div>
+        </div>
+      </div>
+
+      <section class="reveal">
+        <h2>1. 什么是最小生成树？</h2>
+        <p>
+          给定一个连通的无向带权图，<strong>最小生成树（MST）</strong>是包含所有顶点的一棵子树，
+          使得树上所有边的权重之和最小。
+        </p>
+        <p>
+          生活中的例子：要在n个城市之间铺设电缆，每条电缆有不同的造价。
+          如何选择电缆使得所有城市连通，且总造价最低？这就是最小生成树问题。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>2. Kruskal算法</h2>
+        <p>
+          Kruskal算法的核心思想是<strong>贪心</strong>：每次从所有边中选择权重最小的一条，
+          如果这条边的两个端点不在同一个连通块中，就把这条边加入生成树。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">Kruskal模板</span>
+            <button class="copy-btn" data-clipboard-target="#code1">复制</button>
+          </div>
+          <pre><code id="code1" class="language-cpp">#include &lt;algorithm&gt;
+using namespace std;
+
+struct Edge {
+    int u, v, w;
+    bool operator<(const Edge& other) const {
+        return w < other.w;
+    }
+};
+
+vector&lt;Edge&gt; edges;
+int parent[MAXN];
+
+// 并查集
+int find(int x) {
+    return parent[x] == x ? x : parent[x] = find(parent[x]);
+}
+
+void unite(int x, int y) {
+    parent[find(x)] = find(y);
+}
+
+long long kruskal(int n) {
+    sort(edges.begin(), edges.end());  // 按权重排序
+    
+    for (int i = 1; i <= n; i++) parent[i] = i;
+    
+    long long total = 0;
+    int count = 0;
+    
+    for (auto& e : edges) {
+        if (find(e.u) != find(e.v)) {
+            unite(e.u, e.v);
+            total += e.w;
+            count++;
+            if (count == n - 1) break;  // 已经选了n-1条边
+        }
+    }
+    
+    return total;
+}</code></pre>
+        </div>
+        <div class="note-box">
+          <p>
+            <strong>为什么正确？</strong>这是基于<strong>安全边定理（Cut Property）</strong>：
+            对于图的任意一个割，权重最小的横切边一定属于某个最小生成树。
+            Kruskal每次都选全局最小边，这条边必然是某个割的安全边。
+          </p>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>3. 并查集：Kruskal的好搭档</h2>
+        <p>
+          并查集（Disjoint Set Union, DSU）用来高效判断两个顶点是否在同一个连通块中，
+          以及合并两个连通块。
+        </p>
+        <div class="visual-demo" data-type="memory" data-memory='[
+          {"addr":"初始","cells":["1","2","3","4","5"],"var":"各自独立"},
+          {"addr":"unite(1,2)","cells":["1→2","2","3","4","5"],"var":"1和2连通","changed":[0]},
+          {"addr":"unite(3,4)","cells":["1→2","2","3→4","4","5"],"var":"3和4连通","changed":[2]},
+          {"addr":"unite(2,3)","cells":["1→2→3→4","2","3→4","4","5"],"var":"合并两个集合","changed":[0,1,2,3]}
+        ]'></div>
+        <p>
+          并查集通过<strong>路径压缩</strong>优化，使得 <code class="inline-code">find</code> 操作接近 O(1)。
+          这是竞赛中处理连通性问题的标准数据结构。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>4. Prim算法</h2>
+        <p>
+          Prim算法的思路是从一个顶点开始，逐步扩展生成树。
+          每次选择与当前树相连的最小权重边，把对应的顶点加入树中。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">Prim模板（堆优化）</span>
+            <button class="copy-btn" data-clipboard-target="#code2">复制</button>
+          </div>
+          <pre><code id="code2" class="language-cpp">long long prim(int n) {
+    vector&lt;bool&gt; inMST(n + 1, false);
+    vector&lt;long long&gt; minDist(n + 1, INF);
+    
+    minDist[1] = 0;
+    priority_queue&lt;pair&lt;long long, int&gt;, 
+                    vector&lt;pair&lt;long long, int&gt;&gt;, 
+                    greater&lt;&gt;&gt; pq;
+    pq.push({0, 1});
+    
+    long long total = 0;
+    int count = 0;
+    
+    while (!pq.empty() && count < n) {
+        auto [d, u] = pq.top();
+        pq.pop();
+        
+        if (inMST[u]) continue;
+        
+        inMST[u] = true;
+        total += d;
+        count++;
+        
+        for (auto [v, w] : adj[u]) {
+            if (!inMST[v] && w < minDist[v]) {
+                minDist[v] = w;
+                pq.push({w, v});
+            }
+        }
+    }
+    
+    return (count == n) ? total : -1;  // -1表示图不连通
+}</code></pre>
+        </div>
+        <p>
+          Prim适合<strong>稠密图</strong>（边很多），因为它不需要存储边集，直接用邻接表扩展。
+          但在稀疏图上，Kruskal通常更简洁高效。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>5. Kruskal vs Prim</h2>
+        <table style="width: 100%; border-collapse: collapse; margin-top: var(--sp-4);">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--border);">
+              <th style="text-align: left; padding: var(--sp-3);">特性</th>
+              <th style="text-align: left; padding: var(--sp-3);">Kruskal</th>
+              <th style="text-align: left; padding: var(--sp-3);">Prim</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border-dim);">
+              <td style="padding: var(--sp-3);">核心思想</td>
+              <td style="padding: var(--sp-3);">按边贪心，合并连通块</td>
+              <td style="padding: var(--sp-3);">按顶点扩展，加入最近顶点</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-dim);">
+              <td style="padding: var(--sp-3);">数据结构</td>
+              <td style="padding: var(--sp-3);">并查集 + 排序</td>
+              <td style="padding: var(--sp-3);">优先队列 + 邻接表</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-dim);">
+              <td style="padding: var(--sp-3);">适用图</td>
+              <td style="padding: var(--sp-3);">稀疏图</td>
+              <td style="padding: var(--sp-3);">稠密图</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--sp-3);">竞赛偏好</td>
+              <td style="padding: var(--sp-3);">更常用，代码短</td>
+              <td style="padding: var(--sp-3);">特定场景使用</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="reveal">
+        <h2>IOI教练常见教学陷阱</h2>
+        <div class="traps-grid">
+          <div class="trap-card">
+            <div class="trap-title">陷阱1：并查集没有路径压缩</div>
+            <p class="trap-desc">
+              没有路径压缩的并查集find操作是O(log n)甚至O(n)，在边数很多时会TLE。
+              一定要教学生写 <code class="inline-code">parent[x] = find(parent[x])</code>。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱2：图不连通时没有特判</div>
+            <p class="trap-desc">
+              如果图不连通，不存在最小生成树。Kruskal结束后要检查count是否等于n-1。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱3：只记模板不理解贪心正确性</div>
+            <p class="trap-desc">
+              Kruskal的贪心不是随便猜的，它有严格的数学保证（安全边定理）。
+              让学生知道这一点，有助于他们理解为什么这个算法永远正确。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>课后练习题</h2>
+        <div class="exercise-list">
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">1</span>
+              <h4 class="exercise-title">最小生成树（Kruskal）</h4>
+              <span class="exercise-tag easy">入门</span>
+            </div>
+            <p>给定无向带权图，求最小生成树的权重和。如果图不连通，输出-1。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">2</span>
+              <h4 class="exercise-title">并查集基础</h4>
+              <span class="exercise-tag easy">入门</span>
+            </div>
+            <p>实现并查集，支持合并两个集合和查询两个元素是否属于同一集合。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">3</span>
+              <h4 class="exercise-title">次小生成树（拓展）</h4>
+              <span class="exercise-tag hard">挑战</span>
+            </div>
+            <p>求严格次小生成树的权重（即所有生成树中，权重仅次于MST的那个）。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">4</span>
+              <h4 class="exercise-title">连接所有点的最小费用</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>平面上有n个点，两点之间的边权为曼哈顿距离。求连接所有点的最小总费用。</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="checklist-box reveal">
+        <h4><i class="fas fa-clipboard-check"></i> 本课自测清单</h4>
+        <ul>
+          <li>能解释什么是最小生成树</li>
+          <li>能独立写出带路径压缩的并查集</li>
+          <li>能独立写出Kruskal算法完整代码</li>
+          <li>理解Kruskal贪心策略的正确性来源（安全边定理）</li>
+          <li>知道图不连通时需要特判</li>
+          <li class="blocker">如果任何一条不满足，不要进入L6-05拓扑排序</li>
+        </ul>
+      </div>
+
+      <div class="lesson-nav reveal">
+        <a href="L6-03-最短路径.html" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> 上一课：最短路径
+        </a>
+        <a href="L6-05-拓扑排序.html" class="btn btn-primary" style="background: var(--level6); border-color: var(--level6);">
+          下一课：拓扑排序 <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container">
+      <div class="footer-links">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+    </div>
+  </footer>
+
+  <script src="../../../assets/js/main.js"></script>
+</body>
+</html>

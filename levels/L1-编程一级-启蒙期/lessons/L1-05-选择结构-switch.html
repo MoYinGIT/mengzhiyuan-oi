@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L1-05 选择结构-switch · 蒙知苑·OI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../../assets/css/base.css">
+  <link rel="stylesheet" href="../../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../../assets/css/components.css">
+  <link rel="stylesheet" href="../../../assets/css/teaching-visuals.css">
+  <link rel="stylesheet" href="../../../assets/css/level.css">
+  <style>:root { --lv-color: var(--level1); --lv-dim: var(--level1-dim); }</style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels" class="active">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="container">
+      <header class="lesson-header">
+        <div class="breadcrumb">
+          <a href="../../../index.html">首页</a>
+          <i class="fas fa-chevron-right"></i>
+          <a href="../index.html">L1 编程启蒙期</a>
+          <i class="fas fa-chevron-right"></i>
+          <span>第5课</span>
+        </div>
+        <h1 style="color: var(--level1);">L1-05 选择结构 - switch</h1>
+        <div class="lesson-meta">
+          <span><i class="fas fa-clock"></i> 3课时（135分钟）</span>
+          <span><i class="fas fa-tag"></i> L1基础</span>
+        </div>
+      </header>
+
+      <div class="lesson-section reveal">
+        <h2>教学目标</h2>
+        <div class="goal-list">
+          <h4><i class="fas fa-bullseye"></i> 知识目标</h4>
+          <ul>
+            <li>理解 switch 语句的适用场景</li>
+            <li>掌握 switch-case 的语法结构</li>
+            <li>理解 break 和 default 的作用</li>
+          </ul>
+        </div>
+        <div class="goal-list">
+          <h4><i class="fas fa-tools"></i> 技能目标</h4>
+          <ul>
+            <li>能使用 switch 处理多分支等值判断</li>
+            <li>能正确在 case 后使用 break</li>
+            <li>能区分 if-else if 和 switch 的使用场景</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>什么时候用 switch？</h2>
+        <div class="coach-quote">
+          <p>当你要判断的条件是<strong>一个变量的多个具体取值</strong>时，switch 比 if-else if 更清晰。</p>
+          <p style="margin-bottom: 0;">比如：输入 1-7 表示星期几，输出对应的星期名称。这种"等值多分支"最适合用 switch。</p>
+        </div>
+
+        <h3>switch 语法结构</h3>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">C++</span>
+            <button class="code-copy"><i class="fas fa-copy"></i></button>
+          </div>
+          <pre><code>switch (表达式) {
+    case 值1:
+        // 表达式等于值1时执行
+        break;
+    case 值2:
+        // 表达式等于值2时执行
+        break;
+    case 值3:
+        // 表达式等于值3时执行
+        break;
+    default:
+        // 以上都不匹配时执行
+        break;
+}</code></pre>
+        </div>
+
+        <h3>完整示例：星期转换</h3>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">C++</span>
+            <button class="code-copy"><i class="fas fa-copy"></i></button>
+          </div>
+          <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int day;
+    cin >> day;
+    
+    switch (day) {
+        case 1:
+            cout << "星期一" << endl;
+            break;
+        case 2:
+            cout << "星期二" << endl;
+            break;
+        case 3:
+            cout << "星期三" << endl;
+            break;
+        case 4:
+            cout << "星期四" << endl;
+            break;
+        case 5:
+            cout << "星期五" << endl;
+            break;
+        case 6:
+            cout << "星期六" << endl;
+            break;
+        case 7:
+            cout << "星期日" << endl;
+            break;
+        default:
+            cout << "输入错误" << endl;
+            break;
+    }
+    
+    return 0;
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>break 的作用</h2>
+        <div class="trap-box">
+          <div class="trap-title"><i class="fas fa-exclamation-triangle"></i> 核心陷阱：忘记 break</div>
+          <p>如果 case 后面没有 break，程序会继续执行下一个 case 的代码，这种现象叫"穿透"（fall-through）。</p>
+        </div>
+
+        <h3>穿透示例</h3>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">C++</span>
+            <button class="code-copy"><i class="fas fa-copy"></i></button>
+          </div>
+          <pre><code>switch (n) {
+    case 1:
+        cout << "一" << endl;
+        // 没有 break！会穿透到 case 2
+    case 2:
+        cout << "二" << endl;
+        break;
+}
+
+// 如果输入 1，输出：
+// 一
+// 二</code></pre>
+        </div>
+        <p><strong>初学建议：</strong>每个 case 后面都要写 break，不要故意利用穿透，除非你完全理解自己在做什么。</p>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>if-else if vs switch</h2>
+        <table class="compare-table">
+          <thead>
+            <tr><th>对比项</th><th>if-else if</th><th>switch</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>适用条件</td><td>范围判断、复杂条件</td><td>等值判断</td></tr>
+            <tr><td>条件类型</td><td>任意表达式</td><td>整型、字符型</td></tr>
+            <tr><td>可读性</td><td>分支多时代码冗长</td><td>等值分支多时代码清晰</td></tr>
+            <tr><td>典型场景</td><td>成绩等级、数值范围</td><td>菜单选择、星期月份</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>练习设计</h2>
+        <div class="goal-list">
+          <h4><i class="fas fa-dumbbell"></i> 基础练习</h4>
+          <ul>
+            <li>输入1-12的数字，输出对应的月份名称</li>
+            <li>输入A/B/C/D，输出对应的成绩等级描述</li>
+            <li>输入一个运算符（+ - * /），输入两个数，输出运算结果</li>
+          </ul>
+        </div>
+        <div class="goal-list">
+          <h4><i class="fas fa-rocket"></i> 提高练习</h4>
+          <ul>
+            <li>输入年份和月份，输出该月有多少天（考虑闰年）</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>自查清单</h2>
+        <div class="checklist-box">
+          <h4><i class="fas fa-check-square"></i> 本课自查</h4>
+          <ul>
+            <li>能正确写出 switch-case 语句</li>
+            <li>每个 case 后面都记得写 break</li>
+            <li>能使用 default 处理非法输入</li>
+            <li>能判断一个问题适合用 if 还是 switch</li>
+            <li class="blocker">如果没有完成以上检查项，不要进入下一课</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lesson-nav reveal">
+        <a href="L1-04-选择结构-if.html" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> 上一课</a>
+        <a href="L1-06-循环结构-for.html" class="btn btn-primary" style="background: var(--level1); border-color: var(--level1);">下一课：循环结构-for <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container"><p>蒙知苑·OI · IOI金牌教练教案体系</p></div>
+  </footer>
+
+  <script src="../../../assets/js/main.js"></script>
+  <script src="../../../assets/js/teaching-visuals.js"></script>
+</body>
+</html>

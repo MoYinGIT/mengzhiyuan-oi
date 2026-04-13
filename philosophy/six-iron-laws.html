@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>六条教学铁律 · 蒙知苑·OI</title>
+  <meta name="description" content="IOI金牌教练的六条教学铁律：考点不等于目标、主线优先、三遍学习法、拒绝死记硬背、基础不可跳、检验标准大于内容。">
+  
+  <!-- 字体和图标 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <!-- CSS文件 -->
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/layout.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/philosophy.css">
+</head>
+<body>
+  <!-- 顶部导航 -->
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="index.html" class="active">教学理念</a>
+        <a href="../mainlines/index.html">能力主线</a>
+        <a href="../index.html#levels">八级体系</a>
+        <a href="../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+  
+  <!-- 移动端菜单 -->
+  <div class="mobile-menu">
+    <a href="index.html">教学理念</a>
+    <a href="../mainlines/index.html">能力主线</a>
+    <a href="../index.html#levels">八级体系</a>
+    <a href="../resources/index.html">学习资源</a>
+  </div>
+
+  <!-- 页面头部 -->
+  <header class="page-header">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../index.html">首页</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="index.html">教学理念</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>六条教学铁律</span>
+      </div>
+      <div class="page-tag">
+        <i class="fas fa-gavel"></i> 不可违反的原则
+      </div>
+      <h1 class="page-title">六条教学铁律</h1>
+      <p class="page-desc">
+        这六条铁律来自数百名学生的血泪教训。它们不是建议，而是底线——违反任何一条，都会导致教学失败。
+      </p>
+    </div>
+  </header>
+
+  <!-- 主内容 -->
+  <main class="main-content">
+    <div class="container">
+
+      <!-- 铁律一 -->
+      <div class="iron-law-card reveal" id="law-1">
+        <div class="iron-law-header">
+          <div class="iron-law-num">01</div>
+          <div>
+            <div class="iron-law-title">考点 ≠ 教学目标</div>
+            <div class="iron-law-subtitle">区分考试终点与能力终点</div>
+          </div>
+        </div>
+        <div class="iron-law-content">
+          <p><strong>核心观点：</strong>考指针不是教指针，是教内存地址概念。考试考的是语法，但学生需要理解的是底层原理。</p>
+          
+          <div class="comparison-block">
+            <div class="comparison-item wrong">
+              <div class="comparison-label">
+                <i class="fas fa-times-circle"></i> 错误做法
+              </div>
+                <div class="comparison-content">
+                只教指针语法：<code>int *p = &a;</code>，让学生死记硬背。结果是学生能做题，但不理解为什么要用指针，也不理解指针和内存的关系。
+              </div>
+            </div>
+            <div class="comparison-item right">
+              <div class="comparison-label">
+                <i class="fas fa-check-circle"></i> 正确做法
+              </div>
+              <div class="comparison-content">
+                从内存地址概念讲起：变量存在哪里？地址是什么？为什么需要间接访问？指针只是内存地址概念的一种语法表达。
+              </div>
+            </div>
+          </div>
+
+          <p><strong>IOI教练的话：</strong>我见过太多学生，L5时指针题做得飞快，到L7学动态内存分配时完全崩溃。因为他们只学了指针语法，没学内存思维。考试能过，但能力没建立起来。</p>
+        </div>
+      </div>
+
+      <!-- 铁律二 -->
+      <div class="iron-law-card reveal" id="law-2">
+        <div class="iron-law-header">
+          <div class="iron-law-num">02</div>
+          <div>
+            <div class="iron-law-title">能力主线优先于级别顺序</div>
+            <div class="iron-law-subtitle">跟着主线走，不要死磕考纲</div>
+          </div>
+        </div>
+        <div class="iron-law-content">
+          <p><strong>核心观点：</strong>递归线必须L3启动，前缀和必须和一维数组同步教。GESP官方大纲的编排存在致命问题，必须调整。</p>
+          
+          <div class="trap-box">
+            <div class="trap-title"><i class="fas fa-skull-crossbones"></i> GESP官方的问题</div>
+            <p>GESP官方：L5学递归 → L6学搜索，中间只给3-4个月时间。但我的跟踪数据显示：从理解递归到能用递归写搜索，需要15+个月的内化时间。3个月是不可能的。</p>
+          </div>
+
+          <p><strong>我们的解决方案：</strong></p>
+          <ul>
+            <li><strong>递归线：</strong>L3末启动（预热），L4深化，L5应用，L6分水岭（搜索）。全程15+课时铺垫。</li>
+            <li><strong>数组DP线：</strong>L3与一维数组同步教前缀和，L4教递推，L5-L6教DP。全程贯穿。</li>
+            <li><strong>排序分治线：</strong>L4启动，L5深化，为后续分治算法打基础。</li>
+          </ul>
+
+          <p><strong>IOI教练的话：</strong>按GESP官方节奏，L6搜索课会出现大面积掉队。我的学生L6搜索课接受度良好，因为他们已经内化递归15个月了。这就是能力主线前置的力量。</p>
+        </div>
+      </div>
+
+      <!-- 铁律三 -->
+      <div class="iron-law-card reveal" id="law-3">
+        <div class="iron-law-header">
+          <div class="iron-law-num">03</div>
+          <div>
+            <div class="iron-law-title">三遍学习法</div>
+            <div class="iron-law-subtitle">裸用→组合→变体</div>
+          </div>
+        </div>
+        <div class="iron-law-content">
+          <p><strong>核心观点：</strong>每个概念必须经历三遍学习。跳过任何一遍，学生只会背代码，不会用思想。</p>
+          
+          <div class="three-pass-detail">
+            <div class="pass-card" data-pass="第一遍">
+              <h4>裸用</h4>
+              <p>单独使用新概念，理解其基本用法和原理。不要与其他复杂概念混合，确保学生掌握核心机制。</p>
+              <div class="pass-example">
+                <strong>for循环示例</strong>
+                写简单的累加、打印图形、遍历数组。只练循环本身，不加if判断。
+              </div>
+            </div>
+            <div class="pass-card" data-pass="第二遍">
+              <h4>组合</h4>
+              <p>将新概念与已学知识结合，理解概念间的协作关系。这是从孤立知识到知识网络的过渡。</p>
+              <div class="pass-example">
+                <strong>for循环示例</strong>
+                for循环+if判断，实现筛选、统计、找最大最小值。
+              </div>
+            </div>
+            <div class="pass-card" data-pass="第三遍">
+              <h4>变体</h4>
+              <p>解决变形题目，理解概念的本质，而非表面形式。能独立应对变体题，才算真正掌握。</p>
+              <div class="pass-example">
+                <strong>for循环示例</strong>
+                变形循环边界、倒序遍历、步长不为1、多重循环嵌套。
+              </div>
+            </div>
+          </div>
+
+          <p><strong>IOI教练的话：</strong>大部分教学只走到第一遍（裸用），最多走到第二遍（组合）。但真正的能力体现在第三遍（变体）。学生能独立解决变形题，才算是真会了。跳过第三遍，学生考试时遇到没见过的题目就会崩溃。</p>
+        </div>
+      </div>
+
+      <!-- 铁律四 -->
+      <div class="iron-law-card reveal" id="law-4">
+        <div class="iron-law-header">
+          <div class="iron-law-num">04</div>
+          <div>
+            <div class="iron-law-title">禁止"先背再理解"</div>
+            <div class="iron-law-subtitle">代码永远是最后一步</div>
+          </div>
+        </div>
+        <div class="iron-law-content">
+          <p><strong>核心观点：</strong>排序从"为什么排"引入，递归从"拆子问题"引入。必须先理解思想，再写代码。代码是思想的表达，不是思想本身。</p>
+          
+          <div class="comparison-block">
+            <div class="comparison-item wrong">
+              <div class="comparison-label">
+                <i class="fas fa-times-circle"></i> 错误做法
+              </div>
+              <div class="comparison-content">
+                直接给代码模板：<br>
+                <code>void quicksort(int l, int r) { ... }</code><br>
+                让学生背下来，多做几遍就会了。
+              </div>
+            </div>
+            <div class="comparison-item right">
+              <div class="comparison-label">
+                <i class="fas fa-check-circle"></i> 正确做法
+              </div>
+              <div class="comparison-content">
+                先问：为什么要排序？排序的本质是什么？<br>
+                再讲：分治思想——大问题拆成小问题<br>
+                最后：代码只是思想的实现
+              </div>
+            </div>
+          </div>
+
+          <p><strong>IOI教练的话：</strong>"先背再理解"是编程教学的最大谎言。我跟踪的学生中，凡是采用"先背再理解"策略的，80%最终都没能真正理解。因为他们背下来的代码变成了思维定式，阻碍了真正的理解。理解必须在代码之前。</p>
+        </div>
+      </div>
+
+      <!-- 铁律五 -->
+      <div class="iron-law-card reveal" id="law-5">
+        <div class="iron-law-header">
+          <div class="iron-law-num">05</div>
+          <div>
+            <div class="iron-law-title">计算机基础知识不能跳过</div>
+            <div class="iron-law-subtitle">底层理解是上层建筑的根基</div>
+          </div>
+        </div>
+        <div class="iron-law-content">
+          <p><strong>核心观点：</strong>不理解内存分层就理解不了局部变量消失，不理解补码就理解不了整型溢出。GESP大纲忽视了这些基础，但我们不能跳。</p>
+          
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th>基础概念</th>
+                <th>GESP处理</th>
+                <th>我们的处理</th>
+                <th>为什么重要</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>内存地址</td>
+                <td>L5才讲指针</td>
+                <td>L3讲变量时就讲内存</td>
+                <td>为指针和数组打基础</td>
+              </tr>
+              <tr>
+                <td>补码表示</td>
+                <td>不考，不讲</td>
+                <td>L3加餐讲解</td>
+                <td>理解整型溢出、负数运算</td>
+              </tr>
+              <tr>
+                <td>栈与堆</td>
+                <td>不考，不讲</td>
+                <td>L4讲函数时引入</td>
+                <td>理解递归、局部变量生命周期</td>
+              </tr>
+              <tr>
+                <td>ASCII编码</td>
+                <td>L2简单提</td>
+                <td>L2深入+字符运算</td>
+                <td>字符处理、字符串算法基础</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p><strong>IOI教练的话：</strong>这些基础知识"不考"，但它们是所有高级内容的根基。跳过它们，学生会在L6-L7遇到莫名其妙的bug，却不知道为什么。那时候再回头补课，成本是现在的10倍。</p>
+        </div>
+      </div>
+
+      <!-- 铁律六 -->
+      <div class="iron-law-card reveal" id="law-6">
+        <div class="iron-law-header">
+          <div class="iron-law-num">06</div>
+          <div>
+            <div class="iron-law-title">检验标准 > 教学内容</div>
+            <div class="iron-law-subtitle">能独立解决变体题才算真会</div>
+          </div>
+        </div>
+        <div class="iron-law-content">
+          <p><strong>核心观点：</strong>下课前怎么判断学生真学会了？不是默写代码，不是做原题，而是独立解决变体题。</p>
+          
+          <div class="comparison-block">
+            <div class="comparison-item wrong">
+              <div class="comparison-label">
+                <i class="fas fa-times-circle"></i> 虚假掌握
+              </div>
+              <div class="comparison-content">
+                <ul style="margin: 0; padding-left: var(--sp-4);">
+                  <li>能默写课堂例题代码</li>
+                  <li>能讲出"递归三要素"概念</li>
+                  <li>能做和例题几乎一样的题目</li>
+                </ul>
+                <p style="margin-top: var(--sp-2); margin-bottom: 0;"><strong>问题：</strong>学生可能只是背下来了，没有真正理解。</p>
+              </div>
+            </div>
+            <div class="comparison-item right">
+              <div class="comparison-label">
+                <i class="fas fa-check-circle"></i> 真实掌握
+              </div>
+              <div class="comparison-content">
+                <ul style="margin: 0; padding-left: var(--sp-4);">
+                  <li>能独立解决变体题（边界变化、条件变化）</li>
+                  <li>能把概念应用到没见过的场景</li>
+                  <li>能解释"为什么这样做"</li>
+                </ul>
+                <p style="margin-top: var(--sp-2); margin-bottom: 0;"><strong>关键：</strong>变体题测试真实能力，原题测试记忆力。</p>
+              </div>
+            </div>
+          </div>
+
+          <p><strong>每课时的检验标准：</strong></p>
+          <div class="checklist-box">
+            <h4><i class="fas fa-clipboard-check"></i> 达标检查清单</h4>
+            <ul>
+              <li>学生能不看笔记，独立写出核心代码</li>
+              <li>学生能解决至少一道变体题（题目条件有变化）</li>
+              <li>学生能解释代码的每一行在做什么</li>
+              <li>学生能说出这个概念的"为什么"</li>
+              <li class="blocker">如果以上任何一条不满足，不要进入下一课时</li>
+            </ul>
+          </div>
+
+          <p><strong>IOI教练的话：</strong>没有检验标准的教学等于没教。你可能会觉得"学生上课听懂了"，但听懂不等于会。检验标准是把"听懂"转化为"会"的唯一方式。宁可慢，不要假。</p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 总结 -->
+      <div class="coach-quote reveal">
+        <p style="margin-bottom: 0;">
+          <strong>总结：</strong>这六条铁律不是 arbitrary（任意的）规则，而是我从数百名学生的失败案例中总结出的血泪教训。
+          每一条背后，都有学生因为违反它而掉队的故事。
+        </p>
+      </div>
+
+      <!-- 导航 -->
+      <div style="display: flex; justify-content: space-between; margin-top: var(--sp-8);">
+        <a href="index.html" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> 返回教学理念
+        </a>
+        <a href="three-pass-learning.html" class="btn btn-primary">
+          三遍学习法 <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="index.html">教学理念</a>
+        <a href="../mainlines/index.html">能力主线</a>
+        <a href="../index.html#levels">八级体系</a>
+        <a href="../resources/index.html">学习资源</a>
+      </div>
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+    </div>
+  </footer>
+
+  <!-- JS文件 -->
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L4 编程四级函数期 · 蒙知苑·OI</title>
+  <meta name="description" content="L4编程四级函数期：40课时，学习函数定义、参数传递、作用域、递归基础、分治初探。">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../assets/css/base.css">
+  <link rel="stylesheet" href="../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../assets/css/components.css">
+  <link rel="stylesheet" href="../../assets/css/teaching-visuals.css">
+  <link rel="stylesheet" href="../../assets/css/level.css">
+  
+  <style>
+    :root { --lv-color: var(--level4); --lv-dim: var(--level4-dim); }
+  </style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../philosophy/index.html">教学理念</a>
+        <a href="../../mainlines/index.html">能力主线</a>
+        <a href="../../index.html#levels" class="active">八级体系</a>
+        <a href="../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+  
+  <div class="mobile-menu">
+    <a href="../../philosophy/index.html">教学理念</a>
+    <a href="../../mainlines/index.html">能力主线</a>
+    <a href="../../index.html#levels">八级体系</a>
+    <a href="../../resources/index.html">学习资源</a>
+  </div>
+
+  <header class="lv-hero">
+    <div class="container">
+      <div class="breadcrumb" style="justify-content: center;">
+        <a href="../../index.html">首页</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>八级体系</span>
+      </div>
+      <div class="lv-badge" style="border-color: var(--level4); color: var(--level4);">
+        <i class="fas fa-project-diagram"></i> 编程函数期
+      </div>
+      <h1 class="lv-title">L4 编程四级函数期</h1>
+      <p style="color: var(--fg-muted); max-width: 600px; margin: 0 auto;">
+        从"一条主线写到底"到"模块化拆分"，建立函数思维；递归正式登场，分治线启动
+      </p>
+      <div class="lv-stats">
+        <div class="lv-stat">
+          <div class="lv-stat-num">40</div>
+          <div class="lv-stat-label">总课时</div>
+        </div>
+        <div class="lv-stat">
+          <div class="lv-stat-num">10</div>
+          <div class="lv-stat-label">学习周数</div>
+        </div>
+        <div class="lv-stat">
+          <div class="lv-stat-num">5</div>
+          <div class="lv-stat-label">核心知识点</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container">
+
+      <div class="coach-quote reveal">
+        <p>
+          L4是编程思维的又一次升级：从<strong>顺序执行</strong>到<strong>模块化</strong>，从<strong>迭代</strong>到<strong>递归</strong>。
+        </p>
+        <p>
+          函数不是"为了写函数而写函数"，而是为了<strong>拆分问题、复用逻辑、降低复杂度</strong>。
+          而递归，则是后续搜索、分治、DP的通用语言。
+        </p>
+        <p style="margin-bottom: 0;">
+          我见过太多学生，L4时函数写得七零八落，到L5-L6面对上百行的搜索代码时完全失控。
+          L4的代码组织能力，决定了学生能走多远。
+        </p>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2 class="reveal">核心知识点</h2>
+      <div class="lv-topics reveal">
+        <a href="lessons/L4-01-函数定义与调用.html" class="lv-topic-card">
+          <div class="lv-topic-icon"><i class="fas fa-cube"></i></div>
+          <div class="lv-topic-title">函数定义与调用</div>
+          <div class="lv-topic-desc">函数声明、返回值、调用过程、代码模块化</div>
+          <div class="lv-topic-meta">
+            <span><i class="fas fa-clock"></i> 8课时</span>
+            <span><i class="fas fa-book"></i> 第1课</span>
+          </div>
+        </a>
+        <a href="lessons/L4-02-参数传递与返回值.html" class="lv-topic-card">
+          <div class="lv-topic-icon"><i class="fas fa-exchange-alt"></i></div>
+          <div class="lv-topic-title">参数传递与返回值</div>
+          <div class="lv-topic-desc">值传递、return语句、多返回值技巧</div>
+          <div class="lv-topic-meta">
+            <span><i class="fas fa-clock"></i> 8课时</span>
+            <span><i class="fas fa-book"></i> 第2课</span>
+          </div>
+        </a>
+        <a href="lessons/L4-03-变量作用域.html" class="lv-topic-card">
+          <div class="lv-topic-icon"><i class="fas fa-border-style"></i></div>
+          <div class="lv-topic-title">变量作用域</div>
+          <div class="lv-topic-desc">局部变量、全局变量、作用域规则、生命周期</div>
+          <div class="lv-topic-meta">
+            <span><i class="fas fa-clock"></i> 8课时</span>
+            <span><i class="fas fa-book"></i> 第3课</span>
+          </div>
+        </a>
+        <a href="lessons/L4-04-递归基础.html" class="lv-topic-card">
+          <div class="lv-topic-icon"><i class="fas fa-sync-alt"></i></div>
+          <div class="lv-topic-title">递归基础</div>
+          <div class="lv-topic-desc">递归三要素、递归执行过程、递归与迭代的对比</div>
+          <div class="lv-topic-meta">
+            <span><i class="fas fa-clock"></i> 8课时</span>
+            <span><i class="fas fa-book"></i> 第4课</span>
+          </div>
+        </a>
+        <a href="lessons/L4-05-分治初探.html" class="lv-topic-card">
+          <div class="lv-topic-icon"><i class="fas fa-code-branch"></i></div>
+          <div class="lv-topic-title">分治初探</div>
+          <div class="lv-topic-desc">分治思想、归并排序思想、二分查找、问题拆分</div>
+          <div class="lv-topic-meta">
+            <span><i class="fas fa-clock"></i> 8课时</span>
+            <span><i class="fas fa-book"></i> 第5课</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2 class="reveal">课时列表</h2>
+      <div class="lesson-list reveal">
+        <a href="lessons/L4-01-函数定义与调用.html" class="lesson-item">
+          <div class="lesson-num">01</div>
+          <div class="lesson-content">
+            <div class="lesson-title">函数定义与调用</div>
+            <div class="lesson-desc">函数声明、返回值、调用过程、代码模块化</div>
+          </div>
+          <div class="lesson-hours">8课时</div>
+        </a>
+        <a href="lessons/L4-02-参数传递与返回值.html" class="lesson-item">
+          <div class="lesson-num">02</div>
+          <div class="lesson-content">
+            <div class="lesson-title">参数传递与返回值</div>
+            <div class="lesson-desc">值传递、return语句、多返回值技巧</div>
+          </div>
+          <div class="lesson-hours">8课时</div>
+        </a>
+        <a href="lessons/L4-03-变量作用域.html" class="lesson-item">
+          <div class="lesson-num">03</div>
+          <div class="lesson-content">
+            <div class="lesson-title">变量作用域</div>
+            <div class="lesson-desc">局部变量、全局变量、作用域规则、生命周期</div>
+          </div>
+          <div class="lesson-hours">8课时</div>
+        </a>
+        <a href="lessons/L4-04-递归基础.html" class="lesson-item">
+          <div class="lesson-num">04</div>
+          <div class="lesson-content">
+            <div class="lesson-title">递归基础</div>
+            <div class="lesson-desc">递归三要素、递归执行过程、递归与迭代的对比</div>
+          </div>
+          <div class="lesson-hours">8课时</div>
+        </a>
+        <a href="lessons/L4-05-分治初探.html" class="lesson-item">
+          <div class="lesson-num">05</div>
+          <div class="lesson-content">
+            <div class="lesson-title">分治初探</div>
+            <div class="lesson-desc">分治思想、归并排序思想、二分查找、问题拆分</div>
+          </div>
+          <div class="lesson-hours">8课时</div>
+        </a>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2 class="reveal">能力主线交汇</h2>
+      <div class="reveal">
+        <div class="card" style="margin-bottom: var(--sp-4);">
+          <div class="card-header">
+            <div class="card-icon" style="background: var(--level3-dim); color: var(--level3);">
+              <i class="fas fa-code-branch"></i>
+            </div>
+            <h3 class="card-title">递归线 - L4正式登场</h3>
+          </div>
+          <p class="card-desc">
+            L3末预热，L4正式系统学习递归三要素。为L6的DFS/BFS搜索打下坚实基础。
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon" style="background: var(--level4-dim); color: var(--level4);">
+              <i class="fas fa-sort-amount-down"></i>
+            </div>
+            <h3 class="card-title">排序分治线 - L4正式启动</h3>
+          </div>
+          <p class="card-desc">
+            通过归并排序和二分查找，引入分治思想。这是排序分治线的起点。
+          </p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2 class="reveal">升级检验标准</h2>
+      <div class="checklist-box reveal">
+        <h4><i class="fas fa-clipboard-check"></i> L4 升级检查清单</h4>
+        <ul>
+          <li>能把一个复杂问题拆分成多个函数，每个函数职责单一</li>
+          <li>理解值传递的本质：函数内修改参数不会影响外部变量</li>
+          <li>能区分局部变量和全局变量，并知道何时使用全局变量</li>
+          <li>能写出完整的递归函数（包含终止条件、递归调用、合并结果）</li>
+          <li>能用二分查找在有序数组中定位元素</li>
+          <li class="blocker">如果以上任何一条不满足，不要进入L5</li>
+        </ul>
+      </div>
+
+      <div class="coach-quote reveal">
+        <p style="margin-bottom: 0;">
+          <strong>给家长的话：</strong>L4开始，代码长度明显增加。如果孩子还在一个main函数里写到底，
+          后面的学习会越来越痛苦。L4的核心目标就是让孩子具备<strong>代码模块化</strong>的能力。
+        </p>
+      </div>
+
+      <div class="lesson-nav reveal">
+        <a href="../L3-编程三级-数组期/index.html" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> L3 编程数组期
+        </a>
+        <a href="lessons/L4-01-函数定义与调用.html" class="btn btn-primary" style="background: var(--level4); border-color: var(--level4);">
+          开始学习第一课 <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container">
+      <div class="footer-links">
+        <a href="../../philosophy/index.html">教学理念</a>
+        <a href="../../mainlines/index.html">能力主线</a>
+        <a href="../../index.html#levels">八级体系</a>
+        <a href="../../resources/index.html">学习资源</a>
+      </div>
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+    </div>
+  </footer>
+
+  <script src="../../assets/js/main.js"></script>
+</body>
+</html>

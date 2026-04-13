@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L8-04 状态压缩与计数DP · 蒙知苑·OI</title>
+  <meta name="description" content="学习状态压缩DP、计数DP、容斥原理与组合数取模等高级动态规划技巧。">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../../assets/css/base.css">
+  <link rel="stylesheet" href="../../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../../assets/css/components.css">
+  <link rel="stylesheet" href="../../../assets/css/teaching-visuals.css">
+  <link rel="stylesheet" href="../../../assets/css/level.css">
+  
+  <style>
+    :root { --lv-color: var(--level8); --lv-dim: var(--level8-dim); }
+  </style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels" class="active">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+  
+  <div class="mobile-menu">
+    <a href="../../../philosophy/index.html">教学理念</a>
+    <a href="../../../mainlines/index.html">能力主线</a>
+    <a href="../../../index.html#levels">八级体系</a>
+    <a href="../../../resources/index.html">学习资源</a>
+  </div>
+
+  <div class="lesson-top-info">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../../../index.html">首页</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="../index.html">L8 综合期</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>L8-04</span>
+      </div>
+      <div class="lesson-header-row">
+        <div>
+          <h1 class="lesson-title-main">状态压缩与计数DP</h1>
+          <p class="lesson-subtitle">状态压缩DP、计数DP、容斥原理、组合数取模</p>
+        </div>
+        <div class="lesson-meta">
+          <div class="meta-item"><i class="fas fa-clock"></i> 10课时</div>
+          <div class="meta-item"><i class="fas fa-calendar"></i> 约2.5周</div>
+          <div class="meta-item"><i class="fas fa-signal"></i> 难度 <span class="difficulty-star"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="main-content">
+    <div class="container">
+
+      <div class="goals-card reveal">
+        <h4><i class="fas fa-bullseye"></i> 本课三维目标</h4>
+        <div class="goals-grid">
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--red-dim); color: var(--red);">知识</span>
+            <span class="goal-text">二进制状态压缩、子集枚举、计数DP转移、容斥原理、Lucas定理入门</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--green-dim); color: var(--green);">技能</span>
+            <span class="goal-text">能用状态压缩DP解决n≤20的排列/选择问题，能写基础计数DP</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--blue-dim); color: var(--blue);">思维</span>
+            <span class="goal-text">建立"用二进制位表示集合状态"的抽象能力</span>
+          </div>
+        </div>
+      </div>
+
+      <section class="reveal">
+        <h2>1. 状态压缩：用二进制表示集合</h2>
+        <p>
+          当问题规模很小（通常 n ≤ 20）时，我们可以用一个整数的二进制位来表示一个集合的状态。
+          整数中的第 i 位为 1，表示第 i 个元素被选中（或已访问）。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">二进制状态操作</span>
+            <button class="copy-btn" data-clipboard-target="#code1">复制</button>
+          </div>
+          <pre><code id="code1" class="language-cpp">int state = 0;
+
+// 将第i位置为1
+state |= (1 << i);
+
+// 将第i位置为0
+state &= ~(1 << i);
+
+// 判断第i位是否为1
+if (state & (1 << i)) { ... }
+
+// 枚举state的所有子集
+for (int sub = state; sub; sub = (sub - 1) & state) {
+    // sub 是 state 的一个非空子集
+}</code></pre>
+        </div>
+        <p>
+          例如，<code class="inline-code">state = 5</code> 对应的二进制是 <code class="inline-code">101</code>，
+          表示第0个和第2个元素被选中了。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>2. 旅行商问题（TSP）：状态压缩DP经典</h2>
+        <p>
+          问题：给定 n 个城市和它们之间的距离，从城市0出发，访问所有城市恰好一次后回到起点，
+          求最短路径长度。
+        </p>
+        <p>
+          <strong>状态定义：</strong><code class="inline-code">dp[state][i]</code> 表示已经访问了 state 中的城市，
+          且当前位于城市 i 时的最短路径长度。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">TSP状态压缩DP</span>
+            <button class="copy-btn" data-clipboard-target="#code2">复制</button>
+          </div>
+          <pre><code id="code2" class="language-cpp">const int INF = 1e9;
+int dist[20][20];
+int dp[1 << 20][20];
+
+int n;
+
+int solve() {
+    for (int i = 0; i < (1 << n); i++)
+        for (int j = 0; j < n; j++)
+            dp[i][j] = INF;
+    
+    dp[1][0] = 0;  // 从城市0出发，只访问了城市0
+    
+    for (int state = 1; state < (1 << n); state++) {
+        for (int i = 0; i < n; i++) {
+            if (!(state & (1 << i))) continue;  // i不在state中，跳过
+            if (dp[state][i] == INF) continue;
+            
+            for (int j = 0; j < n; j++) {
+                if (state & (1 << j)) continue;  // j已经访问过，跳过
+                int nextState = state | (1 << j);
+                dp[nextState][j] = min(dp[nextState][j], 
+                                        dp[state][i] + dist[i][j]);
+            }
+        }
+    }
+    
+    int ans = INF;
+    for (int i = 1; i < n; i++) {
+        ans = min(ans, dp[(1<<n)-1][i] + dist[i][0]);
+    }
+    return ans;
+}</code></pre>
+        </div>
+        <p>
+          时间复杂度 O(2^n × n²)。由于 n ≤ 20 时 2^20 ≈ 100万，这个复杂度在可接受范围内。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>3. 子集枚举的应用</h2>
+        <p>
+          状态压缩DP中，经常需要枚举一个集合的所有子集。例如：
+          把一群人分成两组，求某种最优分配。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">枚举所有子集</span>
+            <button class="copy-btn" data-clipboard-target="#code3">复制</button>
+          </div>
+          <pre><code id="code3" class="language-cpp">int n = 5;
+int full = (1 << n) - 1;  // 11111
+
+// 枚举full的所有子集
+for (int sub = full; sub >= 0; sub = (sub - 1) & full) {
+    // sub 是当前枚举到的子集
+    if (sub == 0) break;  // 注意：0也是子集，根据需要处理
+}
+
+// 如果只枚举非空真子集
+for (int sub = full; sub; sub = (sub - 1) & full) {
+    int other = full ^ sub;  // 补集
+    // ...
+}</code></pre>
+        </div>
+        <p>
+          <code class="inline-code">sub = (sub - 1) & full</code> 是枚举子集的标准技巧，
+          它保证按从大到小的顺序枚举 full 的所有子集。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>4. 计数DP与组合数</h2>
+        <p>
+          计数DP的目标不是求最大/最小值，而是求<strong>方案数</strong>。
+          计数DP的转移通常用加法而不是取max/min。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">网格路径计数</span>
+            <button class="copy-btn" data-clipboard-target="#code4">复制</button>
+          </div>
+          <pre><code id="code4" class="language-cpp">// dp[i][j] = 从(0,0)走到(i,j)的路径数
+const int MOD = 1e9 + 7;
+
+dp[0][0] = 1;
+for (int i = 0; i < n; i++) {
+    for (int j = 0; j < m; j++) {
+        if (i > 0) dp[i][j] = (dp[i][j] + dp[i-1][j]) % MOD;
+        if (j > 0) dp[i][j] = (dp[i][j] + dp[i][j-1]) % MOD;
+    }
+}</code></pre>
+        </div>
+        <p>
+          组合数可以用递推公式预处理：
+          <code class="inline-code">C(n, m) = C(n-1, m-1) + C(n-1, m)</code>
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">组合数预处理</span>
+            <button class="copy-btn" data-clipboard-target="#code5">复制</button>
+          </div>
+          <pre><code id="code5" class="language-cpp">const int MAXN = 1005;
+const int MOD = 1e9 + 7;
+long long C[MAXN][MAXN];
+
+void initComb() {
+    for (int i = 0; i < MAXN; i++) {
+        C[i][0] = C[i][i] = 1;
+        for (int j = 1; j < i; j++) {
+            C[i][j] = (C[i-1][j-1] + C[i-1][j]) % MOD;
+        }
+    }
+}</code></pre>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>5. 容斥原理入门</h2>
+        <p>
+          容斥原理用于计算"满足至少一个条件"的方案数，通过加减交集来避免重复计数。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">容斥原理：错位排列</span>
+            <button class="copy-btn" data-clipboard-target="#code6">复制</button>
+          </div>
+          <pre><code id="code6" class="language-cpp">// 求1~n的排列中，没有任何一个数在原来位置上的排列数（错位排列）
+// 用容斥：总排列 - 至少1个在原位 + 至少2个在原位 - ...
+
+long long derangement(int n) {
+    long long ans = 0;
+    for (int i = 0; i <= n; i++) {
+        long long term = C[n][i] * fact[n - i] % MOD;
+        if (i % 2 == 0) ans = (ans + term) % MOD;
+        else ans = (ans - term + MOD) % MOD;
+    }
+    return ans;
+}</code></pre>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="reveal">
+        <h2>IOI教练常见教学陷阱</h2>
+        <div class="traps-grid">
+          <div class="trap-card">
+            <div class="trap-title">陷阱1：状态压缩时数组开不够</div>
+            <p class="trap-desc">
+              n=20时，状态数是 2^20 = 1,048,576。dp数组要开到 [1<<20][20]，
+              约2000万个元素。如果用int，需要约80MB，要注意空间限制。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱2：计数DP忘记取模</div>
+            <p class="trap-desc">
+              方案数通常非常大，每一步转移都要取模。如果忘了取模，整数溢出会导致WA。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱3：子集枚举遗漏空集</div>
+            <p class="trap-desc">
+              <code class="inline-code">for (int sub = state; sub; sub = (sub-1) & state)</code>
+              不会枚举空集。如果需要空集，要单独处理。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>课后练习题</h2>
+        <div class="exercise-list">
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">1</span>
+              <h4 class="exercise-title">TSP基础</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>给定n个城市（n≤15）和距离矩阵，求访问每个城市恰好一次并回到起点的最短路径。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">2</span>
+              <h4 class="exercise-title">分配问题</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>有n个工作和n个人，每个人做不同工作的收益不同。求最大总收益分配方案。（状态压缩DP）</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">3</span>
+              <h4 class="exercise-title">组合数取模</h4>
+              <span class="exercise-tag easy">入门</span>
+            </div>
+            <p>预处理组合数C(n,m) mod 10^9+7，回答q次查询。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">4</span>
+              <h4 class="exercise-title">容斥原理计数</h4>
+              <span class="exercise-tag hard">挑战</span>
+            </div>
+            <p>求1~n中能被a、b、c中至少一个数整除的整数个数。用容斥原理解决。</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="checklist-box reveal">
+        <h4><i class="fas fa-clipboard-check"></i> 本课自测清单</h4>
+        <ul>
+          <li>能用二进制位表示集合状态，并进行常见的位运算操作</li>
+          <li>能独立写出TSP的状态压缩DP代码</li>
+          <li>能枚举一个集合的所有子集</li>
+          <li>能写基础的计数DP代码，并注意取模</li>
+          <li>理解容斥原理的基本思想</li>
+          <li class="blocker">如果任何一条不满足，不要进入L8-05竞赛策略与真题精讲</li>
+        </ul>
+      </div>
+
+      <div class="lesson-nav reveal">
+        <a href="L8-03-计算几何入门.html" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> 上一课：计算几何入门
+        </a>
+        <a href="L8-05-竞赛策略与真题精讲.html" class="btn btn-primary" style="background: var(--level8); border-color: var(--level8);">
+          下一课：竞赛策略与真题精讲 <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container">
+      <div class="footer-links">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+    </div>
+  </footer>
+
+  <script src="../../../assets/js/main.js"></script>
+</body>
+</html>

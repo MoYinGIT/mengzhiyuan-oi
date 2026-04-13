@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L2-04 字符串基础 · 蒙知苑·OI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../../assets/css/base.css">
+  <link rel="stylesheet" href="../../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../../assets/css/components.css">
+  <link rel="stylesheet" href="../../../assets/css/teaching-visuals.css">
+  <link rel="stylesheet" href="../../../assets/css/level.css">
+  <style>:root { --lv-color: var(--level2); --lv-dim: var(--level2-dim); }</style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels" class="active">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="container">
+      <header class="lesson-header">
+        <div class="breadcrumb">
+          <a href="../../../index.html">首页</a>
+          <i class="fas fa-chevron-right"></i>
+          <a href="../index.html">L2 编程嵌套期</a>
+          <i class="fas fa-chevron-right"></i>
+          <span>第4课</span>
+        </div>
+        <h1 style="color: var(--level2);">L2-04 字符串基础</h1>
+        <div class="lesson-meta">
+          <span><i class="fas fa-clock"></i> 7课时（315分钟）</span>
+          <span><i class="fas fa-tag"></i> L2核心</span>
+        </div>
+      </header>
+
+      <div class="lesson-section reveal">
+        <h2>教学目标</h2>
+        <div class="goal-list">
+          <h4><i class="fas fa-bullseye"></i> 知识目标</h4>
+          <ul>
+            <li>理解字符串是字符的序列</li>
+            <li>掌握 C 风格字符串的基本操作</li>
+            <li>理解字符串结束符 '\0' 的作用</li>
+          </ul>
+        </div>
+        <div class="goal-list">
+          <h4><i class="fas fa-tools"></i> 技能目标</h4>
+          <ul>
+            <li>能声明、输入、输出字符串</li>
+            <li>能计算字符串长度</li>
+            <li>能遍历字符串并操作每个字符</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>字符串的本质：字符数组</h2>
+        <div class="coach-quote">
+          <p>字符串不是单一的数据类型，而是一个字符序列。</p>
+          <p style="margin-bottom: 0;">在 C++ 中，字符串以 <code>char数组</code> 的形式存储，末尾有一个特殊的结束符 <code>'\0'</code>，标记字符串的结束位置。</p>
+        </div>
+
+        <h3>内存布局可视化</h3>
+        <div data-type="memory" data-memory='[
+          {"addr": "0x1000", "cells": ["48", "65", "6C", "6C"], "var": "char s[] = Hello; (H,e,l,l)", "changed": [0,1,2,3]},
+          {"addr": "0x1004", "cells": ["6F", "00", "00", "00"], "var": "(o, 结束符\\0)", "changed": [0,1]}
+        ]'></div>
+
+        <h3>字符串声明与初始化</h3>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">C++</span>
+            <button class="code-copy"><i class="fas fa-copy"></i></button>
+          </div>
+          <pre><code>#include &lt;cstring&gt;  // 使用字符串函数需要包含
+
+// 方式1：直接初始化
+char s1[] = "Hello";
+
+// 方式2：指定大小（要比实际长度多1，留给'\0'）
+char s2[20];
+
+// 方式3：逐字符赋值（不推荐）
+char s3[6] = {'H', 'e', 'l', 'l', 'o', '\0'};</code></pre>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>常用字符串操作</h2>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">C++</span>
+            <button class="code-copy"><i class="fas fa-copy"></i></button>
+          </div>
+          <pre><code>char s[100];
+
+// 1. 输入字符串
+cin >> s;           // 读到空格停止
+cin.getline(s, 100); // 读一整行，包括空格
+
+// 2. 输出字符串
+cout << s << endl;
+
+// 3. 求字符串长度
+int len = strlen(s);
+
+// 4. 字符串复制
+char t[100];
+strcpy(t, s);       // 把 s 复制到 t
+
+// 5. 字符串连接
+strcat(s, " World"); // 把 " World" 接到 s 后面
+
+// 6. 字符串比较
+if (strcmp(s, "Hello") == 0) {
+    cout << "相等" << endl;
+}</code></pre>
+        </div>
+
+        <div class="trap-box">
+          <div class="trap-title"><i class="fas fa-exclamation-triangle"></i> 重要陷阱：不能用 == 比较字符串</div>
+          <p>字符串比较必须用 <code>strcmp()</code>，不能用 <code>==</code>。因为 == 比较的是地址，不是内容。这是初学者最常犯的错误之一。</p>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>字符串遍历</h2>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">C++</span>
+            <button class="code-copy"><i class="fas fa-copy"></i></button>
+          </div>
+          <pre><code>char s[100];
+cin >> s;
+
+// 方式1：用 strlen
+int len = strlen(s);
+for (int i = 0; i < len; i++) {
+    cout << s[i] << " ";
+}
+
+// 方式2：用结束符判断（更高效，不用计算长度）
+for (int i = 0; s[i] != '\0'; i++) {
+    cout << s[i] << " ";
+}
+
+// 应用：统计字符串中字母的个数
+int count = 0;
+for (int i = 0; s[i] != '\0'; i++) {
+    if ((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z')) {
+        count++;
+    }
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>IOI教练视角</h2>
+        <div class="trap-box">
+          <div class="trap-title"><i class="fas fa-exclamation-triangle"></i> 陷阱：数组越界</div>
+          <p>C 风格字符串没有边界检查，如果输入的字符串长度超过了数组声明的大小，会覆盖其他内存区域，导致程序崩溃或行为异常。</p>
+        </div>
+        <div class="coach-quote">
+          <p style="margin-bottom: 0;"><strong>长线提示：</strong>L4会学 string 类，它比 char 数组更安全方便。但 char 数组是理解字符串底层原理的关键，必须先掌握 char 数组，再用 string 类时才能真正理解它在做什么。</p>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>练习设计</h2>
+        <div class="goal-list">
+          <h4><i class="fas fa-dumbbell"></i> 基础练习</h4>
+          <ul>
+            <li>输入一个字符串，输出它的长度</li>
+            <li>输入一个字符串，统计其中大写字母、小写字母、数字的个数</li>
+            <li>输入一个字符串，将其中的所有大写字母转为小写</li>
+          </ul>
+        </div>
+        <div class="goal-list">
+          <h4><i class="fas fa-rocket"></i> 提高练习</h4>
+          <ul>
+            <li>输入一个字符串，判断它是否是回文字符串</li>
+            <li>输入两个字符串，判断第二个字符串是否是第一个的子串</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>自查清单</h2>
+        <div class="checklist-box">
+          <h4><i class="fas fa-check-square"></i> 本课自查</h4>
+          <ul>
+            <li>能正确声明和输入 C 风格字符串</li>
+            <li>能用 strlen 求字符串长度</li>
+            <li>能用循环遍历字符串的每个字符</li>
+            <li>知道不能用 == 比较字符串</li>
+            <li class="blocker">如果没有完成以上检查项，不要进入下一课</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lesson-nav reveal">
+        <a href="L2-03-字符与ASCII.html" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> 上一课</a>
+        <a href="L2-05-枚举算法.html" class="btn btn-primary" style="background: var(--level2); border-color: var(--level2);">下一课：枚举算法 <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container"><p>蒙知苑·OI · IOI金牌教练教案体系</p></div>
+  </footer>
+
+  <script src="../../../assets/js/main.js"></script>
+  <script src="../../../assets/js/teaching-visuals.js"></script>
+</body>
+</html>

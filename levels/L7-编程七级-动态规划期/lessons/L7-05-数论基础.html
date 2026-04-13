@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L7-05 数论基础 · 蒙知苑·OI</title>
+  <meta name="description" content="学习素数筛、GCD与LCM、快速幂、同余与逆元入门，启动数学工具线。">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../../assets/css/base.css">
+  <link rel="stylesheet" href="../../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../../assets/css/components.css">
+  <link rel="stylesheet" href="../../../assets/css/teaching-visuals.css">
+  <link rel="stylesheet" href="../../../assets/css/level.css">
+  
+  <style>
+    :root { --lv-color: var(--level7); --lv-dim: var(--level7-dim); }
+  </style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels" class="active">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+  
+  <div class="mobile-menu">
+    <a href="../../../philosophy/index.html">教学理念</a>
+    <a href="../../../mainlines/index.html">能力主线</a>
+    <a href="../../../index.html#levels">八级体系</a>
+    <a href="../../../resources/index.html">学习资源</a>
+  </div>
+
+  <div class="lesson-top-info">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../../../index.html">首页</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="../index.html">L7 动态规划期</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>L7-05</span>
+      </div>
+      <div class="lesson-header-row">
+        <div>
+          <h1 class="lesson-title-main">数论基础</h1>
+          <p class="lesson-subtitle">素数筛、GCD与LCM、快速幂、同余与逆元入门</p>
+        </div>
+        <div class="lesson-meta">
+          <div class="meta-item"><i class="fas fa-clock"></i> 10课时</div>
+          <div class="meta-item"><i class="fas fa-calendar"></i> 约2.5周</div>
+          <div class="meta-item"><i class="fas fa-signal"></i> 难度 <span class="difficulty-star"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="main-content">
+    <div class="container">
+
+      <div class="goals-card reveal">
+        <h4><i class="fas fa-bullseye"></i> 本课三维目标</h4>
+        <div class="goals-grid">
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--red-dim); color: var(--red);">知识</span>
+            <span class="goal-text">埃氏筛、欧拉筛、欧几里得算法、快速幂、费马小定理</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--green-dim); color: var(--green);">技能</span>
+            <span class="goal-text">能写出埃氏筛/欧拉筛、GCD、快速幂代码，会用扩展欧几里得求逆元</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--blue-dim); color: var(--blue);">思维</span>
+            <span class="goal-text">建立"数论是算法优化和组合计数的重要工具"的意识</span>
+          </div>
+        </div>
+      </div>
+
+      <section class="reveal">
+        <h2>1. 素数筛</h2>
+        <p>
+          素数筛用于快速找出 1~n 中的所有素数。最基础的是<strong>埃拉托斯特尼筛法（埃氏筛）</strong>。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">埃氏筛</span>
+            <button class="copy-btn" data-clipboard-target="#code1">复制</button>
+          </div>
+          <pre><code id="code1" class="language-cpp">const int MAXN = 1000005;
+bool isPrime[MAXN];
+vector&lt;int&gt; primes;
+
+void sieve(int n) {
+    for (int i = 2; i <= n; i++) isPrime[i] = true;
+    for (int i = 2; i <= n; i++) {
+        if (isPrime[i]) {
+            primes.push_back(i);
+            for (int j = i * 2; j <= n; j += i) {
+                isPrime[j] = false;
+            }
+        }
+    }
+}</code></pre>
+        </div>
+        <p>
+          埃氏筛的时间复杂度是 O(n log log n)。对于大部分竞赛场景已经足够。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>2. 欧拉筛（线性筛）</h2>
+        <p>
+          欧拉筛是每个合数只被它的最小质因子筛一次，因此时间复杂度是严格的 O(n)。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">欧拉筛</span>
+            <button class="copy-btn" data-clipboard-target="#code2">复制</button>
+          </div>
+          <pre><code id="code2" class="language-cpp">void eulerSieve(int n) {
+    for (int i = 2; i <= n; i++) isPrime[i] = true;
+    for (int i = 2; i <= n; i++) {
+        if (isPrime[i]) primes.push_back(i);
+        for (int j = 0; j < primes.size() && i * primes[j] <= n; j++) {
+            isPrime[i * primes[j]] = false;
+            if (i % primes[j] == 0) break;  // 保证只被最小质因子筛到
+        }
+    }
+}</code></pre>
+        </div>
+        <div class="note-box">
+          <p>
+            <strong>L7阶段建议：</strong>埃氏筛必须熟练掌握；欧拉筛作为进阶内容了解。
+            大部分题目中埃氏筛已经够用，但追求极致效率时欧拉筛更优。
+          </p>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>3. GCD与LCM</h2>
+        <p>
+          <strong>GCD（最大公约数）</strong>可以用辗转相除法（欧几里得算法）高效求解。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">GCD与LCM</span>
+            <button class="copy-btn" data-clipboard-target="#code3">复制</button>
+          </div>
+          <pre><code id="code3" class="language-cpp">// 辗转相除法
+long long gcd(long long a, long long b) {
+    return b == 0 ? a : gcd(b, a % b);
+}
+
+// LCM = 两数乘积 / GCD
+long long lcm(long long a, long long b) {
+    return a / gcd(a, b) * b;  // 先除再乘，防止溢出
+}</code></pre>
+        </div>
+        <p>
+          C++17标准库中已经内置了 <code class="inline-code">std::gcd</code>（需要 include &lt;numeric&gt;），
+          但竞赛中手动写一个更安全可靠。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>4. 快速幂</h2>
+        <p>
+          快速幂用于高效计算 <code class="inline-code">a^n mod p</code>，时间复杂度 O(log n)。
+          它的核心思想是二分：把指数不断对半拆分。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">快速幂模板</span>
+            <button class="copy-btn" data-clipboard-target="#code4">复制</button>
+          </div>
+          <pre><code id="code4" class="language-cpp">long long fastPow(long long a, long long n, long long mod) {
+    long long res = 1;
+    a %= mod;
+    while (n > 0) {
+        if (n & 1) res = res * a % mod;
+        a = a * a % mod;
+        n >>= 1;
+    }
+    return res;
+}</code></pre>
+        </div>
+        <p>
+          快速幂在数论、矩阵运算、组合计数中无处不在，是竞赛中的必会技能。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>5. 模逆元入门</h2>
+        <p>
+          在模运算中，除法不像整数那样直接进行。
+          <code class="inline-code">a / b mod p</code> 通常要转化为 <code class="inline-code">a × b⁻¹ mod p</code>，
+          其中 <code class="inline-code">b⁻¹</code> 叫做 b 在模 p 下的<strong>逆元</strong>。
+        </p>
+        <p>
+          当 p 是质数时，根据<strong>费马小定理</strong>：
+          <code class="inline-code">b⁻¹ ≡ b^(p-2) (mod p)</code>
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">费马小定理求逆元</span>
+            <button class="copy-btn" data-clipboard-target="#code5">复制</button>
+          </div>
+          <pre><code id="code5" class="language-cpp">// 当mod为质数时，求a在模mod下的逆元
+long long modInverse(long long a, long long mod) {
+    return fastPow(a, mod - 2, mod);
+}</code></pre>
+        </div>
+        <p>
+          逆元是组合数学中"除法取模"的核心工具，也是后续学习组合数、概率DP的基础。
+        </p>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="reveal">
+        <h2>IOI教练常见教学陷阱</h2>
+        <div class="traps-grid">
+          <div class="trap-card">
+            <div class="trap-title">陷阱1：筛法数组开太小或类型错误</div>
+            <p class="trap-desc">
+              筛法需要开到n+5的大小。如果n是10^6，数组必须开到1000005以上。
+              另外isPrime应该用bool或vector&lt;bool&gt;，不要用int浪费空间。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱2：LCM先乘后除导致溢出</div>
+            <p class="trap-desc">
+              计算LCM时应该 <code class="inline-code">a / gcd(a,b) * b</code>，而不是 <code class="inline-code">a * b / gcd</code>。
+              否则a*b可能先溢出。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱3：模逆元的前提条件不满足</div>
+            <p class="trap-desc">
+              费马小定理求逆元要求模数是质数，且a与模数互质。
+              如果模数不是质数，需要用扩展欧几里得算法。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>课后练习题</h2>
+        <div class="exercise-list">
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">1</span>
+              <h4 class="exercise-title">素数判断与筛法</h4>
+              <span class="exercise-tag easy">入门</span>
+            </div>
+            <p>用埃氏筛找出1~10^6中的所有素数，并回答q次查询：判断某个数是否为素数。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">2</span>
+              <h4 class="exercise-title">GCD与LCM</h4>
+              <span class="exercise-tag easy">入门</span>
+            </div>
+            <p>给定两个正整数，输出它们的最大公约数和最小公倍数。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">3</span>
+              <h4 class="exercise-title">快速幂</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>计算 a^b mod p，其中 a,b,p 都很大（b 可达 10^9）。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">4</span>
+              <h4 class="exercise-title">模意义下的除法</h4>
+              <span class="exercise-tag hard">挑战</span>
+            </div>
+            <p>给定 a, b 和质数 p，计算 (a / b) mod p。要求用逆元实现。</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="checklist-box reveal">
+        <h4><i class="fas fa-clipboard-check"></i> 本课自测清单</h4>
+        <ul>
+          <li>能独立写出埃氏筛代码</li>
+          <li>理解欧拉筛"只被最小质因子筛"的优化原理</li>
+          <li>能独立写出辗转相除法求GCD</li>
+          <li>能独立写出快速幂代码</li>
+          <li>理解逆元的概念，能在模为质数时用费马小定理求逆元</li>
+          <li class="blocker">如果任何一条不满足，不要进入L8综合期</li>
+        </ul>
+      </div>
+
+      <div class="lesson-nav reveal">
+        <a href="L7-04-字符串匹配.html" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> 上一课：字符串匹配
+        </a>
+        <a href="../index.html" class="btn btn-primary" style="background: var(--level7); border-color: var(--level7);">
+          返回L7首页 <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container">
+      <div class="footer-links">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+    </div>
+  </footer>
+
+  <script src="../../../assets/js/main.js"></script>
+</body>
+</html>

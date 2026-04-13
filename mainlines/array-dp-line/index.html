@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>数组DP线 · 蒙知苑·OI</title>
+  <meta name="description" content="数组DP线详情：从L3启动，贯穿到L8，数组思维与动态规划的长线培养。">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../assets/css/base.css">
+  <link rel="stylesheet" href="../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../assets/css/components.css">
+  <link rel="stylesheet" href="../../assets/css/mainline.css">
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../philosophy/index.html">教学理念</a>
+        <a href="../index.html" class="active">能力主线</a>
+        <a href="../../index.html#levels">八级体系</a>
+        <a href="../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+  
+  <div class="mobile-menu">
+    <a href="../../philosophy/index.html">教学理念</a>
+    <a href="../index.html">能力主线</a>
+    <a href="../../index.html#levels">八级体系</a>
+    <a href="../../resources/index.html">学习资源</a>
+  </div>
+
+  <header class="page-header">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../../index.html">首页</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="../index.html">能力主线</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>数组DP线</span>
+      </div>
+      <div class="page-tag" style="color: var(--level1);">
+        <i class="fas fa-table"></i> 能力主线 · 数组DP线
+      </div>
+      <h1 class="page-title">数组DP线</h1>
+      <p class="page-desc">
+        从L3启动，贯穿到L8——数组思维与动态规划的长线培养。
+        这是时间跨度最长的能力主线。
+      </p>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container">
+
+      <div class="coach-quote reveal">
+        <p>
+          数组DP线可能是<strong>最被低估的能力主线</strong>。
+          很多家长和学生觉得"数组很简单"，但真正的数组思维（下标意识、空间换时间、状态表示）需要长期培养。
+        </p>
+        <p style="margin-bottom: 0;">
+          GESP官方把前缀和放在L7，但我的实践表明：前缀和必须在L3与一维数组<strong>同步教</strong>。
+          晚教16周，就失去了培养数组思维的黄金窗口期。
+        </p>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2 class="reveal">为什么数组DP线必须从L3启动？</h2>
+      
+      <div class="reveal">
+        <h3>1. 下标思维的关键期</h3>
+        <p>L3是建立"下标意识"的最佳时期：</p>
+        <ul>
+          <li>学生刚接触数组，还没有形成固定思维</li>
+          <li>可以同时建立"数组+下标操作"的完整认知</li>
+          <li>前缀和、桶计数等思想可以自然融入</li>
+        </ul>
+        <p>如果等到L7再学前缀和，学生的数组思维已经固化，很难接受新的操作方式。</p>
+      </div>
+
+      <div class="reveal">
+        <h3>2. 与GESP官方的对比</h3>
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>内容</th>
+              <th>GESP官方</th>
+              <th>本体系</th>
+              <th>差异影响</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>前缀和</td>
+              <td class="highlight-bad">L7</td>
+              <td class="highlight-good">L3同步</td>
+              <td>提前16周，与数组结合</td>
+            </tr>
+            <tr>
+              <td>桶计数</td>
+              <td class="highlight-bad">L5</td>
+              <td class="highlight-good">L3同步</td>
+              <td>建立空间换时间思维</td>
+            </tr>
+            <tr>
+              <td>一维DP</td>
+              <td>L6</td>
+              <td>L6</td>
+              <td>相同</td>
+            </tr>
+            <tr>
+              <td>二维DP</td>
+              <td>L7</td>
+              <td>L7</td>
+              <td>相同</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2 class="reveal">数组DP线的发展阶段</h2>
+      
+      <div class="mainline-timeline-detail reveal">
+        <div class="timeline-stage active">
+          <div class="timeline-stage-marker" style="border-color: var(--level3); color: var(--level3);">L3</div>
+          <div class="timeline-stage-content">
+            <div class="timeline-stage-header">
+              <span class="timeline-stage-title">数组初识期</span>
+              <span class="timeline-stage-badge" style="background: var(--level3-dim); color: var(--level3);">启动</span>
+            </div>
+            <div class="timeline-stage-desc">
+              <strong>核心内容：</strong>
+              <ul style="margin: var(--sp-2) 0;">
+                <li>一维数组基础操作</li>
+                <li>下标遍历（正序、逆序）</li>
+                <li><strong>前缀和初步</strong>（同步教）</li>
+                <li><strong>桶计数</strong>（频率统计）</li>
+              </ul>
+              <strong>思维目标：</strong>建立"数组是下标到值的映射"的意识
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-stage active">
+          <div class="timeline-stage-marker" style="border-color: var(--level4); color: var(--level4);">L4</div>
+          <div class="timeline-stage-content">
+            <div class="timeline-stage-header">
+              <span class="timeline-stage-title">数组深化期</span>
+              <span class="timeline-stage-badge" style="background: var(--level4-dim); color: var(--level4);">深化</span>
+            </div>
+            <div class="timeline-stage-desc">
+              <strong>核心内容：</strong>
+              <ul style="margin: var(--sp-2) 0;">
+                <li>二维数组</li>
+                <li>前缀和应用（区间求和）</li>
+                <li>差分数组初步</li>
+                <li>数组与函数结合</li>
+              </ul>
+              <strong>思维目标：</strong>理解"空间换时间"的思想
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-stage active">
+          <div class="timeline-stage-marker" style="border-color: var(--level5); color: var(--level5);">L5</div>
+          <div class="timeline-stage-content">
+            <div class="timeline-stage-header">
+              <span class="timeline-stage-title">递推入门期</span>
+              <span class="timeline-stage-badge" style="background: var(--level5-dim); color: var(--level5);">过渡</span>
+            </div>
+            <div class="timeline-stage-desc">
+              <strong>核心内容：</strong>
+              <ul style="margin: var(--sp-2) 0;">
+                <li>递推思想（斐波那契、阶乘）</li>
+                <li>递推与递归的对比</li>
+                <li>数组存储中间结果</li>
+              </ul>
+              <strong>思维目标：</strong>从递归走向DP的过渡
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-stage active">
+          <div class="timeline-stage-marker" style="border-color: var(--level6); color: var(--level6);">L6</div>
+          <div class="timeline-stage-content">
+            <div class="timeline-stage-header">
+              <span class="timeline-stage-title">一维DP期</span>
+              <span class="timeline-stage-badge" style="background: var(--level6-dim); color: var(--level6);">分水岭</span>
+            </div>
+            <div class="timeline-stage-desc">
+              <strong>核心内容：</strong>
+              <ul style="margin: var(--sp-2) 0;">
+                <li>DP三要素：状态、转移、初值</li>
+                <li>线性DP（最长递增子序列）</li>
+                <li>背包问题初步</li>
+              </ul>
+              <strong>思维目标：</strong>建立"状态表示"的核心思维
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-stage active">
+          <div class="timeline-stage-marker" style="border-color: var(--level7); color: var(--level7);">L7</div>
+          <div class="timeline-stage-content">
+            <div class="timeline-stage-header">
+              <span class="timeline-stage-title">二维DP期</span>
+              <span class="timeline-stage-badge" style="background: var(--level7-dim); color: var(--level7);">高级</span>
+            </div>
+            <div class="timeline-stage-desc">
+              <strong>核心内容：</strong>
+              <ul style="margin: var(--sp-2) 0;">
+                <li>二维DP（最长公共子序列）</li>
+                <li>区间DP</li>
+                <li>DP与图论结合</li>
+              </ul>
+              <strong>思维目标：</strong>多维状态表示
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-stage active">
+          <div class="timeline-stage-marker" style="border-color: var(--level8); color: var(--level8);">L8</div>
+          <div class="timeline-stage-content">
+            <div class="timeline-stage-header">
+              <span class="timeline-stage-title">DP优化期</span>
+              <span class="timeline-stage-badge" style="background: var(--level8-dim); color: var(--level8);">精通</span>
+            </div>
+            <div class="timeline-stage-desc">
+              <strong>核心内容：</strong>
+              <ul style="margin: var(--sp-2) 0;">
+                <li>状态压缩DP</li>
+                <li>滚动数组优化</li>
+                <li>单调队列优化</li>
+              </ul>
+              <strong>思维目标：</strong>空间与时间的平衡艺术
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2 class="reveal">核心思维：从数组到DP</h2>
+      
+      <div class="reveal">
+        <div class="three-pass-detail">
+          <div class="pass-card" data-pass="阶段1">
+            <h4>数组思维</h4>
+            <p>下标是钥匙，值是宝藏。学会用下标操作数组。</p>
+            <div class="pass-example">
+              <strong>关键技能</strong>
+              遍历、筛选、统计、前缀和
+            </div>
+          </div>
+          <div class="pass-card" data-pass="阶段2">
+            <h4>递推思维</h4>
+            <p>当前值由前面的值推导而来。建立递推关系。</p>
+            <div class="pass-example">
+              <strong>关键技能</strong>
+              找递推式、存储中间结果
+            </div>
+          </div>
+          <div class="pass-card" data-pass="阶段3">
+            <h4>DP思维</h4>
+            <p>状态表示 + 状态转移。用数组存储最优解。</p>
+            <div class="pass-example">
+              <strong>关键技能</strong>
+              设计状态、写转移方程
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2 class="reveal">常见问题</h2>
+      
+      <div class="reveal">
+        <h3>Q1：前缀和为什么要在L3教？</h3>
+        <p>前缀和的本质是"空间换时间"，用O(n)空间换取O(1)区间查询。这个思想越早建立越好。L3学生刚学数组，还没有形成"只存原始数据"的定式，容易接受"数组可以存衍生数据"的思维。</p>
+      </div>
+
+      <div class="reveal">
+        <h3>Q2：桶计数和数组有什么关系？</h3>
+        <p>桶计数就是数组的经典应用：用下标表示数值，用值表示频率。这是"下标思维"的最佳训练。学生学会桶计数后，看到频率统计题就能秒想到数组。</p>
+      </div>
+
+      <div class="reveal">
+        <h3>Q3：DP和递归有什么关系？</h3>
+        <p>DP和递归是同一枚硬币的两面。递归是"自顶向下"，DP是"自底向上"。L5-L6的阶段就是把递归思维转化为DP思维的过程。两条主线在这里交汇。</p>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; margin-top: var(--sp-8);">
+        <a href="../recursion-line/index.html" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> 上一条：递归线
+        </a>
+        <a href="../sort-divide-line/index.html" class="btn btn-primary">
+          下一条：排序分治线 <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container">
+      <div class="footer-links">
+        <a href="../../philosophy/index.html">教学理念</a>
+        <a href="../index.html">能力主线</a>
+        <a href="../../index.html#levels">八级体系</a>
+        <a href="../../resources/index.html">学习资源</a>
+      </div>
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+    </div>
+  </footer>
+
+  <script src="../../assets/js/main.js"></script>
+</body>
+</html>

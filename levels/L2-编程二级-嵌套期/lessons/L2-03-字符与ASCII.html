@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L2-03 字符与ASCII · 蒙知苑·OI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../../assets/css/base.css">
+  <link rel="stylesheet" href="../../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../../assets/css/components.css">
+  <link rel="stylesheet" href="../../../assets/css/teaching-visuals.css">
+  <link rel="stylesheet" href="../../../assets/css/level.css">
+  <style>:root { --lv-color: var(--level2); --lv-dim: var(--level2-dim); }</style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels" class="active">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="container">
+      <header class="lesson-header">
+        <div class="breadcrumb">
+          <a href="../../../index.html">首页</a>
+          <i class="fas fa-chevron-right"></i>
+          <a href="../index.html">L2 编程嵌套期</a>
+          <i class="fas fa-chevron-right"></i>
+          <span>第3课</span>
+        </div>
+        <h1 style="color: var(--level2);">L2-03 字符与ASCII</h1>
+        <div class="lesson-meta">
+          <span><i class="fas fa-clock"></i> 6课时（270分钟）</span>
+          <span><i class="fas fa-tag"></i> L2核心</span>
+        </div>
+      </header>
+
+      <div class="lesson-section reveal">
+        <h2>教学目标</h2>
+        <div class="goal-list">
+          <h4><i class="fas fa-bullseye"></i> 知识目标</h4>
+          <ul>
+            <li>理解字符的本质是整数（ASCII编码）</li>
+            <li>掌握常见字符的ASCII码范围</li>
+            <li>理解字符可以进行数学运算</li>
+          </ul>
+        </div>
+        <div class="goal-list">
+          <h4><i class="fas fa-tools"></i> 技能目标</h4>
+          <ul>
+            <li>能进行大小写转换</li>
+            <li>能判断字符类型（字母/数字/空格）</li>
+            <li>能利用ASCII码进行字符运算</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>字符的本质：披着字符外衣的数字</h2>
+        <div class="coach-quote">
+          <p>在计算机看来，'A' 和 65 没有本质区别。'A' 只是 65 的一种显示方式。</p>
+          <p style="margin-bottom: 0;">这就是 ASCII 编码的核心思想：<strong>每个字符都对应一个唯一的整数</strong>。</p>
+        </div>
+
+        <h3>常见ASCII码</h3>
+        <table class="compare-table">
+          <thead>
+            <tr><th>字符</th><th>ASCII码</th><th>说明</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>'0' ~ '9'</td><td>48 ~ 57</td><td>数字字符</td></tr>
+            <tr><td>'A' ~ 'Z'</td><td>65 ~ 90</td><td>大写字母</td></tr>
+            <tr><td>'a' ~ 'z'</td><td>97 ~ 122</td><td>小写字母</td></tr>
+            <tr><td>' '</td><td>32</td><td>空格</td></tr>
+            <tr><td>'\n'</td><td>10</td><td>换行符</td></tr>
+          </tbody>
+        </table>
+
+        <h3>内存布局可视化</h3>
+        <div data-type="memory" data-memory='[
+          {"addr": "0x1000", "cells": ["41", "00", "00", "00"], "var": "char c = A; (ASCII 65)", "changed": [0]},
+          {"addr": "0x1004", "cells": ["61", "00", "00", "00"], "var": "char d = a; (ASCII 97)", "changed": [0]}
+        ]'></div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>字符运算</h2>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">C++</span>
+            <button class="code-copy"><i class="fas fa-copy"></i></button>
+          </div>
+          <pre><code>// 大小写转换
+char lower = 'a' - 32;    // lower = 'A'
+char upper = 'A' + 32;    // upper = 'a'
+
+// 数字字符转整数
+char c = '5';
+int num = c - '0';        // num = 5
+
+// 整数转数字字符
+int n = 7;
+char ch = n + '0';        // ch = '7'
+
+// 判断字符类型
+char x;
+cin >> x;
+if (x >= 'A' && x <= 'Z') {
+    cout << "大写字母" << endl;
+} else if (x >= 'a' && x <= 'z') {
+    cout << "小写字母" << endl;
+} else if (x >= '0' && x <= '9') {
+    cout << "数字" << endl;
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>IOI教练视角</h2>
+        <div class="trap-box">
+          <div class="trap-title"><i class="fas fa-exclamation-triangle"></i> 陷阱：把数字字符当成整数</div>
+          <p>初学者常犯的错误：把 '5' 当成 5 参与运算。'5' 的 ASCII 值是 53，不是 5。要得到 5，必须做 '5' - '0'。</p>
+        </div>
+        <div class="coach-quote">
+          <p style="margin-bottom: 0;"><strong>长线思维：</strong>L2学的字符运算是 L3 字符串处理、L4 字符数组、L6-L7 字符串算法的基础。这里不扎实，后面会处处卡壳。</p>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>练习设计</h2>
+        <div class="goal-list">
+          <h4><i class="fas fa-dumbbell"></i> 基础练习</h4>
+          <ul>
+            <li>输入一个字符，如果是大写字母则转为小写，反之转为大写</li>
+            <li>输入一个数字字符，输出它对应的整数值</li>
+            <li>输出 'A' 到 'Z' 的所有字母</li>
+          </ul>
+        </div>
+        <div class="goal-list">
+          <h4><i class="fas fa-rocket"></i> 提高练习</h4>
+          <ul>
+            <li>输入一个字符，判断它是字母、数字还是其他字符</li>
+            <li>输入一个字母，输出它在字母表中的位置（A=1, B=2...）</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>自查清单</h2>
+        <div class="checklist-box">
+          <h4><i class="fas fa-check-square"></i> 本课自查</h4>
+          <ul>
+            <li>知道 'A'、'a'、'0' 的 ASCII 码</li>
+            <li>能进行大小写转换</li>
+            <li>能把数字字符和整数值相互转换</li>
+            <li>能判断字符的类型</li>
+            <li class="blocker">如果没有完成以上检查项，不要进入下一课</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lesson-nav reveal">
+        <a href="L2-02-循环控制-break-continue.html" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> 上一课</a>
+        <a href="L2-04-字符串基础.html" class="btn btn-primary" style="background: var(--level2); border-color: var(--level2);">下一课：字符串基础 <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container"><p>蒙知苑·OI · IOI金牌教练教案体系</p></div>
+  </footer>
+
+  <script src="../../../assets/js/main.js"></script>
+  <script src="../../../assets/js/teaching-visuals.js"></script>
+</body>
+</html>

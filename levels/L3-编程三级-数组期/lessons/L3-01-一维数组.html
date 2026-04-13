@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L3-01 一维数组 · 蒙知苑·OI</title>
+  <meta name="description" content="学习C++一维数组的声明、初始化、遍历，建立下标思维，掌握数组的经典应用。">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../../assets/css/base.css">
+  <link rel="stylesheet" href="../../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../../assets/css/components.css">
+  <link rel="stylesheet" href="../../../assets/css/teaching-visuals.css">
+  <link rel="stylesheet" href="../../../assets/css/level.css">
+  
+  <style>
+    :root { --lv-color: var(--level3); --lv-dim: var(--level3-dim); }
+  </style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels" class="active">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+  
+  <div class="mobile-menu">
+    <a href="../../../philosophy/index.html">教学理念</a>
+    <a href="../../../mainlines/index.html">能力主线</a>
+    <a href="../../../index.html#levels">八级体系</a>
+    <a href="../../../resources/index.html">学习资源</a>
+  </div>
+
+  <div class="lesson-top-info">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../../../index.html">首页</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="../index.html">L3 数组期</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>L3-01</span>
+      </div>
+      <div class="lesson-header-row">
+        <div>
+          <h1 class="lesson-title-main">一维数组</h1>
+          <p class="lesson-subtitle">数组声明、初始化、遍历、下标操作、经典应用</p>
+        </div>
+        <div class="lesson-meta">
+          <div class="meta-item"><i class="fas fa-clock"></i> 10课时</div>
+          <div class="meta-item"><i class="fas fa-calendar"></i> 约2.5周</div>
+          <div class="meta-item"><i class="fas fa-signal"></i> 难度 <span class="difficulty-star"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="main-content">
+    <div class="container">
+
+      <div class="goals-card reveal">
+        <h4><i class="fas fa-bullseye"></i> 本课三维目标</h4>
+        <div class="goals-grid">
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--red-dim); color: var(--red);">知识</span>
+            <span class="goal-text">数组定义、初始化、越界概念、for循环遍历数组</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--green-dim); color: var(--green);">技能</span>
+            <span class="goal-text">能独立用数组存储并处理批量数据（如学生成绩）</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--blue-dim); color: var(--blue);">思维</span>
+            <span class="goal-text">建立"下标思维"，理解数组与循环的天然配合关系</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="coach-quote reveal">
+        <p>
+          数组不是C++的语法点，而是<strong>从单点数据到批量数据</strong>的思维升级。
+        </p>
+        <p style="margin-bottom: 0;">
+          很多学生记住 <code class="inline-code">int a[10];</code> 的写法，但遇到问题还是用10个变量。
+          这一课的核心不是语法，而是<strong>下标意识</strong>。
+        </p>
+      </div>
+
+      <section class="reveal">
+        <h2>1. 为什么需要数组？</h2>
+        <p>
+          假设我们要存储100个学生的成绩。如果没有数组：
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">不用数组的写法</span>
+            <button class="copy-btn" data-clipboard-target="#code1">复制</button>
+          </div>
+          <pre><code id="code1" class="language-cpp">int score1, score2, score3, score4, score5; // ... 写到 score100？
+cin >> score1 >> score2 >> score3; // 输入 nightmare
+int sum = score1 + score2 + score3; // 计算 nightmare</code></pre>
+        </div>
+        <p>而有了数组，一切都变得自然：</p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">用数组的写法</span>
+            <button class="copy-btn" data-clipboard-target="#code2">复制</button>
+          </div>
+          <pre><code id="code2" class="language-cpp">int score[100];
+for (int i = 0; i < 100; i++) {
+    cin >> score[i];
+}
+int sum = 0;
+for (int i = 0; i < 100; i++) {
+    sum += score[i];
+}</code></pre>
+        </div>
+        <p>
+          <strong>数组的本质</strong>：把一批<strong>同类型</strong>的数据，用<strong>连续的编号（下标）</strong>管理起来。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>2. 数组的声明与初始化</h2>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">数组基本操作</span>
+            <button class="copy-btn" data-clipboard-target="#code3">复制</button>
+          </div>
+          <pre><code id="code3" class="language-cpp">// 声明：类型 数组名[元素个数];
+int a[5];           // 5个整数，初始值不确定
+
+// 初始化方式
+int b[5] = {1, 2, 3, 4, 5};  // 全部初始化
+int c[5] = {1, 2};           // 前两个赋值，其余为0
+int d[] = {1, 2, 3};         // 编译器自动算大小为3
+
+// 全部清零的常用写法
+int e[100] = {0};            // 第一个显式为0，其余自动补0</code></pre>
+        </div>
+        <div class="note-box warning">
+          <p>
+            <strong>注意：</strong>C++中数组大小必须是<strong>常量</strong>（编译期确定），不能用变量直接定义。
+            如果需要变长数组，在GESP考级中会涉及 <code class="inline-code">vector</code>，但基础阶段先掌握静态数组。
+          </p>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>3. 数组在内存中的样子</h2>
+        <p>数组元素在内存中是<strong>连续存放</strong>的，每个元素占据相同的字节数：</p>
+        <div class="visual-demo" data-type="memory" data-memory='[
+          {"addr":"0x1000","cells":["10","","",""],"var":"a[0]","changed":[0]},
+          {"addr":"0x1004","cells":["20","","",""],"var":"a[1]","changed":[0]},
+          {"addr":"0x1008","cells":["30","","",""],"var":"a[2]","changed":[0]},
+          {"addr":"0x100C","cells":["40","","",""],"var":"a[3]","changed":[0]},
+          {"addr":"0x1010","cells":["50","","",""],"var":"a[4]","changed":[0]}
+        ]'></div>
+        <p>
+          这就是为什么 <code class="inline-code">a[i]</code> 的计算可以瞬间完成：
+          <code class="inline-code">起始地址 + i × sizeof(int)</code>。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>4. 下标思维：数组的灵魂</h2>
+        <p>
+          所谓"下标思维"，就是<strong>用编号来思考问题</strong>。例如：
+        </p>
+        <ul>
+          <li>第 <code class="inline-code">i</code> 个学生的成绩 → <code class="inline-code">score[i]</code></li>
+          <li>数字 <code class="inline-code">x</code> 出现了几次 → <code class="inline-code">cnt[x]++</code>（桶计数思想）</li>
+          <li>第 <code class="inline-code">i</code> 天走了多少步 → <code class="inline-code">step[i]</code></li>
+        </ul>
+        <div class="note-box">
+          <p>
+            <strong>教练视角：</strong>很多学生做题时，会写 <code class="inline-code">a, b, c, d, e</code> 分别代表周一到周五。
+            这本质上还是"变量思维"。真正学会数组的学生，会第一反应写 <code class="inline-code">a[5]</code> 并用下标表示星期几。
+          </p>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>5. 经典应用：桶计数</h2>
+        <p>
+          桶计数是数组最经典的用法之一，也是数组DP线和搜索线的重要基础。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">统计每个数字出现的次数</span>
+            <button class="copy-btn" data-clipboard-target="#code4">复制</button>
+          </div>
+          <pre><code id="code4" class="language-cpp">int cnt[101] = {0}; // 假设数字范围是 0~100
+int n;
+cin >> n;
+for (int i = 0; i < n; i++) {
+    int x;
+    cin >> x;
+    cnt[x]++; // 用数字本身当下标！
+}
+for (int i = 0; i <= 100; i++) {
+    if (cnt[i] > 0) {
+        cout << i << " 出现了 " << cnt[i] << " 次" << endl;
+    }
+}</code></pre>
+        </div>
+        <div class="visual-demo" data-type="memory" data-memory='[
+          {"addr":"cnt[0]","cells":["0","","",""],"var":"0出现0次"},
+          {"addr":"cnt[1]","cells":["3","","",""],"var":"1出现3次","changed":[0]},
+          {"addr":"cnt[2]","cells":["0","","",""],"var":"2出现0次"},
+          {"addr":"cnt[3]","cells":["1","","",""],"var":"3出现1次","changed":[0]},
+          {"addr":"cnt[4]","cells":["2","","",""],"var":"4出现2次","changed":[0]}
+        ]'></div>
+        <p>
+          <code class="inline-code">cnt[x]++</code> 这行代码，是无数高级算法的起点。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>6. 遍历数组的常见模式</h2>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">数组遍历四大模板</span>
+            <button class="copy-btn" data-clipboard-target="#code5">复制</button>
+          </div>
+          <pre><code id="code5" class="language-cpp">// 1. 顺序遍历
+for (int i = 0; i < n; i++) { ... a[i] ... }
+
+// 2. 逆序遍历
+for (int i = n - 1; i >= 0; i--) { ... a[i] ... }
+
+// 3. 同时访问两个位置
+for (int i = 0; i < n / 2; i++) {
+    swap(a[i], a[n - 1 - i]); // 数组翻转
+}
+
+// 4. 滑动窗口（为后续课程做铺垫）
+for (int i = 0; i < k; i++) { ... }
+for (int i = k; i < n; i++) {
+    // 移除 a[i-k]，加入 a[i]
+}</code></pre>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="reveal">
+        <h2>IOI教练常见教学陷阱</h2>
+        <div class="traps-grid">
+          <div class="trap-card">
+            <div class="trap-title">陷阱1：死记硬背下标从0开始</div>
+            <p class="trap-desc">
+              学生容易背"下标从0开始"却不知道为什么。要告诉他们：下标代表的是<strong>偏移量</strong>，
+              第0个元素偏移0字节，第1个元素偏移4字节（int），这样计算机才能用加法直接算出地址。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱2：数组和变量混用</div>
+            <p class="trap-desc">
+              很多题目明明可以一个数组解决，学生偏偏写5个变量。遇到这类情况要刻意追问：
+              "如果数据变成100个，你的代码还写得完吗？"
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱3：一学数组就讲排序</div>
+            <p class="trap-desc">
+              排序算法（冒泡、选择）应该在L4分治线系统讲。L3的重点是<strong>下标意识</strong>和<strong>基础操作</strong>，
+              过早引入排序会分散注意力。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>课后练习题</h2>
+        <div class="exercise-list">
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">1</span>
+              <h4 class="exercise-title">数组求和与平均值</h4>
+              <span class="exercise-tag easy">入门</span>
+            </div>
+            <p>读入 n 个整数，计算它们的总和与平均值。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">2</span>
+              <h4 class="exercise-title">找最大值及下标</h4>
+              <span class="exercise-tag easy">入门</span>
+            </div>
+            <p>读入 n 个整数，找出最大值以及它第一次出现的下标。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">3</span>
+              <h4 class="exercise-title">桶计数：统计票数</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>n 个人投票，候选人编号 1~10。统计每个候选人得票数，输出票数最高者。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">4</span>
+              <h4 class="exercise-title">数组翻转</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>读入 n 个整数，将其顺序翻转后输出。要求在原数组上操作，不能借助第二个数组。</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="checklist-box reveal">
+        <h4><i class="fas fa-clipboard-check"></i> 本课自测清单</h4>
+        <ul>
+          <li>能写出 <code class="inline-code">int a[10] = {0};</code> 并解释含义</li>
+          <li>能用 for 循环顺序和逆序遍历数组</li>
+          <li>理解为什么数组下标从0开始（偏移量思维）</li>
+          <li>看到"统计出现次数"类题目，能第一反应想到桶计数</li>
+          <li>能独立完成"数组翻转"代码</li>
+          <li class="blocker">如果任何一条不满足，不要进入L3-02二维数组</li>
+        </ul>
+      </div>
+
+      <div class="lesson-nav reveal">
+        <a href="../index.html" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> 返回L3首页
+        </a>
+        <a href="L3-02-二维数组.html" class="btn btn-primary" style="background: var(--level3); border-color: var(--level3);">
+          下一课：二维数组 <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container">
+      <div class="footer-links">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+    </div>
+  </footer>
+
+  <script src="../../../assets/js/main.js"></script>
+</body>
+</html>

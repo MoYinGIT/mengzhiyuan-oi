@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L3 编程三级数组期 · 蒙知苑·OI</title>
+  <meta name="description" content="L3编程三级数组期：48课时，学习数组、下标思维、递归预热、前缀和。">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../assets/css/base.css">
+  <link rel="stylesheet" href="../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../assets/css/components.css">
+  <link rel="stylesheet" href="../../assets/css/teaching-visuals.css">
+  <link rel="stylesheet" href="../../assets/css/level.css">
+  
+  <style>
+    :root { --lv-color: var(--level3); --lv-dim: var(--level3-dim); }
+  </style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../philosophy/index.html">教学理念</a>
+        <a href="../../mainlines/index.html">能力主线</a>
+        <a href="../../index.html#levels" class="active">八级体系</a>
+        <a href="../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+  
+  <div class="mobile-menu">
+    <a href="../../philosophy/index.html">教学理念</a>
+    <a href="../../mainlines/index.html">能力主线</a>
+    <a href="../../index.html#levels">八级体系</a>
+    <a href="../../resources/index.html">学习资源</a>
+  </div>
+
+  <header class="lv-hero">
+    <div class="container">
+      <div class="breadcrumb" style="justify-content: center;">
+        <a href="../../index.html">首页</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>八级体系</span>
+      </div>
+      <div class="lv-badge" style="border-color: var(--level3); color: var(--level3);">
+        <i class="fas fa-table"></i> 编程数组期
+      </div>
+      <h1 class="lv-title">L3 编程三级数组期</h1>
+      <p style="color: var(--fg-muted); max-width: 600px; margin: 0 auto;">
+        学习数组、建立下标思维、前缀和同步教学——这是从"单个数据"到"批量数据"的关键转折点
+      </p>
+      <div class="lv-stats">
+        <div class="lv-stat">
+          <div class="lv-stat-num">48</div>
+          <div class="lv-stat-label">总课时</div>
+        </div>
+        <div class="lv-stat">
+          <div class="lv-stat-num">12</div>
+          <div class="lv-stat-label">学习周数</div>
+        </div>
+        <div class="lv-stat">
+          <div class="lv-stat-num">5</div>
+          <div class="lv-stat-label">核心知识点</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container">
+
+      <div class="coach-quote reveal">
+        <p>
+          L3是整个教学体系中<strong>最重要的分水岭</strong>之一。
+        </p>
+        <p>
+          L1-L2处理的是单个数据，而L3开始处理批量数据。数组不仅是新语法，更是一种全新的思维方式——<strong>下标思维</strong>。
+        </p>
+        <p style="margin-bottom: 0;">
+          我看到太多学生，L3时 rushed，没有真正建立下标意识，到L4-L5学函数、递归时完全跟不上。
+          L3的数组思维，决定了学生能否走竞赛这条路。
+        </p>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2 class="reveal">核心知识点</h2>
+      <div class="lv-topics reveal">
+        <a href="lessons/L3-01-一维数组.html" class="lv-topic-card">
+          <div class="lv-topic-icon"><i class="fas fa-ellipsis-h"></i></div>
+          <div class="lv-topic-title">一维数组</div>
+          <div class="lv-topic-desc">数组声明、初始化、遍历、下标操作、经典应用</div>
+          <div class="lv-topic-meta">
+            <span><i class="fas fa-clock"></i> 10课时</span>
+            <span><i class="fas fa-book"></i> 第1课</span>
+          </div>
+        </a>
+        <a href="lessons/L3-02-二维数组.html" class="lv-topic-card">
+          <div class="lv-topic-icon"><i class="fas fa-th"></i></div>
+          <div class="lv-topic-title">二维数组</div>
+          <div class="lv-topic-desc">矩阵存储、行列遍历、二维下标思维</div>
+          <div class="lv-topic-meta">
+            <span><i class="fas fa-clock"></i> 8课时</span>
+            <span><i class="fas fa-book"></i> 第2课</span>
+          </div>
+        </a>
+        <a href="lessons/L3-03-数组越界与内存.html" class="lv-topic-card">
+          <div class="lv-topic-icon"><i class="fas fa-memory"></i></div>
+          <div class="lv-topic-title">数组越界与内存</div>
+          <div class="lv-topic-desc">数组内存模型、越界危害、内存安全意识</div>
+          <div class="lv-topic-meta">
+            <span><i class="fas fa-clock"></i> 8课时</span>
+            <span><i class="fas fa-book"></i> 第3课</span>
+          </div>
+        </a>
+        <a href="lessons/L3-04-前缀和.html" class="lv-topic-card">
+          <div class="lv-topic-icon"><i class="fas fa-chart-line"></i></div>
+          <div class="lv-topic-title">前缀和</div>
+          <div class="lv-topic-desc">前缀和定义、预处理、区间查询、与数组同步教</div>
+          <div class="lv-topic-meta">
+            <span><i class="fas fa-clock"></i> 10课时</span>
+            <span><i class="fas fa-book"></i> 第4课</span>
+          </div>
+        </a>
+        <a href="lessons/L3-05-简单DP入门.html" class="lv-topic-card">
+          <div class="lv-topic-icon"><i class="fas fa-project-diagram"></i></div>
+          <div class="lv-topic-title">简单DP入门</div>
+          <div class="lv-topic-desc">递推思想、数组存储状态、斐波那契、爬楼梯</div>
+          <div class="lv-topic-meta">
+            <span><i class="fas fa-clock"></i> 12课时</span>
+            <span><i class="fas fa-book"></i> 第5课</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2 class="reveal">课时列表</h2>
+      <div class="lesson-list reveal">
+        <a href="lessons/L3-01-一维数组.html" class="lesson-item">
+          <div class="lesson-num">01</div>
+          <div class="lesson-content">
+            <div class="lesson-title">一维数组</div>
+            <div class="lesson-desc">数组声明、初始化、遍历、下标操作、经典应用</div>
+          </div>
+          <div class="lesson-hours">10课时</div>
+        </a>
+        <a href="lessons/L3-02-二维数组.html" class="lesson-item">
+          <div class="lesson-num">02</div>
+          <div class="lesson-content">
+            <div class="lesson-title">二维数组</div>
+            <div class="lesson-desc">矩阵存储、行列遍历、二维下标思维</div>
+          </div>
+          <div class="lesson-hours">8课时</div>
+        </a>
+        <a href="lessons/L3-03-数组越界与内存.html" class="lesson-item">
+          <div class="lesson-num">03</div>
+          <div class="lesson-content">
+            <div class="lesson-title">数组越界与内存</div>
+            <div class="lesson-desc">数组内存模型、越界危害、内存安全意识</div>
+          </div>
+          <div class="lesson-hours">8课时</div>
+        </a>
+        <a href="lessons/L3-04-前缀和.html" class="lesson-item">
+          <div class="lesson-num">04</div>
+          <div class="lesson-content">
+            <div class="lesson-title">前缀和</div>
+            <div class="lesson-desc">前缀和定义、预处理、区间查询、空间换时间</div>
+          </div>
+          <div class="lesson-hours">10课时</div>
+        </a>
+        <a href="lessons/L3-05-简单DP入门.html" class="lesson-item">
+          <div class="lesson-num">05</div>
+          <div class="lesson-content">
+            <div class="lesson-title">简单DP入门</div>
+            <div class="lesson-desc">递推思想、数组存储状态、斐波那契、爬楼梯</div>
+          </div>
+          <div class="lesson-hours">12课时</div>
+        </a>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2 class="reveal">能力主线交汇</h2>
+      <div class="reveal">
+        <div class="card" style="margin-bottom: var(--sp-4);">
+          <div class="card-header">
+            <div class="card-icon" style="background: var(--level3-dim); color: var(--level3);">
+              <i class="fas fa-code-branch"></i>
+            </div>
+            <h3 class="card-title">递归线 - L3末启动</h3>
+          </div>
+          <p class="card-desc">
+            L3末开始递归预热（汉诺塔故事），为L6的搜索做15+个月的铺垫。
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon" style="background: var(--level1-dim); color: var(--level1);">
+              <i class="fas fa-table"></i>
+            </div>
+            <h3 class="card-title">数组DP线 - L3正式启动</h3>
+          </div>
+          <p class="card-desc">
+            前缀和与一维数组同步教，建立空间换时间思维。这是数组DP线的起点。
+          </p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2 class="reveal">升级检验标准</h2>
+      <div class="checklist-box reveal">
+        <h4><i class="fas fa-clipboard-check"></i> L3 升级检查清单</h4>
+        <ul>
+          <li>看到频率统计题，能秒想到桶计数（数组下标映射）</li>
+          <li>能熟练遍历一维数组和二维数组</li>
+          <li>理解数组下标从0开始的原因（内存偏移）</li>
+          <li>能独立写出前缀和预处理代码</li>
+          <li>能用递推思想解决简单的DP问题</li>
+          <li class="blocker">如果以上任何一条不满足，不要进入L4</li>
+        </ul>
+      </div>
+
+      <div class="coach-quote reveal">
+        <p style="margin-bottom: 0;">
+          <strong>给家长的话：</strong>L3是竞赛能力培养的生死线。L3不扎实，后面所有高级内容都建立在沙子上。
+          宁可在这里多花几周，也不要带着漏洞进入L4。
+        </p>
+      </div>
+
+      <div class="lesson-nav reveal">
+        <a href="../L2-编程二级-嵌套期/index.html" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> L2 编程嵌套期
+        </a>
+        <a href="lessons/L3-01-一维数组.html" class="btn btn-primary" style="background: var(--level3); border-color: var(--level3);">
+          开始学习第一课 <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container">
+      <div class="footer-links">
+        <a href="../../philosophy/index.html">教学理念</a>
+        <a href="../../mainlines/index.html">能力主线</a>
+        <a href="../../index.html#levels">八级体系</a>
+        <a href="../../resources/index.html">学习资源</a>
+      </div>
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+    </div>
+  </footer>
+
+  <script src="../../assets/js/main.js"></script>
+</body>
+</html>

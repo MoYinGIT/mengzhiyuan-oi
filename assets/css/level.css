@@ -1,0 +1,259 @@
+/* ============================================
+   蒙知苑·OI - level.css
+   职责：八级颜色映射、级别专属组件
+   修改频率：可能微调
+   ============================================ */
+
+/* ---- 八级颜色映射 ---- */
+.level-1, .lv1 { --lv-color: var(--level1); --lv-dim: var(--level1-dim); }
+.level-2, .lv2 { --lv-color: var(--level2); --lv-dim: var(--level2-dim); }
+.level-3, .lv3 { --lv-color: var(--level3); --lv-dim: var(--level3-dim); }
+.level-4, .lv4 { --lv-color: var(--level4); --lv-dim: var(--level4-dim); }
+.level-5, .lv5 { --lv-color: var(--level5); --lv-dim: var(--level5-dim); }
+.level-6, .lv6 { --lv-color: var(--level6); --lv-dim: var(--level6-dim); }
+.level-7, .lv7 { --lv-color: var(--level7); --lv-dim: var(--level7-dim); }
+.level-8, .lv8 { --lv-color: var(--level8); --lv-dim: var(--level8-dim); }
+
+/* ---- 级别主题色应用 ---- */
+.level-theme-color { color: var(--lv-color, var(--accent)); }
+.level-theme-bg { background: var(--lv-color, var(--accent)); }
+.level-theme-border { border-color: var(--lv-color, var(--accent)); }
+
+/* ---- 级别首页Hero ---- */
+.lv-hero {
+  padding: 48px 0 32px;
+  text-align: center;
+}
+
+.lv-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  font-size: 12px;
+  color: var(--fg-muted);
+  margin-bottom: var(--sp-3);
+}
+
+.lv-title {
+  font-family: var(--font-serif);
+  font-weight: 900;
+  margin-bottom: var(--sp-2);
+}
+
+.lv-stats {
+  display: flex;
+  justify-content: center;
+  gap: var(--sp-8);
+  margin-top: var(--sp-6);
+  flex-wrap: wrap;
+}
+
+.lv-stat {
+  text-align: center;
+}
+
+.lv-stat-num {
+  font-family: var(--font-serif);
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--lv-color, var(--accent));
+}
+
+.lv-stat-label {
+  font-size: 12px;
+  color: var(--fg-dim);
+}
+
+/* ---- 级别知识点卡片 ---- */
+.lv-topics {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--sp-4);
+  margin: var(--sp-6) 0;
+}
+
+.lv-topic-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-5);
+  transition: all var(--transition-base);
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  border-left: 4px solid var(--lv-color, var(--accent));
+}
+
+.lv-topic-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+  border-color: var(--lv-color, var(--accent));
+}
+
+.lv-topic-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  margin-bottom: var(--sp-3);
+  background: var(--lv-dim, var(--accent-dim));
+  color: var(--lv-color, var(--accent));
+}
+
+.lv-topic-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: var(--sp-2);
+}
+
+.lv-topic-desc {
+  font-size: 13px;
+  color: var(--fg-muted);
+  margin-bottom: var(--sp-3);
+}
+
+.lv-topic-meta {
+  display: flex;
+  gap: var(--sp-3);
+  font-size: 12px;
+  color: var(--fg-dim);
+}
+
+/* ---- 课时列表 ---- */
+.lesson-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  margin: var(--sp-6) 0;
+}
+
+.lesson-item {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-4);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-base);
+  text-decoration: none;
+  color: inherit;
+}
+
+.lesson-item:hover {
+  border-color: var(--lv-color, var(--accent));
+  transform: translateX(4px);
+}
+
+.lesson-num {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 900;
+  background: var(--lv-dim, var(--accent-dim));
+  color: var(--lv-color, var(--accent));
+  flex-shrink: 0;
+}
+
+.lesson-content {
+  flex: 1;
+}
+
+.lesson-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.lesson-desc {
+  font-size: 12px;
+  color: var(--fg-dim);
+}
+
+.lesson-hours {
+  font-size: 12px;
+  color: var(--fg-dim);
+  flex-shrink: 0;
+}
+
+/* ---- 教案页面结构 ---- */
+.lesson-header {
+  padding: 32px 0 24px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: var(--sp-6);
+}
+
+.lesson-meta {
+  display: flex;
+  gap: var(--sp-4);
+  margin-top: var(--sp-3);
+  font-size: 13px;
+  color: var(--fg-dim);
+}
+
+.lesson-meta span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.lesson-section {
+  margin-bottom: var(--sp-8);
+}
+
+.lesson-section h2 {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  margin-bottom: var(--sp-4);
+  padding-bottom: var(--sp-2);
+  border-bottom: 1px solid var(--border);
+}
+
+.lesson-section h3 {
+  font-size: 18px;
+  margin: var(--sp-5) 0 var(--sp-3);
+  color: var(--lv-color, var(--accent));
+}
+
+.lesson-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--sp-4) 0;
+  border-top: 1px solid var(--border);
+  margin-top: var(--sp-8);
+}
+
+/* ---- 响应式 ---- */
+@media (max-width: 768px) {
+  .lv-topics {
+    grid-template-columns: 1fr;
+  }
+  
+  .lv-stats {
+    gap: var(--sp-4);
+  }
+  
+  .lesson-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--sp-2);
+  }
+  
+  .lesson-num {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+}

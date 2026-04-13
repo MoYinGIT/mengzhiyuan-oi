@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L4-01 函数定义与调用 · 蒙知苑·OI</title>
+  <meta name="description" content="学习C++函数的定义、声明、调用，理解代码模块化拆分的重要性。">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../../assets/css/base.css">
+  <link rel="stylesheet" href="../../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../../assets/css/components.css">
+  <link rel="stylesheet" href="../../../assets/css/teaching-visuals.css">
+  <link rel="stylesheet" href="../../../assets/css/level.css">
+  
+  <style>
+    :root { --lv-color: var(--level4); --lv-dim: var(--level4-dim); }
+  </style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels" class="active">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+  
+  <div class="mobile-menu">
+    <a href="../../../philosophy/index.html">教学理念</a>
+    <a href="../../../mainlines/index.html">能力主线</a>
+    <a href="../../../index.html#levels">八级体系</a>
+    <a href="../../../resources/index.html">学习资源</a>
+  </div>
+
+  <div class="lesson-top-info">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../../../index.html">首页</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="../index.html">L4 函数期</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>L4-01</span>
+      </div>
+      <div class="lesson-header-row">
+        <div>
+          <h1 class="lesson-title-main">函数定义与调用</h1>
+          <p class="lesson-subtitle">函数声明、返回值、调用过程、代码模块化</p>
+        </div>
+        <div class="lesson-meta">
+          <div class="meta-item"><i class="fas fa-clock"></i> 8课时</div>
+          <div class="meta-item"><i class="fas fa-calendar"></i> 约2周</div>
+          <div class="meta-item"><i class="fas fa-signal"></i> 难度 <span class="difficulty-star"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="main-content">
+    <div class="container">
+
+      <div class="goals-card reveal">
+        <h4><i class="fas fa-bullseye"></i> 本课三维目标</h4>
+        <div class="goals-grid">
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--red-dim); color: var(--red);">知识</span>
+            <span class="goal-text">函数定义语法、返回值类型、形参、函数调用流程</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--green-dim); color: var(--green);">技能</span>
+            <span class="goal-text">能独立编写简单函数（如判断素数、求最大公约数），并在main中调用</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--blue-dim); color: var(--blue);">思维</span>
+            <span class="goal-text">建立"一个函数只做一件事"的模块化思维</span>
+          </div>
+        </div>
+      </div>
+
+      <section class="reveal">
+        <h2>1. 为什么需要函数？</h2>
+        <p>
+          假设一个程序既要判断3个数是不是素数，又要判断另外5个数是不是素数：
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">不用函数：重复代码</span>
+            <button class="copy-btn" data-clipboard-target="#code1">复制</button>
+          </div>
+          <pre><code id="code1" class="language-cpp">// 判断第一个数
+bool isPrime1 = true;
+for (int i = 2; i * i <= x1; i++) {
+    if (x1 % i == 0) isPrime1 = false;
+}
+
+// 判断第二个数
+bool isPrime2 = true;
+for (int i = 2; i * i <= x2; i++) {
+    if (x2 % i == 0) isPrime2 = false;
+}
+
+// ... 还要写第三、四、五、六、七、八遍？</code></pre>
+        </div>
+        <p>用函数，同样的逻辑只写一次：</p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">用函数：一次定义，多次调用</span>
+            <button class="copy-btn" data-clipboard-target="#code2">复制</button>
+          </div>
+          <pre><code id="code2" class="language-cpp">bool isPrime(int x) {
+    if (x < 2) return false;
+    for (int i = 2; i * i <= x; i++) {
+        if (x % i == 0) return false;
+    }
+    return true;
+}
+
+int main() {
+    if (isPrime(a)) cout << "是素数" << endl;
+    if (isPrime(b)) cout << "是素数" << endl;
+    // ... 想判断多少次就调用多少次
+}</code></pre>
+        </div>
+        <p>
+          <strong>函数的本质</strong>：把一段可复用的逻辑打包成一个"黑盒"，给它输入，它返回输出。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>2. 函数的基本结构</h2>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">函数定义四部分</span>
+            <button class="copy-btn" data-clipboard-target="#code3">复制</button>
+          </div>
+          <pre><code id="code3" class="language-cpp">// 返回值类型  函数名(参数列表) {
+//     函数体
+//     return 返回值;
+// }
+
+int add(int a, int b) {
+    int c = a + b;
+    return c;
+}
+
+void sayHello() {
+    cout << "Hello!" << endl;
+    // void 表示没有返回值，不需要 return
+}</code></pre>
+        </div>
+        <div class="note-box">
+          <p>
+            <strong>记忆口诀：</strong>"返名参体"——返回值类型、函数名、参数列表、函数体。
+          </p>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>3. 函数调用过程</h2>
+        <p>当程序调用一个函数时，会发生以下事情：</p>
+        <ol>
+          <li>程序跳转到函数体开始执行</li>
+          <li>实参的值被复制给形参（值传递）</li>
+          <li>执行函数体中的代码</li>
+          <li>遇到 return 时，把结果带回调用处</li>
+          <li>程序回到调用位置继续执行</li>
+        </ol>
+        <div class="visual-demo" data-type="mermaid">
+graph LR
+    A[main函数] -->|调用 add(3,5)| B[add函数]
+    B -->|返回 8| A
+    A -->|继续执行| C[后续代码]
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>4. 函数的声明与定义</h2>
+        <p>
+          在C++中，函数必须先声明后使用。如果函数定义在 <code class="inline-code">main</code> 之后，需要在 <code class="inline-code">main</code> 之前先声明：
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">函数声明与定义分离</span>
+            <button class="copy-btn" data-clipboard-target="#code4">复制</button>
+          </div>
+          <pre><code id="code4" class="language-cpp">// 声明（告诉编译器：这个函数存在）
+int max(int a, int b);
+
+int main() {
+    cout << max(3, 5) << endl; // 可以正常调用
+    return 0;
+}
+
+// 定义（真正的实现）
+int max(int a, int b) {
+    return a > b ? a : b;
+}</code></pre>
+        </div>
+        <p>
+          声明也叫<strong>函数原型</strong>，只需要写返回值、函数名和参数类型，不需要写参数名（虽然写上更好读）。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>5. 常用函数的模块化拆分</h2>
+        <p>竞赛代码中，常见的模块化方式：</p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">竞赛代码模块化示例</span>
+            <button class="copy-btn" data-clipboard-target="#code5">复制</button>
+          </div>
+          <pre><code id="code5" class="language-cpp">// 工具函数
+int max(int a, int b) { return a > b ? a : b; }
+int min(int a, int b) { return a < b ? a : b; }
+bool isPrime(int x) { /* ... */ }
+
+// 核心逻辑函数
+int solve() {
+    // 读取数据、处理逻辑、返回结果
+}
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        cout << solve() << endl;
+    }
+    return 0;
+}</code></pre>
+        </div>
+        <p>
+          把核心逻辑封装在 <code class="inline-code">solve()</code> 中，是竞赛代码的标准写法。这样 <code class="inline-code">main</code> 函数非常简洁，只负责输入输出调度。
+        </p>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="reveal">
+        <h2>IOI教练常见教学陷阱</h2>
+        <div class="traps-grid">
+          <div class="trap-card">
+            <div class="trap-title">陷阱1：所有代码塞进main函数</div>
+            <p class="trap-desc">
+              初学者习惯"从上到下一条线写到底"。要刻意训练他们：
+              每写一段逻辑，问问自己"这段逻辑能不能做成一个函数？"
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱2：函数名随意</div>
+            <p class="trap-desc">
+              不要用 <code class="inline-code">f1()</code>、<code class="inline-code">f2()</code> 这种无意义函数名。
+              好的函数名是代码的自文档化：<code class="inline-code">isPrime()</code>、<code class="inline-code">getSum()</code>、<code class="inline-code">solve()</code>。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱3：一个函数做太多事</div>
+            <p class="trap-desc">
+              如果一个函数超过30行，就要警惕。尝试把它拆成"读数据"、"处理"、"输出"三个函数。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>课后练习题</h2>
+        <div class="exercise-list">
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">1</span>
+              <h4 class="exercise-title">判断闰年函数</h4>
+              <span class="exercise-tag easy">入门</span>
+            </div>
+            <p>编写函数 <code class="inline-code">bool isLeap(int year)</code>，判断某年是否为闰年，并在main中调用验证。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">2</span>
+              <h4 class="exercise-title">最大公约数函数</h4>
+              <span class="exercise-tag easy">入门</span>
+            </div>
+            <p>编写函数 <code class="inline-code">int gcd(int a, int b)</code> 用辗转相除法求最大公约数。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">3</span>
+              <h4 class="exercise-title">素数判断函数</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>编写函数 <code class="inline-code">bool isPrime(int x)</code>，判断 x 是否为素数。用它处理 n 个查询。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">4</span>
+              <h4 class="exercise-title">代码重构</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>给定一段100行全在main里的代码，要求拆分成至少4个函数，每个职责单一。</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="checklist-box reveal">
+        <h4><i class="fas fa-clipboard-check"></i> 本课自测清单</h4>
+        <ul>
+          <li>能写出完整的函数定义（返回值、函数名、参数、函数体）</li>
+          <li>理解函数声明和函数定义的区别</li>
+          <li>能在main中正确调用自定义函数</li>
+          <li>写代码时有意识地考虑"这段逻辑是否应该拆成函数"</li>
+          <li>函数命名清晰，一个函数只做一件事</li>
+          <li class="blocker">如果任何一条不满足，不要进入L4-02参数传递与返回值</li>
+        </ul>
+      </div>
+
+      <div class="lesson-nav reveal">
+        <a href="../index.html" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> 返回L4首页
+        </a>
+        <a href="L4-02-参数传递与返回值.html" class="btn btn-primary" style="background: var(--level4); border-color: var(--level4);">
+          下一课：参数传递与返回值 <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container">
+      <div class="footer-links">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+    </div>
+  </footer>
+
+  <script src="../../../assets/js/main.js"></script>
+</body>
+</html>

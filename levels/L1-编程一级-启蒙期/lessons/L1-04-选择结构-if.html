@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L1-04 选择结构-if · 蒙知苑·OI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../../assets/css/base.css">
+  <link rel="stylesheet" href="../../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../../assets/css/components.css">
+  <link rel="stylesheet" href="../../../assets/css/teaching-visuals.css">
+  <link rel="stylesheet" href="../../../assets/css/level.css">
+  <style>:root { --lv-color: var(--level1); --lv-dim: var(--level1-dim); }</style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels" class="active">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="container">
+      <header class="lesson-header">
+        <div class="breadcrumb">
+          <a href="../../../index.html">首页</a>
+          <i class="fas fa-chevron-right"></i>
+          <a href="../index.html">L1 编程启蒙期</a>
+          <i class="fas fa-chevron-right"></i>
+          <span>第4课</span>
+        </div>
+        <h1 style="color: var(--level1);">L1-04 选择结构 - if</h1>
+        <div class="lesson-meta">
+          <span><i class="fas fa-clock"></i> 3课时（135分钟）</span>
+          <span><i class="fas fa-tag"></i> L1基础</span>
+        </div>
+      </header>
+
+      <div class="lesson-section reveal">
+        <h2>教学目标</h2>
+        <div class="goal-list">
+          <h4><i class="fas fa-bullseye"></i> 知识目标</h4>
+          <ul>
+            <li>理解条件判断的作用</li>
+            <li>掌握 if、if-else、if-else if-else 的语法</li>
+            <li>理解关系运算符和逻辑运算符</li>
+          </ul>
+        </div>
+        <div class="goal-list">
+          <h4><i class="fas fa-tools"></i> 技能目标</h4>
+          <ul>
+            <li>能根据条件选择不同的执行路径</li>
+            <li>能正确使用 ==、!=、>、< 等关系运算符</li>
+            <li>能组合多个条件进行判断</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>为什么需要选择结构？</h2>
+        <div class="coach-quote">
+          <p>现实生活中的很多问题，不是"一步一步做下去"就能解决的，而是需要根据条件做不同的选择。</p>
+          <p style="margin-bottom: 0;">比如：如果成绩大于等于60分，输出"及格"；否则，输出"不及格"。这就是选择结构。</p>
+        </div>
+
+        <h3>if 语句流程图</h3>
+        <div data-type="mermaid">flowchart TD
+    A[开始] --> B{条件判断}
+    B -->|条件成立| C[执行语句A]
+    B -->|条件不成立| D[执行语句B]
+    C --> E[结束]
+    D --> E
+</div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>三种 if 语句形式</h2>
+        
+        <h3>1. 单分支 if</h3>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">C++</span>
+            <button class="code-copy"><i class="fas fa-copy"></i></button>
+          </div>
+          <pre><code>if (条件) {
+    // 条件成立时执行的代码
+}</code></pre>
+        </div>
+
+        <h3>2. 双分支 if-else</h3>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">C++</span>
+            <button class="code-copy"><i class="fas fa-copy"></i></button>
+          </div>
+          <pre><code>if (条件) {
+    // 条件成立时执行
+} else {
+    // 条件不成立时执行
+}</code></pre>
+        </div>
+
+        <h3>3. 多分支 if-else if</h3>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">C++</span>
+            <button class="code-copy"><i class="fas fa-copy"></i></button>
+          </div>
+          <pre><code>if (条件1) {
+    // 条件1成立
+} else if (条件2) {
+    // 条件2成立
+} else if (条件3) {
+    // 条件3成立
+} else {
+    // 以上都不成立
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>关系运算符与逻辑运算符</h2>
+        <table class="compare-table">
+          <thead>
+            <tr><th>运算符</th><th>含义</th><th>示例</th><th>结果</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>==</code></td><td>等于</td><td>5 == 5</td><td>true</td></tr>
+            <tr><td><code>!=</code></td><td>不等于</td><td>5 != 3</td><td>true</td></tr>
+            <tr><td><code>></code></td><td>大于</td><td>5 > 3</td><td>true</td></tr>
+            <tr><td><code><</code></td><td>小于</td><td>5 < 3</td><td>false</td></tr>
+            <tr><td><code>>=</code></td><td>大于等于</td><td>5 >= 5</td><td>true</td></tr>
+            <tr><td><code><=</code></td><td>小于等于</td><td>5 <= 3</td><td>false</td></tr>
+          </tbody>
+        </table>
+
+        <table class="compare-table" style="margin-top: var(--sp-4);">
+          <thead>
+            <tr><th>逻辑运算符</th><th>含义</th><th>示例</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>&&</code></td><td>并且（AND）</td><td>a > 0 && a < 100</td></tr>
+            <tr><td><code>||</code></td><td>或者（OR）</td><td>a < 0 || a > 100</td></tr>
+            <tr><td><code>!</code></td><td>非（NOT）</td><td>!(a == 0)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>IOI教练视角</h2>
+        <div class="trap-box">
+          <div class="trap-title"><i class="fas fa-skull-crossbones"></i> 最致命错误：== 写成 =</div>
+          <p>初学者在选择结构中最容易犯的错误：把 if (a == 5) 写成 if (a = 5)。</p>
+          <p style="margin-top: var(--sp-2);"><strong>后果：</strong>这不会报错，但会把 5 赋值给 a，然后条件永远为真。很多初学者因此被卡很久。</p>
+        </div>
+        <div class="trap-box">
+          <div class="trap-title"><i class="fas fa-exclamation-triangle"></i> 陷阱：边界条件</div>
+          <p>判断"成绩大于等于60分及格"，要写 >= 60，不能写 > 60。初学者常常漏掉等于的情况。</p>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>练习设计</h2>
+        <div class="goal-list">
+          <h4><i class="fas fa-dumbbell"></i> 基础练习</h4>
+          <ul>
+            <li>输入一个整数，判断它是奇数还是偶数</li>
+            <li>输入一个年份，判断它是否是闰年</li>
+            <li>输入三个整数，输出其中的最大值</li>
+          </ul>
+        </div>
+        <div class="goal-list">
+          <h4><i class="fas fa-rocket"></i> 提高练习</h4>
+          <ul>
+            <li>输入一个字符，判断它是大写字母、小写字母还是数字</li>
+            <li>输入三角形的三条边，判断能否构成三角形，如果能，判断是什么类型的三角形</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>自查清单</h2>
+        <div class="checklist-box">
+          <h4><i class="fas fa-check-square"></i> 本课自查</h4>
+          <ul>
+            <li>能正确写出 if、if-else、if-else if 语句</li>
+            <li>不会把 == 写成 =</li>
+            <li>能使用 && 和 || 组合多个条件</li>
+            <li>能处理边界条件（>=、<=）</li>
+            <li class="blocker">如果没有完成以上检查项，不要进入下一课</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lesson-nav reveal">
+        <a href="L1-03-顺序结构.html" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> 上一课</a>
+        <a href="L1-05-选择结构-switch.html" class="btn btn-primary" style="background: var(--level1); border-color: var(--level1);">下一课：选择结构-switch <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container"><p>蒙知苑·OI · IOI金牌教练教案体系</p></div>
+  </footer>
+
+  <script src="../../../assets/js/main.js"></script>
+  <script src="../../../assets/js/teaching-visuals.js"></script>
+</body>
+</html>

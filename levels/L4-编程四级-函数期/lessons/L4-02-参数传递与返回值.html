@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L4-02 参数传递与返回值 · 蒙知苑·OI</title>
+  <meta name="description" content="学习C++函数的值传递、return语句、多返回值技巧，理解参数传递的本质。">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../../assets/css/base.css">
+  <link rel="stylesheet" href="../../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../../assets/css/components.css">
+  <link rel="stylesheet" href="../../../assets/css/teaching-visuals.css">
+  <link rel="stylesheet" href="../../../assets/css/level.css">
+  
+  <style>
+    :root { --lv-color: var(--level4); --lv-dim: var(--level4-dim); }
+  </style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels" class="active">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+  
+  <div class="mobile-menu">
+    <a href="../../../philosophy/index.html">教学理念</a>
+    <a href="../../../mainlines/index.html">能力主线</a>
+    <a href="../../../index.html#levels">八级体系</a>
+    <a href="../../../resources/index.html">学习资源</a>
+  </div>
+
+  <div class="lesson-top-info">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../../../index.html">首页</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="../index.html">L4 函数期</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>L4-02</span>
+      </div>
+      <div class="lesson-header-row">
+        <div>
+          <h1 class="lesson-title-main">参数传递与返回值</h1>
+          <p class="lesson-subtitle">值传递、return语句、多返回值技巧</p>
+        </div>
+        <div class="lesson-meta">
+          <div class="meta-item"><i class="fas fa-clock"></i> 8课时</div>
+          <div class="meta-item"><i class="fas fa-calendar"></i> 约2周</div>
+          <div class="meta-item"><i class="fas fa-signal"></i> 难度 <span class="difficulty-star"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="main-content">
+    <div class="container">
+
+      <div class="goals-card reveal">
+        <h4><i class="fas fa-bullseye"></i> 本课三维目标</h4>
+        <div class="goals-grid">
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--red-dim); color: var(--red);">知识</span>
+            <span class="goal-text">值传递机制、return语句、void函数、多返回值方案</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--green-dim); color: var(--green);">技能</span>
+            <span class="goal-text">能正确设计函数参数和返回值，处理多返回需求</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--blue-dim); color: var(--blue);">思维</span>
+            <span class="goal-text">理解"函数内修改参数不会影响外部变量"的值传递本质</span>
+          </div>
+        </div>
+      </div>
+
+      <section class="reveal">
+        <h2>1. 值传递：复制一份给函数</h2>
+        <p>
+          C++中，函数参数默认采用<strong>值传递</strong>：调用函数时，会把实参的值复制一份给形参。
+          函数内部对形参的修改，<strong>不会影响</strong>外部的实参。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">值传递示例</span>
+            <button class="copy-btn" data-clipboard-target="#code1">复制</button>
+          </div>
+          <pre><code id="code1" class="language-cpp">void addTen(int x) {
+    x = x + 10;
+    cout << "函数内 x = " << x << endl; // 输出 20
+}
+
+int main() {
+    int a = 10;
+    addTen(a);
+    cout << "函数外 a = " << a << endl; // 输出 10（没变！）
+    return 0;
+}</code></pre>
+        </div>
+        <div class="visual-demo" data-type="memory" data-memory='[
+          {"addr":"main:a","cells":["10","","",""],"var":"实参 a"},
+          {"addr":"addTen:x","cells":["20","","",""],"var":"形参 x","changed":[0]}
+        ]'></div>
+        <p>
+          上图说明：<code class="inline-code">a</code> 和 <code class="inline-code">x</code> 是两个独立的变量，只是值相同。
+          修改 <code class="inline-code">x</code> 不会影响 <code class="inline-code">a</code>。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>2. 为什么值传递很重要？</h2>
+        <p>
+          值传递是C++的安全机制：函数内部的修改被"隔离"在函数内部，不会意外破坏外部数据。
+          但这也意味着，如果你希望函数修改外部变量，单纯传变量本身是不行的。
+        </p>
+        <div class="note-box">
+          <p>
+            <strong>L4阶段的处理方式：</strong>如果要让函数"修改"外部变量，可以把修改后的值通过 <code class="inline-code">return</code> 返回，
+            然后在调用处重新赋值。引用传递（<code class="inline-code">&</code>）是更高级的内容，可在L5或L6再深入。
+          </p>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>3. return 语句详解</h2>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">return 的多种用法</span>
+            <button class="copy-btn" data-clipboard-target="#code2">复制</button>
+          </div>
+          <pre><code id="code2" class="language-cpp">// 1. 返回计算结果
+int square(int x) {
+    return x * x;
+}
+
+// 2. 提前返回（常用于边界条件）
+bool isPositive(int x) {
+    if (x > 0) return true;
+    return false;  // 等价于 else return false;
+}
+
+// 3. void 函数可以没有 return，也可以用 return 提前结束
+void printIfPositive(int x) {
+    if (x <= 0) return;  // 提前退出
+    cout << x << endl;
+}</code></pre>
+        </div>
+        <div class="note-box warning">
+          <p>
+            <strong>注意：</strong>return 之后的代码不会执行。初学者常犯的错误是在 return 之后还写逻辑。
+          </p>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>4. 多返回值的常用方案</h2>
+        <p>C++函数只能直接返回一个值。如果需要返回多个结果，有几种常用方案：</p>
+        
+        <h3>方案1：用全局变量（L4阶段常用）</h3>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">全局变量返回多值</span>
+            <button class="copy-btn" data-clipboard-target="#code3">复制</button>
+          </div>
+          <pre><code id="code3" class="language-cpp">int maxVal, minVal; // 全局变量
+
+void getMaxMin(int a[], int n) {
+    maxVal = a[0];
+    minVal = a[0];
+    for (int i = 1; i < n; i++) {
+        if (a[i] > maxVal) maxVal = a[i];
+        if (a[i] < minVal) minVal = a[i];
+    }
+}
+
+int main() {
+    getMaxMin(arr, 5);
+    cout << maxVal << " " << minVal << endl;
+}</code></pre>
+        </div>
+
+        <h3>方案2：通过数组/结构体返回（更规范）</h3>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">数组返回多值</span>
+            <button class="copy-btn" data-clipboard-target="#code4">复制</button>
+          </div>
+          <pre><code id="code4" class="language-cpp">// 返回数组中最大值的【下标】和【值】
+int getMaxIndex(int a[], int n) {
+    int maxIdx = 0;
+    for (int i = 1; i < n; i++) {
+        if (a[i] > a[maxIdx]) maxIdx = i;
+    }
+    return maxIdx; // 返回下标，调用方用 a[maxIdx] 获取值
+}</code></pre>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>5. 竞赛常用函数设计模式</h2>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">典型竞赛函数组合</span>
+            <button class="copy-btn" data-clipboard-target="#code5">复制</button>
+          </div>
+          <pre><code id="code5" class="language-cpp">// 1. 纯计算型函数：输入→输出
+long long factorial(int n) { ... }
+
+// 2. 判断型函数：输入→true/false
+bool isPrime(int x) { ... }
+
+// 3. 处理型函数：读取全局数据，不返回
+void preprocess() { ... }
+
+// 4. 综合型函数：读取输入，返回结果
+int solve() {
+    int n;
+    cin >> n;
+    // ... 处理 ...
+    return result;
+}</code></pre>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="reveal">
+        <h2>IOI教练常见教学陷阱</h2>
+        <div class="traps-grid">
+          <div class="trap-card">
+            <div class="trap-title">陷阱1：以为函数内修改参数会影响外部</div>
+            <p class="trap-desc">
+              这是L4最高频的Bug来源。要反复强调：值传递是"复制"，不是"共享"。
+              可以用内存图可视化讲解。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱2：return 多个值</div>
+            <p class="trap-desc">
+              C++不支持 <code class="inline-code">return a, b;</code> 这种写法。
+              如果需要多返回值，现阶段可以用全局变量，或者返回下标/索引。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱3：void函数写了return值</div>
+            <p class="trap-desc">
+              <code class="inline-code">void f() { return 0; }</code> 是编译错误。
+              void函数只能用 <code class="inline-code">return;</code> 或者直接不写return。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>课后练习题</h2>
+        <div class="exercise-list">
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">1</span>
+              <h4 class="exercise-title">交换函数的误解</h4>
+              <span class="exercise-tag easy">入门</span>
+            </div>
+            <p>写出 <code class="inline-code">void swap(int a, int b)</code>，在main中调用。观察main中的变量是否真的交换了，并解释原因。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">2</span>
+              <h4 class="exercise-title">求数组极值</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>编写函数求数组中的最大值和最小值。要求用全局变量或return下标的方式实现"多返回值"。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">3</span>
+              <h4 class="exercise-title">数字位数和</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>编写函数 <code class="inline-code">int digitSum(int x)</code> 返回 x 的各位数字之和。注意 x 可能为负数。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">4</span>
+              <h4 class="exercise-title">函数设计挑战</h4>
+              <span class="exercise-tag hard">挑战</span>
+            </div>
+            <p>设计一组函数：输入一个三角形的三边长，分别用函数判断能否构成三角形、计算周长、计算面积（海伦公式），最后在main中组合调用。</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="checklist-box reveal">
+        <h4><i class="fas fa-clipboard-check"></i> 本课自测清单</h4>
+        <ul>
+          <li>能解释"值传递"的含义：函数内修改参数不会影响外部变量</li>
+          <li>能正确使用 return 语句，包括提前返回</li>
+          <li>知道 void 函数和有返回值函数的区别</li>
+          <li>能处理"函数需要返回多个值"的场景（全局变量/返回下标）</li>
+          <li>能设计出参数和返回值合理的函数</li>
+          <li class="blocker">如果任何一条不满足，不要进入L4-03变量作用域</li>
+        </ul>
+      </div>
+
+      <div class="lesson-nav reveal">
+        <a href="L4-01-函数定义与调用.html" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> 上一课：函数定义与调用
+        </a>
+        <a href="L4-03-变量作用域.html" class="btn btn-primary" style="background: var(--level4); border-color: var(--level4);">
+          下一课：变量作用域 <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container">
+      <div class="footer-links">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+    </div>
+  </footer>
+
+  <script src="../../../assets/js/main.js"></script>
+</body>
+</html>

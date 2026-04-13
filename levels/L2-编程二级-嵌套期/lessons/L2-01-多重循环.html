@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L2-01 多重循环 · 蒙知苑·OI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../../assets/css/base.css">
+  <link rel="stylesheet" href="../../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../../assets/css/components.css">
+  <link rel="stylesheet" href="../../../assets/css/teaching-visuals.css">
+  <link rel="stylesheet" href="../../../assets/css/level.css">
+  <style>:root { --lv-color: var(--level2); --lv-dim: var(--level2-dim); }</style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels" class="active">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="container">
+      <header class="lesson-header">
+        <div class="breadcrumb">
+          <a href="../../../index.html">首页</a>
+          <i class="fas fa-chevron-right"></i>
+          <a href="../index.html">L2 编程嵌套期</a>
+          <i class="fas fa-chevron-right"></i>
+          <span>第1课</span>
+        </div>
+        <h1 style="color: var(--level2);">L2-01 多重循环</h1>
+        <div class="lesson-meta">
+          <span><i class="fas fa-clock"></i> 6课时（270分钟）</span>
+          <span><i class="fas fa-tag"></i> L2核心</span>
+        </div>
+      </header>
+
+      <div class="lesson-section reveal">
+        <h2>教学目标</h2>
+        <div class="goal-list">
+          <h4><i class="fas fa-bullseye"></i> 知识目标</h4>
+          <ul>
+            <li>理解三重循环的结构和执行规律</li>
+            <li>掌握内外层循环变量的独立控制</li>
+            <li>理解多重循环的时间复杂度概念</li>
+          </ul>
+        </div>
+        <div class="goal-list">
+          <h4><i class="fas fa-tools"></i> 技能目标</h4>
+          <ul>
+            <li>能用三重循环打印复杂图形</li>
+            <li>能控制各层循环的边界条件</li>
+            <li>能计算多重循环的执行次数</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>从双重到三重循环</h2>
+        <div class="coach-quote">
+          <p>L1我们学了双重循环，L2要把这个能力再推进一步。</p>
+          <p style="margin-bottom: 0;">三重循环的本质和双重循环一样：<strong>外层执行一次，中层执行一轮；中层执行一次，内层执行一轮。</strong></p>
+        </div>
+
+        <h3>三重循环基本结构</h3>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">C++</span>
+            <button class="code-copy"><i class="fas fa-copy"></i></button>
+          </div>
+          <pre><code>for (int i = 1; i <= n; i++) {        // 外层
+    for (int j = 1; j <= n; j++) {    // 中层
+        for (int k = 1; k <= n; k++) { // 内层
+            // 执行语句
+        }
+    }
+}</code></pre>
+        </div>
+        <p><strong>执行次数：</strong>如果三层都是 1 到 n，那么内层语句执行 n × n × n = n³ 次。</p>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>经典案例</h2>
+        
+        <h3>案例1：打印数字金字塔</h3>
+        <div class="code-block">
+          <pre><code>    1
+   222
+  33333
+ 4444444
+555555555</code></pre>
+        </div>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">C++</span>
+            <button class="code-copy"><i class="fas fa-copy"></i></button>
+          </div>
+          <pre><code>int n = 5;
+for (int i = 1; i <= n; i++) {
+    // 第一层：打印空格
+    for (int j = 1; j <= n - i; j++) {
+        cout << " ";
+    }
+    // 第二层：打印数字
+    for (int k = 1; k <= 2 * i - 1; k++) {
+        cout << i;
+    }
+    cout << endl;
+}</code></pre>
+        </div>
+
+        <h3>案例2：空心正方形</h3>
+        <div class="code-block">
+          <pre><code>*****
+*   *
+*   *
+*   *
+*****</code></pre>
+        </div>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">C++</span>
+            <button class="code-copy"><i class="fas fa-copy"></i></button>
+          </div>
+          <pre><code>int n = 5;
+for (int i = 1; i <= n; i++) {
+    for (int j = 1; j <= n; j++) {
+        // 边界打印*，内部打印空格
+        if (i == 1 || i == n || j == 1 || j == n) {
+            cout << "*";
+        } else {
+            cout << " ";
+        }
+    }
+    cout << endl;
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>IOI教练视角</h2>
+        <div class="trap-box">
+          <div class="trap-title"><i class="fas fa-exclamation-triangle"></i> 陷阱：循环变量命名混乱</div>
+          <p>三重循环建议统一使用 i、j、k 作为循环变量名，不要混用其他名字。这是竞赛界的约定俗成，看到 i 就知道是最外层。</p>
+        </div>
+        <div class="trap-box">
+          <div class="trap-title"><i class="fas fa-exclamation-triangle"></i> 陷阱：边界条件写错</div>
+          <p>三重循环中，中层或内层的边界条件依赖外层变量时（如 j <= i），初学者容易写成固定值（如 j <= n），导致输出错误。</p>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>练习设计</h2>
+        <div class="goal-list">
+          <h4><i class="fas fa-dumbbell"></i> 基础练习</h4>
+          <ul>
+            <li>打印数字菱形</li>
+            <li>打印杨辉三角前n行</li>
+            <li>打印数字沙漏</li>
+          </ul>
+        </div>
+        <div class="goal-list">
+          <h4><i class="fas fa-rocket"></i> 提高练习</h4>
+          <ul>
+            <li>打印空心菱形</li>
+            <li>输入 n，输出 n 阶数字螺旋矩阵</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>自查清单</h2>
+        <div class="checklist-box">
+          <h4><i class="fas fa-check-square"></i> 本课自查</h4>
+          <ul>
+            <li>能正确写出三重循环，变量名不混淆</li>
+            <li>能控制内外层循环的边界条件</li>
+            <li>能计算多重循环的总执行次数</li>
+            <li>能独立完成复杂图形的打印</li>
+            <li class="blocker">如果没有完成以上检查项，不要进入下一课</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lesson-nav reveal">
+        <a href="../index.html" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> 返回L2首页</a>
+        <a href="L2-02-循环控制-break-continue.html" class="btn btn-primary" style="background: var(--level2); border-color: var(--level2);">下一课：循环控制 <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container"><p>蒙知苑·OI · IOI金牌教练教案体系</p></div>
+  </footer>
+
+  <script src="../../../assets/js/main.js"></script>
+  <script src="../../../assets/js/teaching-visuals.js"></script>
+</body>
+</html>

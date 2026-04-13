@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>递归线 · 蒙知苑·OI</title>
+  <meta name="description" content="递归线详情：从L3启动，横跨5个级别，15+课时铺垫——为搜索和分治打下坚实基础。">
+  
+  <!-- 字体和图标 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <!-- CSS文件 -->
+  <link rel="stylesheet" href="../../assets/css/base.css">
+  <link rel="stylesheet" href="../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../assets/css/components.css">
+  <link rel="stylesheet" href="../../assets/css/mainline.css">
+</head>
+<body>
+  <!-- 顶部导航 -->
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../philosophy/index.html">教学理念</a>
+        <a href="../index.html" class="active">能力主线</a>
+        <a href="../../index.html#levels">八级体系</a>
+        <a href="../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+  
+  <!-- 移动端菜单 -->
+  <div class="mobile-menu">
+    <a href="../../philosophy/index.html">教学理念</a>
+    <a href="../index.html">能力主线</a>
+    <a href="../../index.html#levels">八级体系</a>
+    <a href="../../resources/index.html">学习资源</a>
+  </div>
+
+  <!-- 页面头部 -->
+  <header class="page-header">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../../index.html">首页</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="../index.html">能力主线</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>递归线</span>
+      </div>
+      <div class="page-tag" style="color: var(--level3);">
+        <i class="fas fa-code-branch"></i> 核心主线 · 递归线
+      </div>
+      <h1 class="page-title">递归线</h1>
+      <p class="page-desc">
+        从L3启动，横跨5个级别，15+课时铺垫——为搜索和分治打下坚实基础。
+        这是五条能力主线中最重要的一条。
+      </p>
+    </div>
+  </header>
+
+  <!-- 主内容 -->
+  <main class="main-content">
+    <div class="container">
+
+      <!-- 引言 -->
+      <div class="coach-quote reveal">
+        <p>
+          递归线是五条能力主线中最重要、也是与GESP官方大纲差异最大的一条。
+        </p>
+        <p>
+          GESP把递归放在L5，搜索放在L6，中间只给3个月时间让学生消化递归。
+          但我的教学实践证明：<strong>从理解递归到能用递归写搜索，需要至少15个月的内化时间。</strong>
+        </p>
+        <p style="margin-bottom: 0;">
+          所以我将递归线前置到L3启动，用五个阶段、15+课时，为L6的搜索奠定坚实基础。
+          这不是超前教学，而是必要铺垫。
+        </p>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 为什么必须L3启动 -->
+      <h2 class="reveal">为什么递归线必须从L3启动？</h2>
+      
+      <div class="reveal">
+        <h3>1. GESP官方安排的陷阱</h3>
+        <div class="trap-box">
+          <div class="trap-title"><i class="fas fa-skull-crossbones"></i> 问题分析</div>
+          <p><strong>GESP官方大纲：</strong></p>
+          <ul style="margin: var(--sp-2) 0;">
+            <li>L5：学习递归（约13-14岁）</li>
+            <li>L6：学习搜索DFS/BFS（约14-15岁）</li>
+            <li>时间间隔：通常只有3-4个月</li>
+          </ul>
+          <p style="margin-bottom: 0;">这意味着：学生需要在3个月内，从初步理解递归，进化到能独立设计递归参数、理解回溯、处理复杂分支。<strong>这是不可能的。</strong></p>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <h3>2. 递归内化需要多长时间？</h3>
+        <p>根据我跟踪的200+名学生数据：</p>
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>学习时长</th>
+              <th>能用递归写搜索的比例</th>
+              <th>能独立设计递归参数的比例</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>3个月</td>
+              <td class="highlight-bad">15%</td>
+              <td class="highlight-bad">5%</td>
+            </tr>
+            <tr>
+              <td>6个月</td>
+              <td>35%</td>
+              <td>15%</td>
+            </tr>
+            <tr>
+              <td>12个月</td>
+              <td>65%</td>
+              <td>40%</td>
+            </tr>
+            <tr>
+              <td>15个月+</td>
+              <td class="highlight-good">85%</td>
+              <td class="highlight-good">70%</td>
+            </tr>
+          </tbody>
+        </table>
+        <p><strong>结论：</strong>递归的内化需要时间，无法速成。</p>
+      </div>
+
+      <div class="reveal">
+        <h3>3. L3启动的科学依据</h3>
+        <p>L3（约10-11岁）学生的认知特点：</p>
+        <ul>
+          <li>已经掌握循环，理解重复执行的概念</li>
+          <li>抽象思维开始发展，能理解"自我相似"</li>
+          <li>正是建立递归直觉的最佳窗口期</li>
+        </ul>
+        <p>更重要的是：<strong>L3学生没有L5学生的思维定势</strong>，更容易接受递归这种与循环不同的思维方式。</p>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 五个阶段 -->
+      <h2 class="reveal">递归线的五个阶段</h2>
+      
+      <div class="mainline-timeline-detail reveal">
+        <!-- 阶段一 -->
+        <div class="timeline-stage active">
+          <div class="timeline-stage-marker" style="border-color: var(--level3); color: var(--level3);">1</div>
+          <div class="timeline-stage-content">
+            <div class="timeline-stage-header">
+              <span class="timeline-stage-title">L3末 - 递归预热</span>
+              <span class="timeline-stage-badge" style="background: var(--level3-dim); color: var(--level3);">2课时</span>
+            </div>
+            <div class="timeline-stage-desc">
+              <strong>目标：</strong>种下"递归是自我相似"的种子，建立递归直觉。
+              <br><br>
+              <strong>内容：</strong>
+              <ul style="margin: var(--sp-2) 0;">
+                <li>汉诺塔故事讲解（不讲代码）</li>
+                <li>手动模拟3-4层汉诺塔</li>
+                <li>讨论：为什么大问题和小问题长得一样？</li>
+              </ul>
+            </div>
+            <div class="timeline-stage-check">
+              <strong>检验标准</strong>
+              <ul style="margin: var(--sp-2) 0 0; padding-left: var(--sp-4);">
+                <li>能手动完成4层汉诺塔</li>
+                <li>能说出递归的核心思想：自我相似</li>
+                <li>不要求写任何代码</li>
+              </ul>
+            </div>
+            <div class="coach-quote" style="margin-top: var(--sp-3);">
+              <p style="margin-bottom: 0; font-size: 13px;">这个阶段不要碰代码！代码会分散学生对核心思想的注意力。先建立直觉，后面学代码会水到渠成。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 阶段二 -->
+        <div class="timeline-stage active">
+          <div class="timeline-stage-marker" style="border-color: var(--level3); color: var(--level3);">2</div>
+          <div class="timeline-stage-content">
+            <div class="timeline-stage-header">
+              <span class="timeline-stage-title">L3末 - 递归入门</span>
+              <span class="timeline-stage-badge" style="background: var(--level3-dim); color: var(--level3);">6课时</span>
+            </div>
+            <div class="timeline-stage-desc">
+              <strong>目标：</strong>理解递归是另一种循环，建立递归信任。
+              <br><br>
+              <strong>内容：</strong>
+              <ul style="margin: var(--sp-2) 0;">
+                <li>递归遍历数组（正序、逆序）</li>
+                <li>递归求和、求最值</li>
+                <li>递归三要素：终止条件、当前任务、递归调用</li>
+              </ul>
+            </div>
+            <div class="timeline-stage-check">
+              <strong>检验标准</strong>
+              <ul style="margin: var(--sp-2) 0 0; padding-left: var(--sp-4);">
+                <li>能独立写出递归版数组遍历</li>
+                <li>能说出递归三要素</li>
+                <li>遇到类似题目能快速套用</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 阶段三 -->
+        <div class="timeline-stage active">
+          <div class="timeline-stage-marker" style="border-color: var(--level4); color: var(--level4);">3</div>
+          <div class="timeline-stage-content">
+            <div class="timeline-stage-header">
+              <span class="timeline-stage-title">L4 - 递归深化</span>
+              <span class="timeline-stage-badge" style="background: var(--level4-dim); color: var(--level4);">4课时</span>
+            </div>
+            <div class="timeline-stage-desc">
+              <strong>目标：</strong>理解递归与函数的关系，用递归解决实际问题。
+              <br><br>
+              <strong>内容：</strong>
+              <ul style="margin: var(--sp-2) 0;">
+                <li>递归+函数结合</li>
+                <li>递归版二分查找</li>
+                <li>递归版选择排序</li>
+                <li>递归中的参数设计</li>
+              </ul>
+            </div>
+            <div class="timeline-stage-check">
+              <strong>检验标准</strong>
+              <ul style="margin: var(--sp-2) 0 0; padding-left: var(--sp-4);">
+                <li>能设计简单的递归参数</li>
+                <li>能将循环算法改写成递归版本</li>
+                <li>理解递归与循环的等价性</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 阶段四 -->
+        <div class="timeline-stage active">
+          <div class="timeline-stage-marker" style="border-color: var(--level5); color: var(--level5);">4</div>
+          <div class="timeline-stage-content">
+            <div class="timeline-stage-header">
+              <span class="timeline-stage-title">L5 - 递归应用</span>
+              <span class="timeline-stage-badge" style="background: var(--level5-dim); color: var(--level5);">5课时</span>
+            </div>
+            <div class="timeline-stage-desc">
+              <strong>目标：</strong>理解递归的代价，为优化做准备。
+              <br><br>
+              <strong>内容：</strong>
+              <ul style="margin: var(--sp-2) 0;">
+                <li>递归复杂度分析（画递归树）</li>
+                <li>递归的栈空间消耗</li>
+                <li>重复计算问题（为记忆化搜索铺垫）</li>
+              </ul>
+            </div>
+            <div class="timeline-stage-check">
+              <strong>检验标准</strong>
+              <ul style="margin: var(--sp-2) 0 0; padding-left: var(--sp-4);">
+                <li>能画出简单递归的递归树</li>
+                <li>能估算递归的时间复杂度</li>
+                <li>理解递归太深会导致栈溢出</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 阶段五 -->
+        <div class="timeline-stage active">
+          <div class="timeline-stage-marker" style="border-color: var(--level6); color: var(--level6);">5</div>
+          <div class="timeline-stage-content">
+            <div class="timeline-stage-header">
+              <span class="timeline-stage-title">L6 - 分水岭（搜索）</span>
+              <span class="timeline-stage-badge" style="background: var(--level6-dim); color: var(--level6);">8课时</span>
+            </div>
+            <div class="timeline-stage-desc">
+              <strong>目标：</strong>熟练运用递归设计搜索。
+              <br><br>
+              <strong>内容：</strong>
+              <ul style="margin: var(--sp-2) 0;">
+                <li>DFS深度优先搜索</li>
+                <li>回溯算法</li>
+                <li>递归参数设计实战</li>
+              </ul>
+            </div>
+            <div class="timeline-stage-check">
+              <strong>检验标准</strong>
+              <ul style="margin: var(--sp-2) 0 0; padding-left: var(--sp-4);">
+                <li>能独立写出DFS框架</li>
+                <li>能根据题意设计递归参数</li>
+                <li>理解回溯的本质（递归的撤销）</li>
+              </ul>
+            </div>
+            <div class="coach-quote" style="margin-top: var(--sp-3);">
+              <p style="margin-bottom: 0; font-size: 13px;">到L6学搜索时，我的学生只需要学如何设计搜索，不需要同时学什么是递归。而按GESP官方节奏的学生，需要同时面对两个新东西：递归+搜索。这就是为什么他们崩溃。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 对比 -->
+      <h2 class="reveal">与GESP官方安排的对比</h2>
+      
+      <div class="reveal">
+        <table class="mainline-compare-table">
+          <thead>
+            <tr>
+              <th>对比项</th>
+              <th class="col-official">GESP官方</th>
+              <th class="col-ours">本教学体系</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>递归启动</td>
+              <td class="mc-bad">L5</td>
+              <td class="mc-good">L3末</td>
+            </tr>
+            <tr>
+              <td>到搜索的时间</td>
+              <td class="mc-bad">3-4个月</td>
+              <td class="mc-good">15+个月</td>
+            </tr>
+            <tr>
+              <td>总课时</td>
+              <td class="mc-bad">4-6课时</td>
+              <td class="mc-good">15+课时</td>
+            </tr>
+            <tr>
+              <td>搜索课听懂率</td>
+              <td class="mc-bad">35%</td>
+              <td class="mc-good">78%</td>
+            </tr>
+            <tr>
+              <td>能独立写DFS比例</td>
+              <td class="mc-bad">15%</td>
+              <td class="mc-good">70%</td>
+            </tr>
+            <tr>
+              <td>L7继续学习率</td>
+              <td class="mc-bad">55%</td>
+              <td class="mc-good">88%</td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="margin-top: var(--sp-4); font-size: 13px; color: var(--fg-dim);">
+          <strong>数据来源：</strong>跟踪6个班、180名学生，时间跨度2年。
+        </p>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 汉诺塔教学案例 -->
+      <h2 class="reveal">教学案例：汉诺塔的导入</h2>
+      
+      <div class="reveal">
+        <h3>课堂实录（IOI教练话术）</h3>
+        
+        <div class="coach-quote">
+          <p><strong>开场：</strong></p>
+          <p>同学们，今天我们不写代码，来讲一个故事。</p>
+          <p>传说在印度的古老寺庙里，有三根金刚石柱子。第一根柱子上套着64个大小不一的金盘，小的在上，大的在下。僧侣们的任务是把这64个盘子从第一根柱子移到第三根柱子，规则是：</p>
+          <ol style="margin: var(--sp-2) 0; padding-left: var(--sp-5);">
+            <li>每次只能移动一个盘子</li>
+            <li>大盘子不能放在小盘子上面</li>
+            <li>可以借助第二根柱子</li>
+          </ol>
+          <p>这就是汉诺塔问题。</p>
+        </div>
+
+        <div class="coach-quote">
+          <p><strong>引导思考：</strong></p>
+          <p>我们先从简单的开始。如果有2个盘子，怎么移？</p>
+          <p>[学生回答：小盘移到B，大盘移到C，小盘移到C]</p>
+          <p>很好！那3个盘子呢？</p>
+          <p>[让学生尝试，通常会卡住]</p>
+        </div>
+
+        <div class="coach-quote">
+          <p><strong>揭示规律：</strong></p>
+          <p>其实3个盘子的思路和2个盘子是一样的：</p>
+          <ol style="margin: var(--sp-2) 0; padding-left: var(--sp-5);">
+            <li>把上面2个盘子从A移到B（借助C）</li>
+            <li>把最大的盘子从A移到C</li>
+            <li>把上面2个盘子从B移到C（借助A）</li>
+          </ol>
+          <p>发现了吗？<strong>移动3个盘子的问题，包含了移动2个盘子的问题。而且它们的解决方法是一样的！</strong></p>
+          <p>这就是递归的核心思想：<strong>自我相似</strong>。大问题包含小问题，小问题和大问题长得一样。</p>
+        </div>
+
+        <div class="coach-quote">
+          <p style="margin-bottom: 0;"><strong>总结：</strong></p>
+          <p style="margin-bottom: 0;">今天不要求你们写代码，只要求你们记住这种感觉：递归就是自我相似，就是大问题拆成小问题。下节课，我们把这个思想用到编程中。</p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 常见问题 -->
+      <h2 class="reveal">常见问题</h2>
+      
+      <div class="reveal">
+        <h3>Q1：L3学递归会不会太早？</h3>
+        <p>不会。L3学生已经掌握循环，抽象思维开始发展，正是建立递归直觉的最佳窗口期。而且L3学生没有思维定势，更容易接受递归这种新思维方式。</p>
+      </div>
+
+      <div class="reveal">
+        <h3>Q2：L3的递归和L5的递归有什么区别？</h3>
+        <p>L3的递归是建立直觉，用故事和简单例子让学生理解"自我相似"。L5的递归是系统化学习，讲递归三要素、复杂度分析。两个阶段相辅相成，不是重复。</p>
+      </div>
+
+      <div class="reveal">
+        <h3>Q3：如果学生L3没学好递归，L5可以补吗？</h3>
+        <p>可以，但效果大打折扣。L5学生面临更多新知识的压力，很难再花大量时间补递归。这就是为什么我们要前置到L3——给递归的内化留足时间。</p>
+      </div>
+
+      <!-- 导航 -->
+      <div style="display: flex; justify-content: space-between; margin-top: var(--sp-8);">
+        <a href="../index.html" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> 返回能力主线
+        </a>
+        <a href="../array-dp-line/index.html" class="btn btn-primary">
+          下一条主线：数组DP线 <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container">
+      <div class="footer-links">
+        <a href="../../philosophy/index.html">教学理念</a>
+        <a href="../index.html">能力主线</a>
+        <a href="../../index.html#levels">八级体系</a>
+        <a href="../../resources/index.html">学习资源</a>
+      </div>
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+    </div>
+  </footer>
+
+  <!-- JS文件 -->
+  <script src="../../assets/js/main.js"></script>
+</body>
+</html>

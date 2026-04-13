@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>代码模板 · 蒙知苑·OI</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../assets/css/base.css">
+  <link rel="stylesheet" href="../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../assets/css/components.css">
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../philosophy/index.html">教学理念</a>
+        <a href="../../mainlines/index.html">能力主线</a>
+        <a href="../../index.html#levels">八级体系</a>
+        <a href="../index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+  
+  <div class="mobile-menu">
+    <a href="../../philosophy/index.html">教学理念</a>
+    <a href="../../mainlines/index.html">能力主线</a>
+    <a href="../../index.html#levels">八级体系</a>
+    <a href="../index.html">学习资源</a>
+  </div>
+
+  <header class="page-header">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../../index.html">首页</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="../index.html">学习资源</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>代码模板</span>
+      </div>
+      <h1 class="page-title">代码模板</h1>
+      <p class="page-desc">常用代码模板、快读模板、标准框架</p>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container">
+
+      <div class="trap-box reveal">
+        <div class="trap-title"><i class="fas fa-exclamation-triangle"></i> 重要提醒</div>
+        <p style="margin-bottom: 0;">
+          模板是工具，不是拐杖。学习初期不要依赖模板，要理解每一行代码的含义。
+          模板的价值在于减少重复劳动，而不是代替思考。
+        </p>
+      </div>
+
+      <h2 class="reveal">基础框架</h2>
+      
+      <div class="reveal">
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">C++</span>
+            <button class="code-copy"><i class="fas fa-copy"></i></button>
+          </div>
+          <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    // 关闭同步，提高cin/cout速度
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    // 你的代码
+    
+    return 0;
+}</code></pre>
+        </div>
+      </div>
+
+      <h2 class="reveal">快读模板</h2>
+      
+      <div class="reveal">
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">C++</span>
+            <button class="code-copy"><i class="fas fa-copy"></i></button>
+          </div>
+          <pre><code>// 快速读入
+inline int read() {
+    int x = 0, f = 1;
+    char ch = getchar();
+    while (ch < '0' || ch > '9') {
+        if (ch == '-') f = -1;
+        ch = getchar();
+    }
+    while (ch >= '0' && ch <= '9') {
+        x = x * 10 + ch - '0';
+        ch = getchar();
+    }
+    return x * f;
+}</code></pre>
+        </div>
+      </div>
+
+      <h2 class="reveal">DFS模板</h2>
+      
+      <div class="reveal">
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">C++</span>
+            <button class="code-copy"><i class="fas fa-copy"></i></button>
+          </div>
+          <pre><code>const int MAXN = 1005;
+int n, m;
+bool vis[MAXN][MAXN];
+int dx[] = {0, 0, 1, -1};
+int dy[] = {1, -1, 0, 0};
+
+void dfs(int x, int y) {
+    // 边界检查
+    if (x < 1 || x > n || y < 1 || y > m) return;
+    // 访问检查
+    if (vis[x][y]) return;
+    
+    vis[x][y] = true;
+    
+    // 四个方向搜索
+    for (int i = 0; i < 4; i++) {
+        int nx = x + dx[i];
+        int ny = y + dy[i];
+        dfs(nx, ny);
+    }
+}</code></pre>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; margin-top: var(--sp-8);">
+        <a href="../books/index.html" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> 推荐书籍
+        </a>
+        <a href="../index.html" class="btn btn-primary">
+          返回学习资源 <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container">
+      <div class="footer-links">
+        <a href="../../philosophy/index.html">教学理念</a>
+        <a href="../../mainlines/index.html">能力主线</a>
+        <a href="../../index.html#levels">八级体系</a>
+        <a href="../index.html">学习资源</a>
+      </div>
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+    </div>
+  </footer>
+
+  <script src="../../assets/js/main.js"></script>
+</body>
+</html>

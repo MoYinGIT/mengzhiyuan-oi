@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L3-03 数组越界与内存 · 蒙知苑·OI</title>
+  <meta name="description" content="深入理解C++数组的内存模型、越界危害，建立内存安全意识。">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../../assets/css/base.css">
+  <link rel="stylesheet" href="../../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../../assets/css/components.css">
+  <link rel="stylesheet" href="../../../assets/css/teaching-visuals.css">
+  <link rel="stylesheet" href="../../../assets/css/level.css">
+  
+  <style>
+    :root { --lv-color: var(--level3); --lv-dim: var(--level3-dim); }
+  </style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels" class="active">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+  
+  <div class="mobile-menu">
+    <a href="../../../philosophy/index.html">教学理念</a>
+    <a href="../../../mainlines/index.html">能力主线</a>
+    <a href="../../../index.html#levels">八级体系</a>
+    <a href="../../../resources/index.html">学习资源</a>
+  </div>
+
+  <div class="lesson-top-info">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../../../index.html">首页</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="../index.html">L3 数组期</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>L3-03</span>
+      </div>
+      <div class="lesson-header-row">
+        <div>
+          <h1 class="lesson-title-main">数组越界与内存</h1>
+          <p class="lesson-subtitle">数组内存模型、越界危害、内存安全意识</p>
+        </div>
+        <div class="lesson-meta">
+          <div class="meta-item"><i class="fas fa-clock"></i> 8课时</div>
+          <div class="meta-item"><i class="fas fa-calendar"></i> 约2周</div>
+          <div class="meta-item"><i class="fas fa-signal"></i> 难度 <span class="difficulty-star"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="main-content">
+    <div class="container">
+
+      <div class="goals-card reveal">
+        <h4><i class="fas fa-bullseye"></i> 本课三维目标</h4>
+        <div class="goals-grid">
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--red-dim); color: var(--red);">知识</span>
+            <span class="goal-text">数组内存模型、越界概念、栈溢出、内存覆盖</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--green-dim); color: var(--green);">技能</span>
+            <span class="goal-text">能识别常见的越界写法，养成边界检查习惯</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--blue-dim); color: var(--blue);">思维</span>
+            <span class="goal-text">理解"数组大小"与"合法下标范围"的区别</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="coach-quote reveal">
+        <p style="margin-bottom: 0;">
+          数组越界是C++初学者<strong>最隐蔽、最致命</strong>的Bug。它不会每次都报错，
+          有时程序还能"正常"运行，但结果却是错的。这种Bug在比赛中特别可怕——
+          你以为AC了，实际是RE（运行时错误）或者WA（答案错误）的随机抽奖。
+        </p>
+      </div>
+
+      <section class="reveal">
+        <h2>1. 数组大小 vs 合法下标</h2>
+        <p>这是初学者最容易混淆的概念：</p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">越界示例</span>
+            <button class="copy-btn" data-clipboard-target="#code1">复制</button>
+          </div>
+          <pre><code id="code1" class="language-cpp">int a[5]; // 数组大小是5
+
+// 合法下标：0, 1, 2, 3, 4
+a[0] = 10; // ✅ 合法
+a[4] = 50; // ✅ 合法
+
+// 非法下标
+a[5] = 60; // ❌ 越界！数组只有5个元素，最大下标是4
+a[-1] = 0; // ❌ 越界！下标不能为负数</code></pre>
+        </div>
+        <div class="note-box warning">
+          <p>
+            <strong>关键记忆点：</strong>如果数组大小是 <code class="inline-code">n</code>，合法下标范围永远是 <code class="inline-code">0</code> 到 <code class="inline-code">n-1</code>。
+            循环写 <code class="inline-code">i &lt; n</code> 而不是 <code class="inline-code">i &lt;= n</code>。
+          </p>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>2. 越界时到底发生了什么？</h2>
+        <p>
+          C++的数组<strong>不会自动检查边界</strong>。当你访问 <code class="inline-code">a[5]</code> 时，
+          编译器直接计算地址：<code class="inline-code">起始地址 + 5 × 4</code>，然后读写那片内存。
+        </p>
+        <p>那片内存里可能是：</p>
+        <ul>
+          <li><strong>其他变量的值</strong> → 你的代码"碰巧"改掉了别的数据，程序行为诡异</li>
+          <li><strong>系统关键数据</strong> → 程序直接崩溃（Segmentation Fault）</li>
+          <li><strong>未使用的内存</strong> → 程序看似正常运行，但结果是错的</li>
+        </ul>
+        <div class="visual-demo" data-type="memory" data-memory='[
+          {"addr":"0x1000","cells":["a[0]","10","",""],"var":"10"},
+          {"addr":"0x1004","cells":["a[1]","20","",""],"var":"20"},
+          {"addr":"0x1008","cells":["a[2]","30","",""],"var":"30"},
+          {"addr":"0x100C","cells":["a[3]","40","",""],"var":"40"},
+          {"addr":"0x1010","cells":["a[4]","50","",""],"var":"50"},
+          {"addr":"0x1014","cells":["???","99","",""],"var":"其他变量！","changed":[1]}
+        ]'></div>
+        <p>
+          上图展示了 <code class="inline-code">a[5] = 99</code> 的悲剧：你本想在数组里存个99，
+          结果写进了隔壁变量的家里。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>3. 常见越界错误写法</h2>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">高危代码集锦</span>
+            <button class="copy-btn" data-clipboard-target="#code2">复制</button>
+          </div>
+          <pre><code id="code2" class="language-cpp">// 错误1：循环条件写错
+for (int i = 0; i <= n; i++) { ... a[i] ... } // 当 i==n 时越界
+
+// 错误2：用1-based下标处理0-based数组
+for (int i = 1; i <= n; i++) { ... a[i] ... } // a[n]越界
+
+// 错误3：二维数组只检查了一个维度
+if (x >= 0 && x < n) {
+    a[x][y] = ...; // 如果 y 越界呢？
+}
+
+// 错误4：字符串末尾的 '\0'
+char s[10] = "hello world"; // 字符串长度11，数组只有10</code></pre>
+        </div>
+        <div class="note-box">
+          <p>
+            <strong>检查口诀：</strong>写数组访问前，默念三遍：
+            "下标是否 ≥ 0？下标是否 &lt; 数组大小？边界条件测试了吗？"
+          </p>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>4. 竞赛中的防御性编程</h2>
+        <p>在竞赛和实际工程中，推荐以下防御习惯：</p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">防御性写法</span>
+            <button class="copy-btn" data-clipboard-target="#code3">复制</button>
+          </div>
+          <pre><code id="code3" class="language-cpp">// 习惯1：数组开大一点
+int a[1005]; // 题目说最多1000个，多开5个防手滑
+
+// 习惯2：宏定义或常量管理数组大小
+const int MAXN = 1005;
+int a[MAXN];
+
+// 习惯3：访问前检查边界
+if (i >= 0 && i < MAXN) {
+    a[i] = x;
+}
+
+// 习惯4：循环边界用 < 而不是 <=
+for (int i = 0; i < n; i++) { ... }</code></pre>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>5. 栈溢出：数组太大的后果</h2>
+        <p>
+          在函数内部定义的数组（局部数组）存放在<strong>栈区</strong>，栈的空间通常只有几MB。
+          如果你开了太大的数组：
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">栈溢出示例</span>
+            <button class="copy-btn" data-clipboard-target="#code4">复制</button>
+          </div>
+          <pre><code id="code4" class="language-cpp">int main() {
+    int a[10000000]; // 一千万个int = 40MB
+    // 程序直接崩溃！栈空间不够
+}</code></pre>
+        </div>
+        <p><strong>解决方案：</strong>把大数组定义为<strong>全局变量</strong>（放在函数外面），全局变量存放在数据区，空间远大于栈。</p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">正确的全局数组写法</span>
+            <button class="copy-btn" data-clipboard-target="#code5">复制</button>
+          </div>
+          <pre><code id="code5" class="language-cpp">const int MAXN = 1000005;
+int a[MAXN]; // 全局数组，安全
+
+int main() {
+    // 正常使用
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
+    }
+}</code></pre>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="reveal">
+        <h2>IOI教练常见教学陷阱</h2>
+        <div class="traps-grid">
+          <div class="trap-card">
+            <div class="trap-title">陷阱1：认为"程序没报错就没越界"</div>
+            <p class="trap-desc">
+              C++不会帮你检查数组边界。很多越界程序看起来运行正常，但结果是错的。
+              要让学生建立"越界 = 定时炸弹"的意识。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱2：不教全局数组的用法</div>
+            <p class="trap-desc">
+              很多教材为了追求"规范"，只讲局部数组。但竞赛中100%会用全局大数组。
+              L3就要让学生知道什么时候该用全局数组。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱3：数组大小开得刚刚好</div>
+            <p class="trap-desc">
+              竞赛中数组多开10%~20%是标准操作。题目说1000就开1010或1050，
+              防止边界条件手滑或者题面描述有歧义。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>课后练习题</h2>
+        <div class="exercise-list">
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">1</span>
+              <h4 class="exercise-title">找出越界代码</h4>
+              <span class="exercise-tag easy">入门</span>
+            </div>
+            <p>给出5段代码，让学生找出哪些有越界风险，并说明原因。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">2</span>
+              <h4 class="exercise-title">修复越界Bug</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>给定一段有数组越界问题的程序，要求学生找出并修复所有越界点。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">3</span>
+              <h4 class="exercise-title">安全的邻居访问</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>给定 n×m 矩阵和中心点坐标 (x,y)，安全地输出其上下左右邻居的值（边界上的点没有某些邻居，不要越界）。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">4</span>
+              <h4 class="exercise-title">数组大小估算</h4>
+              <span class="exercise-tag hard">挑战</span>
+            </div>
+            <p>题目要求处理 10^5 个整数，每个整数最大 10^9。计算需要开多大的数组，并选择全局还是局部定义。</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="checklist-box reveal">
+        <h4><i class="fas fa-clipboard-check"></i> 本课自测清单</h4>
+        <ul>
+          <li>能准确说出"数组大小n"对应的"合法下标范围"</li>
+          <li>能识别3种以上的常见越界写法</li>
+          <li>理解为什么C++不会自动报越界错误</li>
+          <li>知道全局数组和局部数组在内存中的区别</li>
+          <li>养成了"数组多开一点"的防御性编程习惯</li>
+          <li class="blocker">如果任何一条不满足，不要进入L3-04前缀和</li>
+        </ul>
+      </div>
+
+      <div class="lesson-nav reveal">
+        <a href="L3-02-二维数组.html" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> 上一课：二维数组
+        </a>
+        <a href="L3-04-前缀和.html" class="btn btn-primary" style="background: var(--level3); border-color: var(--level3);">
+          下一课：前缀和 <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container">
+      <div class="footer-links">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+    </div>
+  </footer>
+
+  <script src="../../../assets/js/main.js"></script>
+</body>
+</html>

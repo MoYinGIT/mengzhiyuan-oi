@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L5-04 搜索剪枝 · 蒙知苑·OI</title>
+  <meta name="description" content="学习搜索剪枝的核心技巧，掌握可行性剪枝和最优性剪枝，提升搜索效率。">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../../assets/css/base.css">
+  <link rel="stylesheet" href="../../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../../assets/css/components.css">
+  <link rel="stylesheet" href="../../../assets/css/teaching-visuals.css">
+  <link rel="stylesheet" href="../../../assets/css/level.css">
+  
+  <style>
+    :root { --lv-color: var(--level5); --lv-dim: var(--level5-dim); }
+  </style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels" class="active">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+  
+  <div class="mobile-menu">
+    <a href="../../../philosophy/index.html">教学理念</a>
+    <a href="../../../mainlines/index.html">能力主线</a>
+    <a href="../../../index.html#levels">八级体系</a>
+    <a href="../../../resources/index.html">学习资源</a>
+  </div>
+
+  <div class="lesson-top-info">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../../../index.html">首页</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="../index.html">L5 搜索期</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>L5-04</span>
+      </div>
+      <div class="lesson-header-row">
+        <div>
+          <h1 class="lesson-title-main">搜索剪枝</h1>
+          <p class="lesson-subtitle">可行性剪枝、最优性剪枝、剪枝的艺术与边界</p>
+        </div>
+        <div class="lesson-meta">
+          <div class="meta-item"><i class="fas fa-clock"></i> 8课时</div>
+          <div class="meta-item"><i class="fas fa-calendar"></i> 约2周</div>
+          <div class="meta-item"><i class="fas fa-signal"></i> 难度 <span class="difficulty-star"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="main-content">
+    <div class="container">
+
+      <div class="goals-card reveal">
+        <h4><i class="fas fa-bullseye"></i> 本课三维目标</h4>
+        <div class="goals-grid">
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--red-dim); color: var(--red);">知识</span>
+            <span class="goal-text">剪枝的定义、可行性剪枝、最优性剪枝、剪枝的边界条件</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--green-dim); color: var(--green);">技能</span>
+            <span class="goal-text">能在DFS/BFS/回溯中识别并加入有效的剪枝条件</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--blue-dim); color: var(--blue);">思维</span>
+            <span class="goal-text">建立"提前终止无效搜索"的优化意识</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="coach-quote reveal">
+        <p style="margin-bottom: 0;">
+          搜索的本质是枚举。但枚举所有可能性在很多问题中会超时（TLE）。
+          <strong>剪枝</strong>就是在搜索树还没长到叶子的时候，就判断这条路不可能通向答案，
+          然后果断砍掉它。一个优秀的OI选手，和一个普通选手的区别，往往就在于剪枝的艺术。
+        </p>
+      </div>
+
+      <section class="reveal">
+        <h2>1. 为什么要剪枝？</h2>
+        <p>
+          假设我们要在1~20中选出若干个数，使它们的和等于20。如果不剪枝，回溯法会枚举所有 2^20 ≈ 100万 个子集。
+        </p>
+        <p>
+          但如果我们发现当前已选数字的和已经超过20了，就可以立即停止这条路径的搜索——
+          因为再往下加只会更大。这个简单的判断，可能砍掉搜索树的半壁江山。
+        </p>
+        <div class="visual-demo" data-type="mermaid">
+graph TD
+    A[和=0] --> B[选5,和=5]
+    A --> C[不选5]
+    B --> D[选10,和=15]
+    B --> E[不选10]
+    D --> F[选8,和=23<br/>❌ 超了，剪掉！]
+    D --> G[不选8]
+    style F fill:#ef4444
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>2. 可行性剪枝</h2>
+        <p>
+          <strong>可行性剪枝</strong>：当当前状态已经违反问题的约束条件时，直接返回，不再继续搜索。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">和为target的子集问题</span>
+            <button class="copy-btn" data-clipboard-target="#code1">复制</button>
+          </div>
+          <pre><code id="code1" class="language-cpp">void dfs(int index, int currentSum) {
+    // 可行性剪枝：和已经超过target
+    if (currentSum > target) return;
+    
+    // 可行性剪枝：就算把剩下所有数都加上，也凑不够target
+    if (currentSum + remainingSum[index] < target) return;
+    
+    if (index == n) {
+        if (currentSum == target) ans++;
+        return;
+    }
+    
+    // 选 a[index]
+    dfs(index + 1, currentSum + a[index]);
+    
+    // 不选 a[index]
+    dfs(index + 1, currentSum);
+}</code></pre>
+        </div>
+        <p>
+          上面的代码展示了两种可行性剪枝：
+        </p>
+        <ul>
+          <li><strong>上界剪枝</strong>：当前和已经超过target，不可能再满足条件</li>
+          <li><strong>下界剪枝</strong>：即使加上所有剩余数字，和仍然小于target，也不可能满足条件</li>
+        </ul>
+      </section>
+
+      <section class="reveal">
+        <h2>3. 最优性剪枝</h2>
+        <p>
+          <strong>最优性剪枝</strong>：当当前状态已经不可能比已知最优解更优时，直接返回。
+          它常用于求最大值/最小值的问题。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">最优性剪枝示例</span>
+            <button class="copy-btn" data-clipboard-target="#code2">复制</button>
+          </div>
+          <pre><code id="code2" class="language-cpp">int best = INF;  // 当前找到的最短路径长度
+
+void dfs(int x, int y, int step) {
+    // 最优性剪枝：已经比已知最优解差了
+    if (step >= best) return;
+    
+    if (x == ex && y == ey) {
+        best = step;  // 更新最优解
+        return;
+    }
+    
+    // ... 四个方向搜索 ...
+}</code></pre>
+        </div>
+        <p>
+          最优性剪枝的威力在于：越早找到一个好的解，就越能砍掉更多的分支。
+          因此很多题目会先写一个贪心算法求一个"不那么差"的初始解，再用搜索优化。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>4. 常见剪枝技巧汇总</h2>
+        <table style="width: 100%; border-collapse: collapse; margin-top: var(--sp-4);">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--border);">
+              <th style="text-align: left; padding: var(--sp-3);">剪枝类型</th>
+              <th style="text-align: left; padding: var(--sp-3);">适用场景</th>
+              <th style="text-align: left; padding: var(--sp-3);">判断依据</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border-dim);">
+              <td style="padding: var(--sp-3);">越界剪枝</td>
+              <td style="padding: var(--sp-3);">网格搜索</td>
+              <td style="padding: var(--sp-3);">坐标超出边界</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-dim);">
+              <td style="padding: var(--sp-3);">重复剪枝</td>
+              <td style="padding: var(--sp-3);">排列/组合</td>
+              <td style="padding: var(--sp-3);">当前元素与上一个相同且上一个未使用</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-dim);">
+              <td style="padding: var(--sp-3);">和/积剪枝</td>
+              <td style="padding: var(--sp-3);">子集、背包类</td>
+              <td style="padding: var(--sp-3);">当前和（积）已超过目标，或加上剩余也不够</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--sp-3);">顺序剪枝</td>
+              <td style="padding: var(--sp-3);">组合选择</td>
+              <td style="padding: var(--sp-3);">规定选择的顺序，避免重复状态</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="reveal">
+        <h2>5. 剪枝的注意事项</h2>
+        <div class="note-box warning">
+          <p>
+            <strong>剪枝不能剪错！</strong> 一个错误的剪枝条件，可能把正确答案所在的子树一起砍掉，
+            导致程序输出错误答案（WA）。
+          </p>
+        </div>
+        <ul>
+          <li>剪枝条件必须是<strong>充分条件</strong>：满足这个条件，一定不可能有解</li>
+          <li>不要过早优化：先把裸搜索写出来，再考虑加剪枝</li>
+          <li>剪枝条件本身不要写得太复杂，避免引入新的Bug和额外开销</li>
+        </ul>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="reveal">
+        <h2>IOI教练常见教学陷阱</h2>
+        <div class="traps-grid">
+          <div class="trap-card">
+            <div class="trap-title">陷阱1：还没写出裸搜索就急着剪枝</div>
+            <p class="trap-desc">
+              很多学生一听剪枝很酷，就开始在代码里到处加if。
+              结果是逻辑混乱，剪枝条件写错，程序WA。正确顺序：先写裸搜索，确认正确，再加剪枝。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱2：剪枝条件过于保守</div>
+            <p class="trap-desc">
+              有些学生加了剪枝，但只砍掉很少的分支，对效率提升微乎其微。
+              好的剪枝应该能砍掉至少一个数量级的搜索空间。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱3：认为剪枝是万能的</div>
+            <p class="trap-desc">
+              有些问题（如某些NP-hard问题）即使加了剪枝，复杂度仍然是指数级的。
+              剪枝能优化常数或降低平均复杂度，但不能改变问题的本质难度。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>课后练习题</h2>
+        <div class="exercise-list">
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">1</span>
+              <h4 class="exercise-title">和为target的子集计数</h4>
+              <span class="exercise-tag easy">入门</span>
+            </div>
+            <p>给定 n 个正整数，求和为 target 的子集数量。要求加入上下界剪枝。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">2</span>
+              <h4 class="exercise-title">迷宫最短路径（DFS+剪枝）</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>用DFS求迷宫最短路径，加入最优性剪枝（step ≥ best时返回）。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">3</span>
+              <h4 class="exercise-title">N皇后优化</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>在标准N皇后代码中加入对称性剪枝：利用棋盘对称性减少搜索量。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">4</span>
+              <h4 class="exercise-title">24点游戏</h4>
+              <span class="exercise-tag hard">挑战</span>
+            </div>
+            <p>给定4个数字，通过加减乘除和括号运算，判断是否能得到24。用搜索+剪枝解决。</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="checklist-box reveal">
+        <h4><i class="fas fa-clipboard-check"></i> 本课自测清单</h4>
+        <ul>
+          <li>能区分可行性剪枝和最优性剪枝</li>
+          <li>能在子集求和问题中写出上下界剪枝</li>
+          <li>能在迷宫最短路径问题中加入最优性剪枝</li>
+          <li>理解"剪枝条件必须是充分条件"的重要性</li>
+          <li>掌握"先写裸搜索，再加剪枝"的正确流程</li>
+          <li class="blocker">如果任何一条不满足，不要进入L5-05状态表示与哈希</li>
+        </ul>
+      </div>
+
+      <div class="lesson-nav reveal">
+        <a href="L5-03-回溯法.html" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> 上一课：回溯法
+        </a>
+        <a href="L5-05-状态表示与哈希.html" class="btn btn-primary" style="background: var(--level5); border-color: var(--level5);">
+          下一课：状态表示与哈希 <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container">
+      <div class="footer-links">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+    </div>
+  </footer>
+
+  <script src="../../../assets/js/main.js"></script>
+</body>
+</html>

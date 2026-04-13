@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>学习资源 · 蒙知苑·OI</title>
+  <meta name="description" content="推荐工具、学习资源、代码模板，助力C++算法竞赛学习。">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/layout.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../philosophy/index.html">教学理念</a>
+        <a href="../mainlines/index.html">能力主线</a>
+        <a href="../index.html#levels">八级体系</a>
+        <a href="index.html" class="active">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+  
+  <div class="mobile-menu">
+    <a href="../philosophy/index.html">教学理念</a>
+    <a href="../mainlines/index.html">能力主线</a>
+    <a href="../index.html#levels">八级体系</a>
+    <a href="index.html">学习资源</a>
+  </div>
+
+  <header class="page-header">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../index.html">首页</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>学习资源</span>
+      </div>
+      <div class="page-tag">
+        <i class="fas fa-toolbox"></i> 辅助学习
+      </div>
+      <h1 class="page-title">学习资源</h1>
+      <p class="page-desc">
+        推荐工具、在线判题平台、学习书籍、代码模板。
+        工欲善其事，必先利其器。
+      </p>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container">
+
+      <!-- 资源导航卡片 -->
+      <div class="grid-3 reveal" style="margin-bottom: var(--sp-8);">
+        <a href="tools/index.html" class="card card-hoverable">
+          <div class="card-header">
+            <div class="card-icon" style="background: var(--accent-dim); color: var(--accent);">
+              <i class="fas fa-laptop-code"></i>
+            </div>
+            <h3 class="card-title">推荐工具</h3>
+          </div>
+          <p class="card-desc">
+            IDE选择、在线判题平台对比、辅助工具推荐
+          </p>
+        </a>
+        <a href="books/index.html" class="card card-hoverable">
+          <div class="card-header">
+            <div class="card-icon" style="background: var(--level1-dim); color: var(--level1);">
+              <i class="fas fa-book"></i>
+            </div>
+            <h3 class="card-title">推荐书籍</h3>
+          </div>
+          <p class="card-desc">
+            从入门到进阶的算法书籍推荐，附阅读路线图
+          </p>
+        </a>
+        <a href="templates/index.html" class="card card-hoverable">
+          <div class="card-header">
+            <div class="card-icon" style="background: var(--level3-dim); color: var(--level3);">
+              <i class="fas fa-file-code"></i>
+            </div>
+            <h3 class="card-title">代码模板</h3>
+          </div>
+          <p class="card-desc">
+            常用代码模板、快读模板、标准框架
+          </p>
+        </a>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 快速推荐 -->
+      <h2 class="reveal">快速推荐</h2>
+      
+      <div class="reveal">
+        <h3>🖥️ IDE 推荐</h3>
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>IDE</th>
+              <th>适用平台</th>
+              <th>推荐指数</th>
+              <th>特点</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>VS Code</strong></td>
+              <td>Win/Mac/Linux</td>
+              <td>⭐⭐⭐⭐⭐</td>
+              <td>轻量、插件丰富、免费</td>
+            </tr>
+            <tr>
+              <td><strong>CLion</strong></td>
+              <td>Win/Mac/Linux</td>
+              <td>⭐⭐⭐⭐</td>
+              <td>专业、智能提示强（付费）</td>
+            </tr>
+            <tr>
+              <td><strong>Dev-C++</strong></td>
+              <td>Windows</td>
+              <td>⭐⭐⭐</td>
+              <td>GESP考试同款、简洁</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="reveal">
+        <h3>🌐 OJ 平台推荐</h3>
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>平台</th>
+              <th>难度</th>
+              <th>适合阶段</th>
+              <th>特点</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>洛谷</strong></td>
+              <td>入门~提高</td>
+              <td>L1-L8</td>
+              <td>题解丰富、有题单</td>
+            </tr>
+            <tr>
+              <td><strong>力扣</strong></td>
+              <td>入门~进阶</td>
+              <td>L4-L8</td>
+              <td>面试导向、讨论区活跃</td>
+            </tr>
+            <tr>
+              <td><strong>Codeforces</strong></td>
+              <td>提高~省选</td>
+              <td>L6-L8</td>
+              <td>比赛多、国际化</td>
+            </tr>
+            <tr>
+              <td><strong>AtCoder</strong></td>
+              <td>入门~提高</td>
+              <td>L3-L7</td>
+              <td>题目质量高、适合练习</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="reveal">
+        <h3>📚 必读书籍</h3>
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon" style="background: var(--level1-dim); color: var(--level1);">
+                <i class="fas fa-seedling"></i>
+              </div>
+              <h3 class="card-title">入门</h3>
+            </div>
+            <p class="card-desc">
+              《C++ Primer Plus》<br>
+              《啊哈！算法》<br>
+              <small style="color: var(--fg-dim);">适合L1-L3</small>
+            </p>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon" style="background: var(--level4-dim); color: var(--level4);">
+                <i class="fas fa-book-reader"></i>
+              </div>
+              <h3 class="card-title">进阶</h3>
+            </div>
+            <p class="card-desc">
+              《算法竞赛入门经典》<br>
+              《挑战程序设计竞赛》<br>
+              <small style="color: var(--fg-dim);">适合L4-L6</small>
+            </p>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon" style="background: var(--level7-dim); color: var(--level7);">
+                <i class="fas fa-graduation-cap"></i>
+              </div>
+              <h3 class="card-title">提高</h3>
+            </div>
+            <p class="card-desc">
+              《算法竞赛进阶指南》<br>
+              《信息学奥赛之数学一本通》<br>
+              <small style="color: var(--fg-dim);">适合L7-L8</small>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 学习建议 -->
+      <h2 class="reveal">IOI教练的学习建议</h2>
+      
+      <div class="coach-quote reveal">
+        <p><strong>关于工具：</strong></p>
+        <p>不要纠结于IDE的选择。VS Code足够好，Dev-C++也够用。重要的是写代码，不是配置环境。</p>
+      </div>
+
+      <div class="coach-quote reveal">
+        <p><strong>关于OJ平台：</strong></p>
+        <p>洛谷是中文学习者的首选，题解丰富，有按知识点分类的题单。建议L1-L6主要在洛谷练习，L7+可以挑战Codeforces。</p>
+      </div>
+
+      <div class="coach-quote reveal">
+        <p><strong>关于书籍：</strong></p>
+        <p style="margin-bottom: 0;">不要贪多。每个阶段精读一本书，胜过泛泛读十本。L1-L3读《啊哈！算法》，L4-L6读《算法竞赛入门经典》，足够了。</p>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container">
+      <div class="footer-links">
+        <a href="../philosophy/index.html">教学理念</a>
+        <a href="../mainlines/index.html">能力主线</a>
+        <a href="../index.html#levels">八级体系</a>
+        <a href="index.html">学习资源</a>
+      </div>
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+    </div>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

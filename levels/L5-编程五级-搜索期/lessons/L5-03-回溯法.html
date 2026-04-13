@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L5-03 回溯法 · 蒙知苑·OI</title>
+  <meta name="description" content="学习回溯法的核心思想，掌握全排列、N皇后、子集生成等经典问题的解法。">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../../assets/css/base.css">
+  <link rel="stylesheet" href="../../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../../assets/css/components.css">
+  <link rel="stylesheet" href="../../../assets/css/teaching-visuals.css">
+  <link rel="stylesheet" href="../../../assets/css/level.css">
+  
+  <style>
+    :root { --lv-color: var(--level5); --lv-dim: var(--level5-dim); }
+  </style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels" class="active">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+  
+  <div class="mobile-menu">
+    <a href="../../../philosophy/index.html">教学理念</a>
+    <a href="../../../mainlines/index.html">能力主线</a>
+    <a href="../../../index.html#levels">八级体系</a>
+    <a href="../../../resources/index.html">学习资源</a>
+  </div>
+
+  <div class="lesson-top-info">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../../../index.html">首页</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="../index.html">L5 搜索期</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>L5-03</span>
+      </div>
+      <div class="lesson-header-row">
+        <div>
+          <h1 class="lesson-title-main">回溯法</h1>
+          <p class="lesson-subtitle">全排列、N皇后、子集生成、状态恢复</p>
+        </div>
+        <div class="lesson-meta">
+          <div class="meta-item"><i class="fas fa-clock"></i> 8课时</div>
+          <div class="meta-item"><i class="fas fa-calendar"></i> 约2周</div>
+          <div class="meta-item"><i class="fas fa-signal"></i> 难度 <span class="difficulty-star"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="main-content">
+    <div class="container">
+
+      <div class="goals-card reveal">
+        <h4><i class="fas fa-bullseye"></i> 本课三维目标</h4>
+        <div class="goals-grid">
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--red-dim); color: var(--red);">知识</span>
+            <span class="goal-text">回溯法定义、选择-递归-撤销三步、状态恢复机制</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--green-dim); color: var(--green);">技能</span>
+            <span class="goal-text">能用回溯法解决全排列、N皇后、子集生成等经典问题</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--blue-dim); color: var(--blue);">思维</span>
+            <span class="goal-text">建立"尝试-失败-回退-再尝试"的系统性枚举思维</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="coach-quote reveal">
+        <p style="margin-bottom: 0;">
+          回溯法可以看作是DFS在<strong>组合/排列/选择问题</strong>上的特化应用。
+          它的核心只有一句话：<strong>做选择 → 递归深入 → 撤销选择</strong>。
+          很多学生学不会回溯，不是因为代码难，而是因为没理解"为什么要撤销"。
+          这一课，我们要把这个机制讲透。
+        </p>
+      </div>
+
+      <section class="reveal">
+        <h2>1. 回溯法的核心思想</h2>
+        <p>
+          回溯法是一种<strong>系统性枚举</strong>策略：在搜索过程中，当我们发现当前选择无法通向有效解时，
+          就<strong>回退到上一步，撤销刚才的选择</strong>，然后尝试其他选择。
+        </p>
+        <p>
+          你可以把回溯想象成走迷宫时用粉笔在墙上做标记：走进一个岔路，发现是死胡同，
+          擦掉标记，退回岔路口，尝试另一条路。
+        </p>
+        <div class="visual-demo" data-type="mermaid">
+graph TD
+    A[开始] --> B[做选择1]
+    B --> C[递归深入]
+    C --> D[发现死胡同]
+    D --> E[撤销选择1]
+    E --> F[做选择2]
+    F --> G[递归深入]
+    G --> H[找到解]
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>2. 全排列：回溯法的经典入门</h2>
+        <p>
+          问题：给定数字 1, 2, 3，输出它们的所有排列。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">全排列回溯代码</span>
+            <button class="copy-btn" data-clipboard-target="#code1">复制</button>
+          </div>
+          <pre><code id="code1" class="language-cpp">const int MAXN = 15;
+int n;
+int path[MAXN];      // 当前路径
+bool used[MAXN];     // 数字是否已被使用
+
+void backtrack(int step) {
+    if (step == n) {
+        // 已经选了n个数字，输出排列
+        for (int i = 0; i < n; i++) {
+            cout << path[i] << " ";
+        }
+        cout << endl;
+        return;
+    }
+    
+    for (int i = 1; i <= n; i++) {
+        if (!used[i]) {
+            // 做选择
+            path[step] = i;
+            used[i] = true;
+            
+            // 递归深入
+            backtrack(step + 1);
+            
+            // 撤销选择（关键！）
+            used[i] = false;
+            path[step] = 0; // 可选
+        }
+    }
+}</code></pre>
+        </div>
+        <p>
+          注意代码结构：做选择 → 递归 → 撤销选择。这三步是回溯法的固定舞步。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>3. 状态恢复：为什么必须撤销？</h2>
+        <p>
+          如果不撤销 <code class="inline-code">used[i]</code>，当循环回到上一层时，
+          <code class="inline-code">i</code> 仍然被标记为已使用，导致后续排列无法正确生成。
+        </p>
+        <div class="visual-demo" data-type="tracker" data-tracker='[
+          {"step":"backtrack(0), 选1","vars":[{"name":"path","value":"[1,_,_]"},{"name":"used[1]","value":"true","highlight":true}]},
+          {"step":"backtrack(1), 选2","vars":[{"name":"path","value":"[1,2,_]"},{"name":"used[2]","value":"true","highlight":true}]},
+          {"step":"backtrack(2), 选3","vars":[{"name":"path","value":"[1,2,3]"},{"name":"used[3]","value":"true","highlight":true}]},
+          {"step":"返回, 撤销used[3]","vars":[{"name":"path","value":"[1,2,_]"},{"name":"used[3]","value":"false","highlight":true}]},
+          {"step":"返回, 撤销used[2]","vars":[{"name":"path","value":"[1,_,_]"},{"name":"used[2]","value":"false","highlight":true}]},
+          {"step":"选3, used[3]=true","vars":[{"name":"path","value":"[1,3,_]"},{"name":"used[3]","value":"true","highlight":true}]}
+        ]'></div>
+        <p>
+          撤销的本质是<strong>把共享状态恢复到尝试之前</strong>，让下一次循环能在一个"干净"的环境中做新的选择。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>4. N皇后问题</h2>
+        <p>
+          问题：在 n×n 的棋盘上放置 n 个皇后，使它们互不攻击（不在同一行、同一列、同一对角线）。
+          求所有可行的摆法。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">N皇后回溯代码</span>
+            <button class="copy-btn" data-clipboard-target="#code2">复制</button>
+          </div>
+          <pre><code id="code2" class="language-cpp">const int MAXN = 15;
+int n, ans;
+int col[MAXN];  // col[row] = 皇后放在第row行第col列
+
+bool isValid(int row, int c) {
+    for (int i = 0; i < row; i++) {
+        // 同列 或 同对角线
+        if (col[i] == c || abs(col[i] - c) == abs(i - row)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+void backtrack(int row) {
+    if (row == n) {
+        ans++;
+        return;
+    }
+    
+    for (int c = 0; c < n; c++) {
+        if (isValid(row, c)) {
+            col[row] = c;      // 做选择
+            backtrack(row + 1); // 递归
+            col[row] = -1;     // 撤销选择
+        }
+    }
+}</code></pre>
+        </div>
+        <p>
+          N皇后是回溯法的试金石。它要求学生不仅要会写递归，还要会设计<strong>合法性检查</strong>函数。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>5. 子集生成</h2>
+        <p>
+          问题：给定一个集合，输出它的所有子集。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">子集生成回溯代码</span>
+            <button class="copy-btn" data-clipboard-target="#code3">复制</button>
+          </div>
+          <pre><code id="code3" class="language-cpp">int a[] = {1, 2, 3};
+vector&lt;int&gt; subset;
+
+void backtrack(int index) {
+    if (index == 3) {
+        // 输出当前子集
+        for (int x : subset) cout << x << " ";
+        cout << endl;
+        return;
+    }
+    
+    // 选择 a[index]
+    subset.push_back(a[index]);
+    backtrack(index + 1);
+    subset.pop_back();  // 撤销
+    
+    // 不选择 a[index]
+    backtrack(index + 1);
+}</code></pre>
+        </div>
+        <p>
+          每个元素都有"选"或"不选"两种决策，形成一棵二叉决策树。回溯法会遍历这棵树的所有叶子节点。
+        </p>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="reveal">
+        <h2>IOI教练常见教学陷阱</h2>
+        <div class="traps-grid">
+          <div class="trap-card">
+            <div class="trap-title">陷阱1：忘记撤销选择</div>
+            <p class="trap-desc">
+              这是回溯法初学者的头号大敌。没有撤销，状态就会被污染，后续搜索会基于错误的状态进行。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱2：把回溯法和DFS割裂开</div>
+            <p class="trap-desc">
+              回溯法就是DFS的一种应用形式。它们的底层机制完全一样：递归+状态维护+回溯。
+              告诉学生这一点，有助于知识迁移。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱3：一上来就讲N皇后</div>
+            <p class="trap-desc">
+              N皇后对初学者较难。建议教学顺序：全排列 → 子集生成 → N皇后。
+              由简入繁，建立信心。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>课后练习题</h2>
+        <div class="exercise-list">
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">1</span>
+              <h4 class="exercise-title">全排列</h4>
+              <span class="exercise-tag easy">入门</span>
+            </div>
+            <p>输入 n，输出 1~n 的所有排列。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">2</span>
+              <h4 class="exercise-title">子集和</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>给定 n 个正整数，求和为 target 的所有子集。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">3</span>
+              <h4 class="exercise-title">N皇后</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>输入 n（n ≤ 10），输出 n 皇后问题的解的数量。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">4</span>
+              <h4 class="exercise-title">迷宫所有路径</h4>
+              <span class="exercise-tag hard">挑战</span>
+            </div>
+            <p>给定迷宫，输出从起点到终点的所有不同路径（用DFS+回溯）。</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="checklist-box reveal">
+        <h4><i class="fas fa-clipboard-check"></i> 本课自测清单</h4>
+        <ul>
+          <li>能说出回溯法的三步：做选择 → 递归深入 → 撤销选择</li>
+          <li>能独立写出全排列的回溯代码</li>
+          <li>理解"状态恢复"的必要性和机制</li>
+          <li>能独立写出N皇后的回溯代码</li>
+          <li>能用回溯法生成集合的所有子集</li>
+          <li class="blocker">如果任何一条不满足，不要进入L5-04搜索剪枝</li>
+        </ul>
+      </div>
+
+      <div class="lesson-nav reveal">
+        <a href="L5-02-BFS基础.html" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> 上一课：BFS基础
+        </a>
+        <a href="L5-04-搜索剪枝.html" class="btn btn-primary" style="background: var(--level5); border-color: var(--level5);">
+          下一课：搜索剪枝 <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container">
+      <div class="footer-links">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+    </div>
+  </footer>
+
+  <script src="../../../assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L8-01 线段树与树状数组 · 蒙知苑·OI</title>
+  <meta name="description" content="学习线段树和树状数组的基础应用，掌握区间查询与修改的高效实现。">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../../assets/css/base.css">
+  <link rel="stylesheet" href="../../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../../assets/css/components.css">
+  <link rel="stylesheet" href="../../../assets/css/teaching-visuals.css">
+  <link rel="stylesheet" href="../../../assets/css/level.css">
+  
+  <style>
+    :root { --lv-color: var(--level8); --lv-dim: var(--level8-dim); }
+  </style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels" class="active">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+  
+  <div class="mobile-menu">
+    <a href="../../../philosophy/index.html">教学理念</a>
+    <a href="../../../mainlines/index.html">能力主线</a>
+    <a href="../../../index.html#levels">八级体系</a>
+    <a href="../../../resources/index.html">学习资源</a>
+  </div>
+
+  <div class="lesson-top-info">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../../../index.html">首页</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="../index.html">L8 综合期</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>L8-01</span>
+      </div>
+      <div class="lesson-header-row">
+        <div>
+          <h1 class="lesson-title-main">线段树与树状数组</h1>
+          <p class="lesson-subtitle">单点修改区间查询、区间修改、Lazy Propagation、BIT基础</p>
+        </div>
+        <div class="lesson-meta">
+          <div class="meta-item"><i class="fas fa-clock"></i> 10课时</div>
+          <div class="meta-item"><i class="fas fa-calendar"></i> 约2.5周</div>
+          <div class="meta-item"><i class="fas fa-signal"></i> 难度 <span class="difficulty-star"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="main-content">
+    <div class="container">
+
+      <div class="goals-card reveal">
+        <h4><i class="fas fa-bullseye"></i> 本课三维目标</h4>
+        <div class="goals-grid">
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--red-dim); color: var(--red);">知识</span>
+            <span class="goal-text">线段树的结构、树状数组的原理、Lazy Tag、lowbit运算</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--green-dim); color: var(--green);">技能</span>
+            <span class="goal-text">能独立写出线段树和树状数组的单点修改+区间查询代码</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--blue-dim); color: var(--blue);">思维</span>
+            <span class="goal-text">理解"分治维护区间信息"的高级数据结构思想</span>
+          </div>
+        </div>
+      </div>
+
+      <section class="reveal">
+        <h2>1. 为什么需要线段树和树状数组？</h2>
+        <p>
+          假设有一个数组，需要频繁进行两种操作：
+        </p>
+        <ul>
+          <li>修改某个元素的值</li>
+          <li>查询某个区间的和/最大值</li>
+        </ul>
+        <p>
+          如果用朴素方法：修改是 O(1)，但区间查询是 O(n)。
+          如果用前缀和：查询是 O(1)，但修改后需要重新计算前缀和，是 O(n)。
+        </p>
+        <p>
+          <strong>线段树和树状数组</strong>可以在 O(log n) 时间内同时完成修改和查询，
+          是处理动态区间问题的利器。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>2. 线段树的结构</h2>
+        <p>
+          线段树是一棵二叉树，每个节点代表一个区间。
+          根节点代表整个区间 [1, n]，叶子节点代表单个元素。
+          每个内部节点的值等于其两个子节点值的合并（如求和、求最大值）。
+        </p>
+        <div class="visual-demo" data-type="mermaid">
+graph TD
+    A[[1,8]:36] --> B[[1,4]:15]
+    A --> C[[5,8]:21]
+    B --> D[[1,2]:7]
+    B --> E[[3,4]:8]
+    C --> F[[5,6]:9]
+    C --> G[[7,8]:12]
+    D --> H[1:3]
+    D --> I[2:4]
+    E --> J[3:5]
+    E --> K[4:3]
+    F --> L[5:4]
+    F --> M[6:5]
+    G --> N[7:6]
+    G --> O[8:6]
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>3. 线段树模板：单点修改 + 区间查询</h2>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">线段树基础模板</span>
+            <button class="copy-btn" data-clipboard-target="#code1">复制</button>
+          </div>
+          <pre><code id="code1" class="language-cpp">const int MAXN = 100005;
+long long tree[MAXN * 4];
+int a[MAXN];
+
+// 建树
+void build(int node, int l, int r) {
+    if (l == r) {
+        tree[node] = a[l];
+        return;
+    }
+    int mid = (l + r) / 2;
+    build(node * 2, l, mid);
+    build(node * 2 + 1, mid + 1, r);
+    tree[node] = tree[node * 2] + tree[node * 2 + 1];
+}
+
+// 单点修改
+void update(int node, int l, int r, int idx, int val) {
+    if (l == r) {
+        tree[node] = val;
+        return;
+    }
+    int mid = (l + r) / 2;
+    if (idx <= mid) update(node * 2, l, mid, idx, val);
+    else update(node * 2 + 1, mid + 1, r, idx, val);
+    tree[node] = tree[node * 2] + tree[node * 2 + 1];
+}
+
+// 区间查询
+long long query(int node, int l, int r, int ql, int qr) {
+    if (ql <= l && r <= qr) return tree[node];
+    int mid = (l + r) / 2;
+    long long sum = 0;
+    if (ql <= mid) sum += query(node * 2, l, mid, ql, qr);
+    if (qr > mid) sum += query(node * 2 + 1, mid + 1, r, ql, qr);
+    return sum;
+}</code></pre>
+        </div>
+        <p>
+          线段树的数组通常开原数组的4倍大小（<code class="inline-code">MAXN * 4</code>），因为完全二叉树的最坏情况需要这么多节点。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>4. 树状数组（BIT / Fenwick Tree）</h2>
+        <p>
+          树状数组比线段树更简洁，空间更小，代码更短。
+          它的核心是利用 <code class="inline-code">lowbit(x) = x & (-x)</code> 来维护前缀信息。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">树状数组模板</span>
+            <button class="copy-btn" data-clipboard-target="#code2">复制</button>
+          </div>
+          <pre><code id="code2" class="language-cpp">long long bit[MAXN];
+int n;
+
+int lowbit(int x) {
+    return x & (-x);
+}
+
+// 在位置idx加上val
+void add(int idx, long long val) {
+    for (int i = idx; i <= n; i += lowbit(i)) {
+        bit[i] += val;
+    }
+}
+
+// 求前缀和 [1, idx]
+long long query(int idx) {
+    long long sum = 0;
+    for (int i = idx; i > 0; i -= lowbit(i)) {
+        sum += bit[i];
+    }
+    return sum;
+}
+
+// 区间查询 [l, r]
+long long rangeQuery(int l, int r) {
+    return query(r) - query(l - 1);
+}</code></pre>
+        </div>
+        <p>
+          <code class="inline-code">lowbit</code> 的作用是找到 x 的最低位1所代表的数值。
+          树状数组通过不断加减 lowbit，巧妙地覆盖了所有需要更新的节点。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>5. 线段树 vs 树状数组</h2>
+        <table style="width: 100%; border-collapse: collapse; margin-top: var(--sp-4);">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--border);">
+              <th style="text-align: left; padding: var(--sp-3);">特性</th>
+              <th style="text-align: left; padding: var(--sp-3);">线段树</th>
+              <th style="text-align: left; padding: var(--sp-3);">树状数组</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border-dim);">
+              <td style="padding: var(--sp-3);">代码长度</td>
+              <td style="padding: var(--sp-3);">较长</td>
+              <td style="padding: var(--sp-3);">很短</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-dim);">
+              <td style="padding: var(--sp-3);">功能范围</td>
+              <td style="padding: var(--sp-3);">支持任意满足结合律的操作</td>
+              <td style="padding: var(--sp-3);">主要支持求和、计数</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-dim);">
+              <td style="padding: var(--sp-3);">区间修改</td>
+              <td style="padding: var(--sp-3);">支持（Lazy Tag）</td>
+              <td style="padding: var(--sp-3);">有限支持（差分思想）</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--sp-3);">竞赛建议</td>
+              <td style="padding: var(--sp-3);">通用、功能强大</td>
+              <td style="padding: var(--sp-3);">求和场景首选，代码不易出错</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="reveal">
+        <h2>6. Lazy Propagation（拓展）</h2>
+        <p>
+          当问题变成"区间修改 + 区间查询"时，单点修改的线段树不够用了。
+          需要引入 <strong>Lazy Tag（懒惰标记）</strong>：
+          当修改一个完整区间时，不立即更新子节点，而是打一个标记，等后续查询到该子节点时再下放标记。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">Lazy Tag核心思想</span>
+            <button class="copy-btn" data-clipboard-target="#code3">复制</button>
+          </div>
+          <pre><code id="code3" class="language-cpp">long long lazy[MAXN * 4];
+
+// 下放标记
+void pushDown(int node, int l, int r) {
+    if (lazy[node] != 0) {
+        int mid = (l + r) / 2;
+        lazy[node * 2] += lazy[node];
+        lazy[node * 2 + 1] += lazy[node];
+        tree[node * 2] += lazy[node] * (mid - l + 1);
+        tree[node * 2 + 1] += lazy[node] * (r - mid);
+        lazy[node] = 0;
+    }
+}</code></pre>
+        </div>
+        <p>
+          Lazy Tag是线段树的精髓，也是很多高级数据结构（如树链剖分、可持久化线段树）的基础。
+        </p>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="reveal">
+        <h2>IOI教练常见教学陷阱</h2>
+        <div class="traps-grid">
+          <div class="trap-card">
+            <div class="trap-title">陷阱1：线段树数组开太小</div>
+            <p class="trap-desc">
+              线段树数组必须开到 4*n。很多学生在比赛中因为这个开2*n或3*n而RE（运行时错误），
+              这是非常可惜的丢分。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱2：树状数组下标从0开始</div>
+            <p class="trap-desc">
+              lowbit(0) = 0，会导致树状数组的死循环。树状数组的下标必须从1开始。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱3： Lazy Tag忘记下放</div>
+            <p class="trap-desc">
+              写Lazy Tag时，每次query和update进入子节点之前，都必须先pushDown。
+              漏掉一次，整个区间的值就会出错。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>课后练习题</h2>
+        <div class="exercise-list">
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">1</span>
+              <h4 class="exercise-title">区间求和（线段树/树状数组）</h4>
+              <span class="exercise-tag easy">入门</span>
+            </div>
+            <p>给定数组，支持单点修改和区间求和查询。分别用线段树和树状数组实现。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">2</span>
+              <h4 class="exercise-title">区间最大值</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>用线段树维护区间最大值，支持单点修改和区间最大值查询。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">3</span>
+              <h4 class="exercise-title">区间修改+区间求和（Lazy Tag）</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>给定数组，支持区间加法和区间求和查询。用带Lazy Tag的线段树实现。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">4</span>
+              <h4 class="exercise-title">逆序对计数</h4>
+              <span class="exercise-tag hard">挑战</span>
+            </div>
+            <p>给定一个排列，统计逆序对的数量。提示：用树状数组维护前缀和。</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="checklist-box reveal">
+        <h4><i class="fas fa-clipboard-check"></i> 本课自测清单</h4>
+        <ul>
+          <li>能独立写出线段树的建树、单点修改、区间查询代码</li>
+          <li>能独立写出树状数组的add和query代码</li>
+          <li>理解lowbit的作用和原理</li>
+          <li>知道线段树数组要开到4*n</li>
+          <li>理解Lazy Tag的核心思想（延迟下放）</li>
+          <li class="blocker">如果任何一条不满足，不要进入L8-02图论高阶算法</li>
+        </ul>
+      </div>
+
+      <div class="lesson-nav reveal">
+        <a href="../index.html" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> 返回L8首页
+        </a>
+        <a href="L8-02-图论高阶算法.html" class="btn btn-primary" style="background: var(--level8); border-color: var(--level8);">
+          下一课：图论高阶算法 <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container">
+      <div class="footer-links">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+    </div>
+  </footer>
+
+  <script src="../../../assets/js/main.js"></script>
+</body>
+</html>

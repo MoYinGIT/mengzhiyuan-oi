@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L7-04 字符串匹配 · 蒙知苑·OI</title>
+  <meta name="description" content="学习KMP算法、next数组原理、Trie树入门和字符串哈希的应用。">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../../assets/css/base.css">
+  <link rel="stylesheet" href="../../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../../assets/css/components.css">
+  <link rel="stylesheet" href="../../../assets/css/teaching-visuals.css">
+  <link rel="stylesheet" href="../../../assets/css/level.css">
+  
+  <style>
+    :root { --lv-color: var(--level7); --lv-dim: var(--level7-dim); }
+  </style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels" class="active">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+  
+  <div class="mobile-menu">
+    <a href="../../../philosophy/index.html">教学理念</a>
+    <a href="../../../mainlines/index.html">能力主线</a>
+    <a href="../../../index.html#levels">八级体系</a>
+    <a href="../../../resources/index.html">学习资源</a>
+  </div>
+
+  <div class="lesson-top-info">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../../../index.html">首页</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="../index.html">L7 动态规划期</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>L7-04</span>
+      </div>
+      <div class="lesson-header-row">
+        <div>
+          <h1 class="lesson-title-main">字符串匹配</h1>
+            <p class="lesson-subtitle">KMP算法、next数组、Trie树入门、字符串哈希</p>
+        </div>
+        <div class="lesson-meta">
+          <div class="meta-item"><i class="fas fa-clock"></i> 8课时</div>
+          <div class="meta-item"><i class="fas fa-calendar"></i> 约2周</div>
+          <div class="meta-item"><i class="fas fa-signal"></i> 难度 <span class="difficulty-star"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="main-content">
+    <div class="container">
+
+      <div class="goals-card reveal">
+        <h4><i class="fas fa-bullseye"></i> 本课三维目标</h4>
+        <div class="goals-grid">
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--red-dim); color: var(--red);">知识</span>
+            <span class="goal-text">KMP算法原理、next数组定义、Trie树结构、字符串哈希</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--green-dim); color: var(--green);">技能</span>
+            <span class="goal-text">能独立写出KMP的next数组和匹配代码，会用字符串哈希判断子串相等</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--blue-dim); color: var(--blue);">思维</span>
+            <span class="goal-text">理解"利用已匹配信息避免回退"的KMP核心思想</span>
+          </div>
+        </div>
+      </div>
+
+      <section class="reveal">
+        <h2>1. 朴素匹配的缺陷</h2>
+        <p>
+          给定文本串 S 和模式串 P，判断 P 是否在 S 中出现。
+          朴素做法是：把 P 依次对准 S 的每个位置，逐个字符比较。
+          最坏时间复杂度 O(|S| × |P|)。
+        </p>
+        <p>
+          当匹配失败时，朴素算法会把 P 向右移动一位，然后从头开始比较。
+          但很多时候，我们已经知道前面的一部分字符是匹配成功的，
+          这些已知信息应该被利用起来，而不是浪费掉。
+        </p>
+        <div class="visual-demo" data-type="memory" data-memory='[
+          {"addr":"S","cells":["a","b","a","b","a","b","c","a"],"var":"文本串"},
+          {"addr":"P","cells":["a","b","a","b","a","b","c",""],"var":"模式串"},
+          {"addr":"匹配","cells":["✓","✓","✓","✓","✓","✓","✗",""],"var":"前6个匹配，第7个失败"}
+        ]'></div>
+        <p>
+          上图所示的情况，朴素算法会把 P 右移1位，但实际上我们可以直接右移2位，
+          因为前几位 "ababa" 的自身结构告诉我们：移1位不可能成功。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>2. next数组的本质</h2>
+        <p>
+          <code class="inline-code">next[i]</code> 表示：模式串 P[0..i-1] 中，最长的<strong>相等前后缀</strong>的长度。
+        </p>
+        <p>
+          例如 P = "ababa"：
+        </p>
+        <ul>
+          <li>前缀："a", "ab", "aba", "abab"</li>
+          <li>后缀："a", "ba", "aba", "baba"</li>
+          <li>最长的相等前后缀是 "aba"，长度为3</li>
+        </ul>
+        <p>
+          当 P[5] 匹配失败时，我们知道前5个字符 "ababa" 已经匹配了。
+          由于 "ababa" 的最长相等前后缀是 "aba"（长度3），
+          所以 P 可以直接跳到 next[5] = 3 的位置继续比较，
+          而不需要回退文本串的指针。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>3. 求next数组</h2>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">KMP求next数组</span>
+            <button class="copy-btn" data-clipboard-target="#code1">复制</button>
+          </div>
+          <pre><code id="code1" class="language-cpp">vector&lt;int&gt; getNext(string& p) {
+    int m = p.size();
+    vector&lt;int&gt; next(m, 0);
+    
+    for (int i = 1, j = 0; i < m; i++) {
+        while (j > 0 && p[i] != p[j]) {
+            j = next[j - 1];  // 回退到前一个匹配位置
+        }
+        if (p[i] == p[j]) {
+            j++;
+        }
+        next[i] = j;
+    }
+    
+    return next;
+}</code></pre>
+        </div>
+        <p>
+          next数组的求解本身也是一个"匹配"过程：用 P 的前缀去匹配 P 的后缀。
+          这是KMP算法最精妙的部分。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>4. KMP匹配过程</h2>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">KMP匹配</span>
+            <button class="copy-btn" data-clipboard-target="#code2">复制</button>
+          </div>
+          <pre><code id="code2" class="language-cpp">vector&lt;int&gt; kmpSearch(string& s, string& p) {
+    vector&lt;int&gt; next = getNext(p);
+    vector&lt;int&gt; result;
+    int n = s.size(), m = p.size();
+    
+    for (int i = 0, j = 0; i < n; i++) {
+        while (j > 0 && s[i] != p[j]) {
+            j = next[j - 1];
+        }
+        if (s[i] == p[j]) {
+            j++;
+        }
+        if (j == m) {
+            result.push_back(i - m + 1);  // 匹配成功
+            j = next[j - 1];  // 继续寻找下一个匹配
+        }
+    }
+    
+    return result;
+}</code></pre>
+        </div>
+        <p>
+          KMP的时间复杂度是 O(|S| + |P|)，这是字符串匹配算法中最重要的基础算法之一。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>5. 字符串哈希（拓展）</h2>
+        <p>
+          字符串哈希是把一个字符串映射成一个整数，从而可以在 O(1) 时间内比较两个子串是否相等。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">字符串哈希模板</span>
+            <button class="copy-btn" data-clipboard-target="#code3">复制</button>
+          </div>
+          <pre><code id="code3" class="language-cpp">const long long BASE = 131;
+const long long MOD = 1e9 + 7;
+
+long long h[MAXN], p[MAXN];
+
+void initHash(string& s) {
+    int n = s.size();
+    p[0] = 1;
+    for (int i = 1; i <= n; i++) {
+        h[i] = (h[i-1] * BASE + s[i-1]) % MOD;
+        p[i] = (p[i-1] * BASE) % MOD;
+    }
+}
+
+// 求子串 s[l..r] 的哈希值 (1-based, 闭区间)
+long long getHash(int l, int r) {
+    return ((h[r] - h[l-1] * p[r-l+1]) % MOD + MOD) % MOD;
+}</code></pre>
+        </div>
+        <p>
+          字符串哈希在判断回文串、最长重复子串、子串去重等问题中非常高效。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>6. Trie树入门（拓展）</h2>
+        <p>
+          Trie（前缀树）是一种树形数据结构，用于高效地存储和查找字符串集合。
+          它可以快速判断一个字符串是否是某个给定字符串的前缀。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">Trie树基础结构</span>
+            <button class="copy-btn" data-clipboard-target="#code4">复制</button>
+          </div>
+          <pre><code id="code4" class="language-cpp">const int MAXN = 100005;
+int trie[MAXN][26];  // 假设只有小写字母
+bool isEnd[MAXN];
+int nodeCount = 0;
+
+void insert(string& s) {
+    int p = 0;
+    for (char c : s) {
+        int idx = c - 'a';
+        if (trie[p][idx] == 0) {
+            trie[p][idx] = ++nodeCount;
+        }
+        p = trie[p][idx];
+    }
+    isEnd[p] = true;
+}</code></pre>
+        </div>
+        <p>
+          Trie树在自动补全、拼写检查、多模式匹配（AC自动机的基础）中有广泛应用。
+        </p>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="reveal">
+        <h2>IOI教练常见教学陷阱</h2>
+        <div class="traps-grid">
+          <div class="trap-card">
+            <div class="trap-title">陷阱1：next数组下标从0还是从1开始搞混</div>
+            <p class="trap-desc">
+              不同教材对next的定义不同。有些从1开始，有些从0开始。
+              我们的模板采用0-based字符串，next[i]表示P[0..i]的最长相等前后缀长度。
+              要让学生统一用一种理解方式。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱2：死记硬背next数组代码</div>
+            <p class="trap-desc">
+              next数组的推导是KMP的灵魂。如果学生不理解"为什么j=next[j-1]"，
+              遇到next数组的变体题（如求周期、求border）就会懵。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱3：KMP和哈希混用场景不清</div>
+            <p class="trap-desc">
+              KMP适合单模式串匹配，哈希适合多子串比较。
+              要让学生根据题目特点选择：求出现次数、位置用KMP；比较子串相等用哈希。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>课后练习题</h2>
+        <div class="exercise-list">
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">1</span>
+              <h4 class="exercise-title">KMP基础匹配</h4>
+              <span class="exercise-tag easy">入门</span>
+            </div>
+            <p>给定文本串和模式串，输出模式串在文本串中所有出现的起始位置。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">2</span>
+              <h4 class="exercise-title">next数组应用：求最小周期</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>给定一个字符串，求它的最小周期长度。例如 "ababab" 的周期是2。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">3</span>
+              <h4 class="exercise-title">字符串哈希判断回文</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>用字符串哈希O(1)判断一个子串是否为回文串。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">4</span>
+              <h4 class="exercise-title">Trie树统计前缀</h4>
+              <span class="exercise-tag hard">挑战</span>
+            </div>
+            <p>给定n个字符串和m个查询串，对每个查询串，统计给定字符串中有多少是它的前缀。</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="checklist-box reveal">
+        <h4><i class="fas fa-clipboard-check"></i> 本课自测清单</h4>
+        <ul>
+          <li>能解释next数组的数学定义</li>
+          <li>能独立写出求next数组的代码</li>
+          <li>能独立写出KMP完整匹配代码</li>
+          <li>理解KMP相比朴素匹配的优化原理</li>
+          <li>能用字符串哈希快速比较子串</li>
+          <li class="blocker">如果任何一条不满足，不要进入L7-05数论基础</li>
+        </ul>
+      </div>
+
+      <div class="lesson-nav reveal">
+        <a href="L7-03-树形DP.html" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> 上一课：树形DP
+        </a>
+        <a href="L7-05-数论基础.html" class="btn btn-primary" style="background: var(--level7); border-color: var(--level7);">
+          下一课：数论基础 <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container">
+      <div class="footer-links">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+    </div>
+  </footer>
+
+  <script src="../../../assets/js/main.js"></script>
+</body>
+</html>

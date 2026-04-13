@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L4-05 分治初探 · 蒙知苑·OI</title>
+  <meta name="description" content="学习分治思想、归并排序思想、二分查找，理解问题拆分的威力。">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../../assets/css/base.css">
+  <link rel="stylesheet" href="../../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../../assets/css/components.css">
+  <link rel="stylesheet" href="../../../assets/css/teaching-visuals.css">
+  <link rel="stylesheet" href="../../../assets/css/level.css">
+  
+  <style>
+    :root { --lv-color: var(--level4); --lv-dim: var(--level4-dim); }
+  </style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels" class="active">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+  
+  <div class="mobile-menu">
+    <a href="../../../philosophy/index.html">教学理念</a>
+    <a href="../../../mainlines/index.html">能力主线</a>
+    <a href="../../../index.html#levels">八级体系</a>
+    <a href="../../../resources/index.html">学习资源</a>
+  </div>
+
+  <div class="lesson-top-info">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../../../index.html">首页</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="../index.html">L4 函数期</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>L4-05</span>
+      </div>
+      <div class="lesson-header-row">
+        <div>
+          <h1 class="lesson-title-main">分治初探</h1>
+          <p class="lesson-subtitle">分治思想、归并排序思想、二分查找、问题拆分</p>
+        </div>
+        <div class="lesson-meta">
+          <div class="meta-item"><i class="fas fa-clock"></i> 8课时</div>
+          <div class="meta-item"><i class="fas fa-calendar"></i> 约2周</div>
+          <div class="meta-item"><i class="fas fa-signal"></i> 难度 <span class="difficulty-star"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="main-content">
+    <div class="container">
+
+      <div class="goals-card reveal">
+        <h4><i class="fas fa-bullseye"></i> 本课三维目标</h4>
+        <div class="goals-grid">
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--red-dim); color: var(--red);">知识</span>
+            <span class="goal-text">分治思想、二分查找原理、归并排序的基本流程</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--green-dim); color: var(--green);">技能</span>
+            <span class="goal-text">能独立写出二分查找代码，理解归并排序的拆分与合并</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--blue-dim); color: var(--blue);">思维</span>
+            <span class="goal-text">建立"大问题拆成小问题，分别解决再合并"的分治思维</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="coach-quote reveal">
+        <p style="margin-bottom: 0;">
+          分治是算法设计中最优美的思想之一。从二分查找到归并排序，从快速幂到线段树，
+          背后都是同一个逻辑："如果我能解决一半，就能解决全部"。
+          L4阶段，我们不求学生能手写归并排序代码，但求他们理解"拆分-解决-合并"这个循环。
+        </p>
+      </div>
+
+      <section class="reveal">
+        <h2>1. 分治思想：Divide and Conquer</h2>
+        <p>分治算法的三个步骤：</p>
+        <ol>
+          <li><strong>Divide（拆分）</strong>：把大问题拆成若干个规模更小的子问题</li>
+          <li><strong>Conquer（解决）</strong>：递归地解决每个子问题</li>
+          <li><strong>Combine（合并）</strong>：把子问题的结果合并成原问题的答案</li>
+        </ol>
+        <div class="visual-demo" data-type="mermaid">
+graph TD
+    A[原问题] --> B[子问题1]
+    A --> C[子问题2]
+    B --> D[更小子问题]
+    B --> E[更小子问题]
+    C --> F[更小子问题]
+    C --> G[更小子问题]
+    D --> H[直接求解]
+    E --> I[直接求解]
+    F --> J[直接求解]
+    G --> K[直接求解]
+    H --> L[合并结果]
+    I --> L
+    J --> M[合并结果]
+    K --> M
+    L --> N[最终答案]
+    M --> N
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>2. 二分查找：分治的最简形态</h2>
+        <p>
+          问题：在<strong>有序数组</strong>中查找某个数是否存在。
+        </p>
+        <p>
+          朴素做法：从头扫到尾，O(n)。<br>
+          分治做法：先看中间元素，如果目标更小，就在左半部分继续找；如果更大，就在右半部分继续找。
+          复杂度：O(log n)。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">二分查找模板</span>
+            <button class="copy-btn" data-clipboard-target="#code1">复制</button>
+          </div>
+          <pre><code id="code1" class="language-cpp">int binarySearch(int a[], int n, int target) {
+    int left = 0, right = n - 1;
+    while (left <= right) {
+        int mid = left + (right - left) / 2; // 防止溢出
+        if (a[mid] == target) return mid;
+        if (a[mid] < target) left = mid + 1;
+        else right = mid - 1;
+    }
+    return -1; // 没找到
+}</code></pre>
+        </div>
+        <div class="note-box">
+          <p>
+            <strong>关键点：</strong><code class="inline-code">mid = left + (right - left) / 2</code> 而不是 <code class="inline-code">(left + right) / 2</code>，
+            是为了防止 <code class="inline-code">left + right</code> 溢出。这是竞赛中的标准写法。
+          </p>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>3. 二分查找的执行过程</h2>
+        <p>在数组 [1, 3, 5, 7, 9, 11, 13] 中查找 7：</p>
+        <div class="visual-demo" data-type="tracker" data-tracker='[
+          {"step":"初始","vars":[{"name":"left","value":"0"},{"name":"right","value":"6"},{"name":"mid","value":"?"}]},
+          {"step":"第1轮: mid=3, a[3]=7","vars":[{"name":"left","value":"0"},{"name":"right","value":"6"},{"name":"mid","value":"3","highlight":true}]},
+          {"step":"a[3]==7, 找到!","vars":[{"name":"left","value":"0"},{"name":"right","value":"6"},{"name":"mid","value":"3","highlight":true}]}
+        ]'></div>
+        <p>只需要1轮就找到！这就是 O(log n) 的威力。</p>
+      </section>
+
+      <section class="reveal">
+        <h2>4. 归并排序：分治的经典应用</h2>
+        <p>
+          归并排序的核心思想：把一个数组从中间分成两半，分别对两半排序，然后把两个有序数组合并成一个有序数组。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">归并排序的伪代码</span>
+            <button class="copy-btn" data-clipboard-target="#code2">复制</button>
+          </div>
+          <pre><code id="code2" class="language-cpp">void mergeSort(int a[], int left, int right) {
+    if (left >= right) return;  // 只有一个元素，天然有序
+    
+    int mid = left + (right - left) / 2;
+    mergeSort(a, left, mid);      // 排序左半部分
+    mergeSort(a, mid + 1, right); // 排序右半部分
+    merge(a, left, mid, right);   // 合并两个有序数组
+}</code></pre>
+        </div>
+        <p>
+          L4阶段不要求完整手写出 <code class="inline-code">merge()</code> 函数，但要求学生理解：
+        </p>
+        <ul>
+          <li>为什么可以"拆"？因为排序左半和右半不影响彼此</li>
+          <li>为什么可以"合"？因为两个有序数组的合并是 O(n) 的</li>
+          <li>总复杂度为什么是 O(n log n)？每一层拆分是 O(n)，总共有 log n 层</li>
+        </ul>
+      </section>
+
+      <section class="reveal">
+        <h2>5. 二分思想的应用拓展</h2>
+        <p>
+          二分不只是查找，更是一种<strong>决策思维</strong>：
+        </p>
+        <ul>
+          <li><strong>二分答案：</strong>猜一个答案，验证是否可行，根据结果调整范围</li>
+          <li><strong>二分查找边界：</strong>找第一个 ≥ target 的位置，或最后一个 ≤ target 的位置</li>
+          <li><strong>快速幂：</strong>用二分思想把幂运算从 O(n) 降到 O(log n)</li>
+        </ul>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">快速幂思想</span>
+            <button class="copy-btn" data-clipboard-target="#code3">复制</button>
+          </div>
+          <pre><code id="code3" class="language-cpp">long long fastPow(long long a, long long n) {
+    if (n == 0) return 1;
+    long long half = fastPow(a, n / 2);
+    if (n % 2 == 0) return half * half;
+    else return half * half * a;
+}</code></pre>
+        </div>
+        <p>
+          快速幂用分治把指数对半砍，这是后续数论模块的重要基础。
+        </p>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="reveal">
+        <h2>IOI教练常见教学陷阱</h2>
+        <div class="traps-grid">
+          <div class="trap-card">
+            <div class="trap-title">陷阱1：二分查找边界写错</div>
+            <p class="trap-desc">
+              <code class="inline-code">left &lt;= right</code> 还是 <code class="inline-code">left &lt; right</code>？
+              <code class="inline-code">mid + 1</code> 还是 <code class="inline-code">mid</code>？
+              二分是细节杀手，必须让学生多写、多错、多总结。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱2：一开始就要求手写完整归并排序</div>
+            <p class="trap-desc">
+              归并排序的 <code class="inline-code">merge()</code> 过程对L4学生来说较复杂。
+              建议先通过动画/图示理解思想，代码实现可以放到L4末或L5初作为复习挑战。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱3：只讲二分查找不讲二分思想</div>
+            <p class="trap-desc">
+              二分查找只是二分思想的冰山一角。更重要的是让学生理解"通过对半砍来加速决策"的思维模式。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>课后练习题</h2>
+        <div class="exercise-list">
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">1</span>
+              <h4 class="exercise-title">二分查找基础</h4>
+              <span class="exercise-tag easy">入门</span>
+            </div>
+            <p>给定有序数组和 target，用二分查找判断 target 是否存在，返回下标或 -1。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">2</span>
+              <h4 class="exercise-title">查找左边界</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>给定有序数组（可能有重复元素）和 target，返回 target 第一次出现的下标。如果不存在返回 -1。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">3</span>
+              <h4 class="exercise-title">猜数字游戏</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>系统随机生成一个 1~1000 的数字，玩家用二分策略猜测，统计最多需要几次能猜中。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">4</span>
+              <h4 class="exercise-title">归并排序模拟</h4>
+              <span class="exercise-tag hard">挑战</span>
+            </div>
+            <p>给定一个数组，手动画出归并排序的拆分和合并过程（不需要写代码）。</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="checklist-box reveal">
+        <h4><i class="fas fa-clipboard-check"></i> 本课自测清单</h4>
+        <ul>
+          <li>能说出分治的三个步骤：拆分、解决、合并</li>
+          <li>能独立写出标准的二分查找代码</li>
+          <li>理解为什么二分查找的时间复杂度是 O(log n)</li>
+          <li>理解归并排序"先拆分后合并"的核心思想</li>
+          <li>知道 <code class="inline-code">mid = left + (right - left) / 2</code> 的作用</li>
+          <li class="blocker">如果任何一条不满足，不要进入L5搜索期</li>
+        </ul>
+      </div>
+
+      <div class="lesson-nav reveal">
+        <a href="L4-04-递归基础.html" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> 上一课：递归基础
+        </a>
+        <a href="../index.html" class="btn btn-primary" style="background: var(--level4); border-color: var(--level4);">
+          返回L4首页 <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container">
+      <div class="footer-links">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+    </div>
+  </footer>
+
+  <script src="../../../assets/js/main.js"></script>
+</body>
+</html>

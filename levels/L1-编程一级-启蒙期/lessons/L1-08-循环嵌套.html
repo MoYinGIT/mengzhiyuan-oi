@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L1-08 循环嵌套 · 蒙知苑·OI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../../assets/css/base.css">
+  <link rel="stylesheet" href="../../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../../assets/css/components.css">
+  <link rel="stylesheet" href="../../../assets/css/teaching-visuals.css">
+  <link rel="stylesheet" href="../../../assets/css/level.css">
+  <style>:root { --lv-color: var(--level1); --lv-dim: var(--level1-dim); }</style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels" class="active">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="container">
+      <header class="lesson-header">
+        <div class="breadcrumb">
+          <a href="../../../index.html">首页</a>
+          <i class="fas fa-chevron-right"></i>
+          <a href="../index.html">L1 编程启蒙期</a>
+          <i class="fas fa-chevron-right"></i>
+          <span>第8课</span>
+        </div>
+        <h1 style="color: var(--level1);">L1-08 循环嵌套</h1>
+        <div class="lesson-meta">
+          <span><i class="fas fa-clock"></i> 3课时（135分钟）</span>
+          <span><i class="fas fa-tag"></i> L1核心</span>
+        </div>
+      </header>
+
+      <div class="lesson-section reveal">
+        <h2>教学目标</h2>
+        <div class="goal-list">
+          <h4><i class="fas fa-bullseye"></i> 知识目标</h4>
+          <ul>
+            <li>理解循环嵌套的概念和结构</li>
+            <li>掌握双重 for 循环的执行规律</li>
+            <li>理解内外层循环变量的关系</li>
+          </ul>
+        </div>
+        <div class="goal-list">
+          <h4><i class="fas fa-tools"></i> 技能目标</h4>
+          <ul>
+            <li>能用双重循环打印图形</li>
+            <li>能用双重循环实现九九乘法表</li>
+            <li>能计算双重循环的执行次数</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>循环嵌套的本质</h2>
+        <div class="coach-quote">
+          <p>外层循环执行一次，内层循环执行一轮。</p>
+          <p style="margin-bottom: 0;">如果外层循环执行 n 次，内层循环执行 m 次，那么内层循环体总共执行 n × m 次。</p>
+        </div>
+
+        <h3>执行流程可视化</h3>
+        <div data-type="tracker" data-tracker='{
+          "headers": ["外层i", "内层j", "输出内容", "说明"],
+          "rows": [
+            [{"value":"1","highlight":true}, {"value":"1","highlight":true}, {"value":"*"}, {"value":"i=1, j=1"}],
+            [{"value":"1"}, {"value":"2","highlight":true}, {"value":"*"}, {"value":"i=1, j=2"}],
+            [{"value":"1"}, {"value":"3","highlight":true}, {"value":"*"}, {"value":"i=1, j=3"}],
+            [{"value":"换行","highlight":true}, {"value":"-"}, {"value":"\\n"}, {"value":"j循环结束，换行"}],
+            [{"value":"2","highlight":true}, {"value":"1","highlight":true}, {"value":"*"}, {"value":"i=2, j=1"}],
+            [{"value":"2"}, {"value":"2","highlight":true}, {"value":"*"}, {"value":"i=2, j=2"}],
+            [{"value":"2"}, {"value":"3","highlight":true}, {"value":"*"}, {"value":"i=2, j=3"}],
+            [{"value":"换行","highlight":true}, {"value":"-"}, {"value":"\\n"}, {"value":"j循环结束，换行"}]
+          ]
+        }'></div>
+
+        <h3>基本结构</h3>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">C++</span>
+            <button class="code-copy"><i class="fas fa-copy"></i></button>
+          </div>
+          <pre><code>for (int i = 1; i <= 3; i++) {      // 外层循环
+    for (int j = 1; j <= 3; j++) {  // 内层循环
+        cout << "*";
+    }
+    cout << endl;  // 内层循环结束后换行
+}</code></pre>
+        </div>
+        <p><strong>输出结果：</strong></p>
+        <div class="code-block">
+          <pre><code>***
+***
+***</code></pre>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>经典案例：九九乘法表</h2>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">C++</span>
+            <button class="code-copy"><i class="fas fa-copy"></i></button>
+          </div>
+          <pre><code>for (int i = 1; i <= 9; i++) {
+    for (int j = 1; j <= i; j++) {
+        cout << j << "*" << i << "=" << i * j << "\t";
+    }
+    cout << endl;
+}</code></pre>
+        </div>
+        <div class="coach-quote">
+          <p style="margin-bottom: 0;"><strong>关键点：</strong>内层循环的终止条件是 j <= i，而不是 j <= 9。这决定了每一行输出的个数随行号递增。</p>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>更多图形打印</h2>
+        
+        <h3>直角三角形</h3>
+        <div class="code-block">
+          <pre><code>*
+**
+***
+****
+*****</code></pre>
+        </div>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">C++</span>
+            <button class="code-copy"><i class="fas fa-copy"></i></button>
+          </div>
+          <pre><code>for (int i = 1; i <= 5; i++) {
+    for (int j = 1; j <= i; j++) {
+        cout << "*";
+    }
+    cout << endl;
+}</code></pre>
+        </div>
+
+        <h3>数字金字塔</h3>
+        <div class="code-block">
+          <pre><code>    1
+   222
+  33333
+ 4444444
+555555555</code></pre>
+        </div>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">C++</span>
+            <button class="code-copy"><i class="fas fa-copy"></i></button>
+          </div>
+          <pre><code>int n = 5;
+for (int i = 1; i <= n; i++) {
+    // 打印空格
+    for (int j = 1; j <= n - i; j++) {
+        cout << " ";
+    }
+    // 打印数字
+    for (int k = 1; k <= 2 * i - 1; k++) {
+        cout << i;
+    }
+    cout << endl;
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>IOI教练视角</h2>
+        <div class="trap-box">
+          <div class="trap-title"><i class="fas fa-exclamation-triangle"></i> 陷阱：循环变量重名</div>
+          <p>初学者常在内外层循环中使用同一个变量名（如都用 i），导致内层循环修改了外层的循环变量，造成意外的行为。</p>
+        </div>
+        <div class="trap-box">
+          <div class="trap-title"><i class="fas fa-exclamation-triangle"></i> 陷阱：忘记换行</div>
+          <p>打印图形时，内层循环结束后一定要记得换行（cout << endl;），否则所有内容会打印在同一行。</p>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>练习设计</h2>
+        <div class="goal-list">
+          <h4><i class="fas fa-dumbbell"></i> 基础练习</h4>
+          <ul>
+            <li>打印 n 行 n 列的矩形星号图</li>
+            <li>打印九九乘法表</li>
+            <li>打印直角三角形（每行星号数递增）</li>
+          </ul>
+        </div>
+        <div class="goal-list">
+          <h4><i class="fas fa-rocket"></i> 提高练习</h4>
+          <ul>
+            <li>打印等腰三角形（带空格对齐）</li>
+            <li>打印菱形</li>
+            <li>打印空心正方形</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>L1 结业自查清单</h2>
+        <div class="checklist-box">
+          <h4><i class="fas fa-clipboard-check"></i> L1 升级检查清单</h4>
+          <ul>
+            <li>能独立写出包含输入、运算、输出的完整程序</li>
+            <li>理解变量是存储数据的容器，能区分三种基本类型</li>
+            <li>掌握赋值运算与数学等号的区别</li>
+            <li>能用 if 语句进行条件判断，不会把 == 写成 =</li>
+            <li>能用 for 和 while 实现循环</li>
+            <li>能写出简单的双重循环（如打印矩形）</li>
+            <li class="blocker">如果以上任何一条不满足，不要进入L2</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lesson-nav reveal">
+        <a href="L1-07-循环结构-while.html" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> 上一课</a>
+        <a href="../index.html" class="btn btn-primary" style="background: var(--level1); border-color: var(--level1);">完成L1学习 <i class="fas fa-check"></i></a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container"><p>蒙知苑·OI · IOI金牌教练教案体系</p></div>
+  </footer>
+
+  <script src="../../../assets/js/main.js"></script>
+  <script src="../../../assets/js/teaching-visuals.js"></script>
+</body>
+</html>

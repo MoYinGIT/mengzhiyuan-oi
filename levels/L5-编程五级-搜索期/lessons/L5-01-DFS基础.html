@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L5-01 DFS基础 · 蒙知苑·OI</title>
+  <meta name="description" content="学习深度优先搜索DFS的递归实现、迷宫探索、连通块计数等经典应用。">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../../assets/css/base.css">
+  <link rel="stylesheet" href="../../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../../assets/css/components.css">
+  <link rel="stylesheet" href="../../../assets/css/teaching-visuals.css">
+  <link rel="stylesheet" href="../../../assets/css/level.css">
+  
+  <style>
+    :root { --lv-color: var(--level5); --lv-dim: var(--level5-dim); }
+  </style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels" class="active">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+  
+  <div class="mobile-menu">
+    <a href="../../../philosophy/index.html">教学理念</a>
+    <a href="../../../mainlines/index.html">能力主线</a>
+    <a href="../../../index.html#levels">八级体系</a>
+    <a href="../../../resources/index.html">学习资源</a>
+  </div>
+
+  <div class="lesson-top-info">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../../../index.html">首页</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="../index.html">L5 搜索期</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>L5-01</span>
+      </div>
+      <div class="lesson-header-row">
+        <div>
+          <h1 class="lesson-title-main">DFS基础</h1>
+          <p class="lesson-subtitle">深度优先搜索、递归实现、迷宫探索、连通块计数</p>
+        </div>
+        <div class="lesson-meta">
+          <div class="meta-item"><i class="fas fa-clock"></i> 8课时</div>
+          <div class="meta-item"><i class="fas fa-calendar"></i> 约2周</div>
+          <div class="meta-item"><i class="fas fa-signal"></i> 难度 <span class="difficulty-star"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="main-content">
+    <div class="container">
+
+      <div class="goals-card reveal">
+        <h4><i class="fas fa-bullseye"></i> 本课三维目标</h4>
+        <div class="goals-grid">
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--red-dim); color: var(--red);">知识</span>
+            <span class="goal-text">DFS定义、访问标记、四方向移动、递归回溯</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--green-dim); color: var(--green);">技能</span>
+            <span class="goal-text">能独立写出标准DFS模板，解决迷宫可达性和连通块问题</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--blue-dim); color: var(--blue);">思维</span>
+            <span class="goal-text">建立"一条路走到黑，走不通再回头"的深度优先思维</span>
+          </div>
+        </div>
+      </div>
+
+      <section class="reveal">
+        <h2>1. 什么是DFS？</h2>
+        <p>
+          <strong>DFS（Depth First Search，深度优先搜索）</strong>是一种搜索策略：
+          从起点出发，沿着一条路径一直走到底，如果走不通了，就退回上一个分岔口，换一条路继续走。
+        </p>
+        <p>
+          你可以把DFS想象成一个探险家：他进入一个洞穴后，总是选择最左边的通道往前走，
+          直到死胡同才原路返回，然后在最近的岔路口探索另一条通道。
+        </p>
+        <div class="visual-demo" data-type="mermaid">
+graph TD
+    A[起点] --> B
+    A --> C
+    B --> D
+    B --> E
+    D --> F[死胡同]
+    D --> G[目标]
+    style G fill:#10b981
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>2. DFS的核心代码模板</h2>
+        <p>在网格迷宫问题中，DFS的标配是：访问标记数组 + 四方向移动 + 递归。</p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">DFS标准模板</span>
+            <button class="copy-btn" data-clipboard-target="#code1">复制</button>
+          </div>
+          <pre><code id="code1" class="language-cpp">const int MAXN = 105;
+int n, m;
+char maze[MAXN][MAXN];
+bool visited[MAXN][MAXN];
+
+int dx[4] = {-1, 1, 0, 0};
+int dy[4] = {0, 0, -1, 1};
+
+void dfs(int x, int y) {
+    visited[x][y] = true;  // 标记为已访问
+    
+    for (int i = 0; i < 4; i++) {
+        int nx = x + dx[i];
+        int ny = y + dy[i];
+        
+        // 检查边界、是否可走、是否访问过
+        if (nx >= 0 && nx < n && ny >= 0 && ny < m 
+            && maze[nx][ny] == '.' 
+            && !visited[nx][ny]) {
+            dfs(nx, ny);
+        }
+    }
+}</code></pre>
+        </div>
+        <div class="note-box">
+          <p>
+            <strong>核心口诀：</strong>标记访问 → 四个方向 → 检查合法 → 递归深入。
+            这四步是99%网格DFS的固定写法。
+          </p>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>3. 为什么需要visited数组？</h2>
+        <p>
+          如果没有 <code class="inline-code">visited</code> 标记，DFS会在两个相邻的格子之间反复横跳，
+          造成<strong>无限循环</strong>。
+        </p>
+        <div class="visual-demo" data-type="memory" data-memory='[
+          {"addr":"Step1","cells":["A","","",""],"var":"访问A"},
+          {"addr":"Step2","cells":["B","","",""],"var":"A→B"},
+          {"addr":"Step3","cells":["A","","",""],"var":"B→A(无visited会死循环)"},
+          {"addr":"Step3'","cells":["B","","",""],"var":"有visited时B发现A已访问，跳过"}
+        ]'></div>
+        <p>
+          <code class="inline-code">visited</code> 数组的作用就是"走过的路不再走"。
+          这是DFS和BFS都必须遵守的铁律。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>4. 经典应用：连通块计数</h2>
+        <p>
+          问题：给定一个地图，<code class="inline-code">'#'</code> 是陆地，<code class="inline-code">'.'</code> 是海洋。
+          相邻（上下左右）的陆地属于同一个岛屿，问地图上有多少个岛屿？
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">连通块计数</span>
+            <button class="copy-btn" data-clipboard-target="#code2">复制</button>
+          </div>
+          <pre><code id="code2" class="language-cpp">int countIslands() {
+    int count = 0;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            if (maze[i][j] == '#' && !visited[i][j]) {
+                dfs(i, j);  // 发现一个未访问的陆地，开始DFS
+                count++;    // 每调用一次dfs，就是一个新岛屿
+            }
+        }
+    }
+    return count;
+}</code></pre>
+        </div>
+        <p>
+          核心思想：外层循环扫描每个格子，遇到未访问的陆地就"派出"一次DFS，
+          把与之相连的所有陆地都标记为已访问。派出几次DFS，就有几个岛屿。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>5. DFS的调用栈可视化</h2>
+        <p>以迷宫 (0,0) → (0,1) → (1,1) 为例，DFS的递归调用栈如下：</p>
+        <div class="visual-demo" data-type="tracker" data-tracker='[
+          {"step":"dfs(0,0)","vars":[{"name":"x","value":"0"},{"name":"y","value":"0","highlight":true}]},
+          {"step":"dfs(0,1)","vars":[{"name":"x","value":"0"},{"name":"y","value":"1","highlight":true}]},
+          {"step":"dfs(1,1)","vars":[{"name":"x","value":"1"},{"name":"y","value":"1","highlight":true}]},
+          {"step":"返回 dfs(0,1)","vars":[{"name":"x","value":"0"},{"name":"y","value":"1"}]},
+          {"step":"返回 dfs(0,0)","vars":[{"name":"x","value":"0"},{"name":"y","value":"0"}]}
+        ]'></div>
+        <p>
+          每一层递归都会在栈中保留当前的位置信息。递归返回时，系统自动恢复上一层的状态。
+        </p>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="reveal">
+        <h2>IOI教练常见教学陷阱</h2>
+        <div class="traps-grid">
+          <div class="trap-card">
+            <div class="trap-title">陷阱1：忘记标记visited</div>
+            <p class="trap-desc">
+              这是DFS初学者最高频的Bug。没有visited会导致死循环或栈溢出。
+              每次写dfs，第一件事就是写 <code class="inline-code">visited[x][y] = true;</code>。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱2：边界检查写错</div>
+            <p class="trap-desc">
+              常见错误是 <code class="inline-code">nx &gt; 0</code> 而不是 <code class="inline-code">nx &gt;= 0</code>，
+              或者把 <code class="inline-code">n</code> 和 <code class="inline-code">m</code> 搞反。
+              建议用标准模板，不要每次都重新写边界条件。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱3：认为DFS一定能找到最短路径</div>
+            <p class="trap-desc">
+              DFS是"深度优先"，它找到的路径通常<strong>不是最短的</strong>。
+              求最短路径应该使用BFS。这是一个极其常见的误解。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>课后练习题</h2>
+        <div class="exercise-list">
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">1</span>
+              <h4 class="exercise-title">迷宫可达性</h4>
+              <span class="exercise-tag easy">入门</span>
+            </div>
+            <p>给定迷宫、起点和终点，判断是否存在从起点到终点的路径。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">2</span>
+              <h4 class="exercise-title">岛屿数量</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>给定 n×m 地图，'1'表示陆地，'0'表示海洋，统计岛屿数量。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">3</span>
+              <h4 class="exercise-title">迷宫最长路径</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>给定迷宫，求从起点到终点的最长简单路径长度（每个格子最多走一次）。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">4</span>
+              <h4 class="exercise-title">八方向连通块</h4>
+              <span class="exercise-tag hard">挑战</span>
+            </div>
+            <p>岛屿计数变体：除了上下左右，对角线方向也算相邻。需要8个方向搜索。</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="checklist-box reveal">
+        <h4><i class="fas fa-clipboard-check"></i> 本课自测清单</h4>
+        <ul>
+          <li>能解释DFS"深度优先"的含义</li>
+          <li>能独立写出包含visited、dx/dy、边界检查的完整DFS模板</li>
+          <li>理解为什么必须有visited数组</li>
+          <li>能用DFS解决连通块计数问题</li>
+          <li>知道DFS不适合求最短路径</li>
+          <li class="blocker">如果任何一条不满足，不要进入L5-02 BFS基础</li>
+        </ul>
+      </div>
+
+      <div class="lesson-nav reveal">
+        <a href="../index.html" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> 返回L5首页
+        </a>
+        <a href="L5-02-BFS基础.html" class="btn btn-primary" style="background: var(--level5); border-color: var(--level5);">
+          下一课：BFS基础 <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container">
+      <div class="footer-links">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+    </div>
+  </footer>
+
+  <script src="../../../assets/js/main.js"></script>
+</body>
+</html>

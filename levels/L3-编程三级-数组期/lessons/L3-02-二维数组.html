@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L3-02 二维数组 · 蒙知苑·OI</title>
+  <meta name="description" content="学习C++二维数组的声明、初始化、行列遍历，建立二维下标思维。">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../../assets/css/base.css">
+  <link rel="stylesheet" href="../../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../../assets/css/components.css">
+  <link rel="stylesheet" href="../../../assets/css/teaching-visuals.css">
+  <link rel="stylesheet" href="../../../assets/css/level.css">
+  
+  <style>
+    :root { --lv-color: var(--level3); --lv-dim: var(--level3-dim); }
+  </style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels" class="active">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+  
+  <div class="mobile-menu">
+    <a href="../../../philosophy/index.html">教学理念</a>
+    <a href="../../../mainlines/index.html">能力主线</a>
+    <a href="../../../index.html#levels">八级体系</a>
+    <a href="../../../resources/index.html">学习资源</a>
+  </div>
+
+  <div class="lesson-top-info">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../../../index.html">首页</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="../index.html">L3 数组期</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>L3-02</span>
+      </div>
+      <div class="lesson-header-row">
+        <div>
+          <h1 class="lesson-title-main">二维数组</h1>
+          <p class="lesson-subtitle">矩阵存储、行列遍历、二维下标思维</p>
+        </div>
+        <div class="lesson-meta">
+          <div class="meta-item"><i class="fas fa-clock"></i> 8课时</div>
+          <div class="meta-item"><i class="fas fa-calendar"></i> 约2周</div>
+          <div class="meta-item"><i class="fas fa-signal"></i> 难度 <span class="difficulty-star"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="main-content">
+    <div class="container">
+
+      <div class="goals-card reveal">
+        <h4><i class="fas fa-bullseye"></i> 本课三维目标</h4>
+        <div class="goals-grid">
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--red-dim); color: var(--red);">知识</span>
+            <span class="goal-text">二维数组声明、初始化、行优先存储概念</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--green-dim); color: var(--green);">技能</span>
+            <span class="goal-text">能处理矩阵输入输出、行列求和、对角线遍历</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--blue-dim); color: var(--blue);">思维</span>
+            <span class="goal-text">建立二维下标思维，理解"行"与"列"的独立控制</span>
+          </div>
+        </div>
+      </div>
+
+      <section class="reveal">
+        <h2>1. 二维数组的本质</h2>
+        <p>
+          二维数组就是"数组的数组"。如果一维数组是一排盒子，二维数组就是一个表格：
+        </p>
+        <div class="visual-demo" data-type="memory" data-memory='[
+          {"addr":"a[0]","cells":["1","2","3","4"],"var":"第0行"},
+          {"addr":"a[1]","cells":["5","6","7","8"],"var":"第1行"},
+          {"addr":"a[2]","cells":["9","10","11","12"],"var":"第2行"}
+        ]'></div>
+        <p>
+          在内存中，二维数组实际上是<strong>按行连续存放</strong>的（行优先）。
+          上图虽然画成了3行，但内存里是一条直线：1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>2. 声明与初始化</h2>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">二维数组基本操作</span>
+            <button class="copy-btn" data-clipboard-target="#code1">复制</button>
+          </div>
+          <pre><code id="code1" class="language-cpp">// 声明：类型 数组名[行数][列数];
+int a[3][4]; // 3行4列的矩阵
+
+// 初始化
+int b[2][3] = {
+    {1, 2, 3},
+    {4, 5, 6}
+};
+
+// 部分初始化，其余自动补0
+int c[3][3] = {
+    {1, 2},
+    {3}
+};
+
+// 全部清零
+int d[100][100] = {0};</code></pre>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>3. 行列遍历的模板</h2>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">二维数组遍历模板</span>
+            <button class="copy-btn" data-clipboard-target="#code2">复制</button>
+          </div>
+          <pre><code id="code2" class="language-cpp">// 标准行列遍历
+for (int i = 0; i < n; i++) {      // 外层控制行
+    for (int j = 0; j < m; j++) {  // 内层控制列
+        cout << a[i][j] << " ";
+    }
+    cout << endl;
+}
+
+// 按列遍历（先固定列，再遍历行）
+for (int j = 0; j < m; j++) {
+    for (int i = 0; i < n; i++) {
+        cout << a[i][j] << " ";
+    }
+    cout << endl;
+}
+
+// 对角线遍历（i == j）
+for (int i = 0; i < n; i++) {
+    cout << a[i][i] << " "; // 主对角线
+}</code></pre>
+        </div>
+        <div class="note-box">
+          <p>
+            <strong>记忆口诀：</strong>外层循环管行，内层循环管列；<code class="inline-code">a[i][j]</code> 就是第 <code class="inline-code">i</code> 行第 <code class="inline-code">j</code> 列。
+          </p>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>4. 经典应用：矩阵转置</h2>
+        <p>
+          矩阵转置就是把行变列、列变行。这是检验学生是否真正理解 <code class="inline-code">a[i][j]</code> 和 <code class="inline-code">a[j][i]</code> 关系的经典题目。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">矩阵转置</span>
+            <button class="copy-btn" data-clipboard-target="#code3">复制</button>
+          </div>
+          <pre><code id="code3" class="language-cpp">int a[5][5], b[5][5];
+// ... 读入 a ...
+
+for (int i = 0; i < n; i++) {
+    for (int j = 0; j < m; j++) {
+        b[j][i] = a[i][j]; // 转置：行列互换
+    }
+}
+
+// 输出转置后的矩阵
+for (int i = 0; i < m; i++) {
+    for (int j = 0; j < n; j++) {
+        cout << b[i][j] << " ";
+    }
+    cout << endl;
+}</code></pre>
+        </div>
+        <div class="note-box warning">
+          <p>
+            <strong>注意：</strong>很多学生容易把输出循环的边界写错。转置后，原来的 <code class="inline-code">n</code> 行 <code class="inline-code">m</code> 列变成了 <code class="inline-code">m</code> 行 <code class="inline-code">n</code> 列。
+            输出时外层要循环 <code class="inline-code">m</code> 次，内层循环 <code class="inline-code">n</code> 次。
+          </p>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>5. 二维数组的周边遍历</h2>
+        <p>
+          在图论和游戏开发中，经常需要访问一个格子的上下左右邻居。这是为L6图论做铺垫的重要概念。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">访问一个格子的四邻域</span>
+            <button class="copy-btn" data-clipboard-target="#code4">复制</button>
+          </div>
+          <pre><code id="code4" class="language-cpp">int dx[4] = {-1, 1, 0, 0}; // 上下左右的行变化
+int dy[4] = {0, 0, -1, 1}; // 上下左右的列变化
+
+int x = 2, y = 3; // 当前格子
+for (int k = 0; k < 4; k++) {
+    int nx = x + dx[k];
+    int ny = y + dy[k];
+    // 检查边界
+    if (nx >= 0 && nx < n && ny >= 0 && ny < m) {
+        cout << "邻居: " << a[nx][ny] << endl;
+    }
+}</code></pre>
+        </div>
+        <p>
+          <code class="inline-code">dx/dy</code> 数组是竞赛代码中访问四邻域的标准写法，越早熟悉越好。
+        </p>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="reveal">
+        <h2>IOI教练常见教学陷阱</h2>
+        <div class="traps-grid">
+          <div class="trap-card">
+            <div class="trap-title">陷阱1：行列下标写反</div>
+            <p class="trap-desc">
+              学生最容易把 <code class="inline-code">a[i][j]</code> 和 <code class="inline-code">a[j][i]</code> 搞混。
+              教学中要多强调：i 是行号（row），j 是列号（column）。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱2：把二维数组讲成"高级内容"</div>
+            <p class="trap-desc">
+              二维数组一点都不高级，它只是一维数组的"语法糖"。内存里还是连续的一条线。
+              让学生明白这一点，有助于后续理解指针和动态内存分配。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱3：只讲方阵不讲一般矩阵</div>
+            <p class="trap-desc">
+              很多教材只讲 n×n 的方阵，导致学生遇到 n×m 的矩阵就懵。
+              练习时务必包含行列数不相等的矩阵题目。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>课后练习题</h2>
+        <div class="exercise-list">
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">1</span>
+              <h4 class="exercise-title">矩阵行列求和</h4>
+              <span class="exercise-tag easy">入门</span>
+            </div>
+            <p>读入 n×m 矩阵，输出每行的和与每列的和。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">2</span>
+              <h4 class="exercise-title">矩阵转置</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>读入 n×m 矩阵，输出其转置矩阵。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">3</span>
+              <h4 class="exercise-title">对角线求和</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>读入 n×n 方阵，分别求主对角线和副对角线元素之和（注意中心点只算一次）。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">4</span>
+              <h4 class="exercise-title">找矩阵中的峰值</h4>
+              <span class="exercise-tag hard">挑战</span>
+            </div>
+            <p>读入 n×m 矩阵，找出一个元素，它比上下左右四个邻居都大。输出其下标和值。</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="checklist-box reveal">
+        <h4><i class="fas fa-clipboard-check"></i> 本课自测清单</h4>
+        <ul>
+          <li>能正确声明和初始化二维数组</li>
+          <li>能写出行优先和列优先的遍历代码</li>
+          <li>能独立写出矩阵转置程序</li>
+          <li>理解二维数组在内存中的连续存放方式</li>
+          <li>能使用 dx/dy 数组访问格子的四邻域</li>
+          <li class="blocker">如果任何一条不满足，不要进入L3-03数组越界与内存</li>
+        </ul>
+      </div>
+
+      <div class="lesson-nav reveal">
+        <a href="L3-01-一维数组.html" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> 上一课：一维数组
+        </a>
+        <a href="L3-03-数组越界与内存.html" class="btn btn-primary" style="background: var(--level3); border-color: var(--level3);">
+          下一课：数组越界与内存 <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container">
+      <div class="footer-links">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+    </div>
+  </footer>
+
+  <script src="../../../assets/js/main.js"></script>
+</body>
+</html>

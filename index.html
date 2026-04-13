@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>蒙知苑·OI · IOI金牌教练教案体系</title>
+  <meta name="description" content="从IOI金牌教练视角，传授真正的算法思维而非应试技巧。328小时，8个阶段，5条能力主线，完整的C++竞赛教学体系。">
+  
+  <!-- 字体和图标 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <!-- CSS文件 -->
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  
+  <style>
+    /* 首页特有样式 */
+    .hero-levels {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--sp-3);
+      margin-top: var(--sp-8);
+    }
+    
+    .level-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--sp-4);
+      text-align: center;
+      transition: all var(--transition-base);
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    
+    .level-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    .level-card.l1 { border-top: 4px solid var(--level1); }
+    .level-card.l2 { border-top: 4px solid var(--level2); }
+    .level-card.l3 { border-top: 4px solid var(--level3); }
+    .level-card.l4 { border-top: 4px solid var(--level4); }
+    .level-card.l5 { border-top: 4px solid var(--level5); }
+    .level-card.l6 { border-top: 4px solid var(--level6); }
+    .level-card.l7 { border-top: 4px solid var(--level7); }
+    .level-card.l8 { border-top: 4px solid var(--level8); }
+    
+    .level-num {
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-weight: 900;
+      margin-bottom: var(--sp-1);
+    }
+    
+    .level-card.l1 .level-num { color: var(--level1); }
+    .level-card.l2 .level-num { color: var(--level2); }
+    .level-card.l3 .level-num { color: var(--level3); }
+    .level-card.l4 .level-num { color: var(--level4); }
+    .level-card.l5 .level-num { color: var(--level5); }
+    .level-card.l6 .level-num { color: var(--level6); }
+    .level-card.l7 .level-num { color: var(--level7); }
+    .level-card.l8 .level-num { color: var(--level8); }
+    
+    .level-name {
+      font-size: 12px;
+      color: var(--fg-muted);
+      margin-bottom: var(--sp-2);
+    }
+    
+    .level-hours {
+      font-size: 11px;
+      color: var(--fg-dim);
+    }
+    
+    /* 主线区域 */
+    .mainlines-section {
+      padding: var(--sp-10) 0;
+    }
+    
+    .section-header {
+      text-align: center;
+      margin-bottom: var(--sp-8);
+    }
+    
+    .section-header h2 {
+      font-family: var(--font-serif);
+      margin-bottom: var(--sp-2);
+    }
+    
+    .section-header p {
+      color: var(--fg-muted);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .mainline-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: var(--sp-3);
+    }
+    
+    .mainline-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--sp-5);
+      text-align: center;
+      transition: all var(--transition-base);
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    
+    .mainline-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    
+    .mainline-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto var(--sp-3);
+      font-size: 20px;
+    }
+    
+    .mainline-card:nth-child(1) .mainline-icon { background: var(--level3-dim); color: var(--level3); }
+    .mainline-card:nth-child(2) .mainline-icon { background: var(--level1-dim); color: var(--level1); }
+    .mainline-card:nth-child(3) .mainline-icon { background: var(--level4-dim); color: var(--level4); }
+    .mainline-card:nth-child(4) .mainline-icon { background: var(--level7-dim); color: var(--level7); }
+    .mainline-card:nth-child(5) .mainline-icon { background: var(--level8-dim); color: var(--level8); }
+    
+    .mainline-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: var(--sp-1);
+    }
+    
+    .mainline-desc {
+      font-size: 11px;
+      color: var(--fg-dim);
+    }
+    
+    /* 教练引言 */
+    .coach-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--sp-8);
+      margin: var(--sp-10) 0;
+    }
+    
+    .coach-header {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+      margin-bottom: var(--sp-4);
+    }
+    
+    .coach-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--accent-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: var(--accent);
+    }
+    
+    .coach-title {
+      font-size: 14px;
+      color: var(--fg-muted);
+    }
+    
+    .coach-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--fg);
+    }
+    
+    .coach-quote-large {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      line-height: 1.8;
+      color: var(--fg);
+      font-style: italic;
+      border-left: 4px solid var(--accent);
+      padding-left: var(--sp-4);
+    }
+    
+    .coach-quote-large p {
+      color: inherit;
+      margin-bottom: var(--sp-3);
+    }
+    
+    .coach-quote-large p:last-child {
+      margin-bottom: 0;
+    }
+    
+    /* 六条铁律 */
+    .laws-section {
+      padding: var(--sp-10) 0;
+    }
+    
+    .laws-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--sp-3);
+    }
+    
+    .law-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--sp-4);
+      transition: all var(--transition-base);
+    }
+    
+    .law-card:hover {
+      border-color: var(--accent);
+    }
+    
+    .law-num {
+      font-family: var(--font-serif);
+      font-size: 32px;
+      font-weight: 900;
+      color: var(--accent);
+      opacity: 0.3;
+      margin-bottom: var(--sp-2);
+    }
+    
+    .law-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: var(--sp-2);
+    }
+    
+    .law-desc {
+      font-size: 12px;
+      color: var(--fg-muted);
+      line-height: 1.6;
+    }
+    
+    /* 响应式 */
+    @media (max-width: 768px) {
+      .hero-levels {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .mainline-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .laws-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .coach-quote-large {
+        font-size: 16px;
+      }
+    }
+    
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .mainline-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      
+      .laws-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 顶部导航 -->
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="philosophy/index.html">教学理念</a>
+        <a href="mainlines/index.html">能力主线</a>
+        <a href="index.html#levels" class="active">八级体系</a>
+        <a href="resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+  
+  <!-- 移动端菜单 -->
+  <div class="mobile-menu">
+    <a href="philosophy/index.html">教学理念</a>
+    <a href="mainlines/index.html">能力主线</a>
+    <a href="index.html#levels">八级体系</a>
+    <a href="resources/index.html">学习资源</a>
+  </div>
+
+  <!-- Hero区域 -->
+  <header class="hero">
+    <div class="container">
+      <h1>IOI金牌教练的<br><span class="accent">竞赛教学体系</span></h1>
+      <p class="hero-sub">
+        这不是对GESP大纲的翻译，而是一名IOI教练对算法竞赛教学的重新解读与重构。
+        328小时，从编程启蒙到竞赛入门，培养真正的算法思维而非应试技巧。
+      </p>
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <div class="num">8<small>级</small></div>
+          <div class="label">完整体系</div>
+        </div>
+        <div class="hero-meta-item">
+          <div class="num">5<small>条</small></div>
+          <div class="label">能力主线</div>
+        </div>
+        <div class="hero-meta-item">
+          <div class="num">328<small>h</small></div>
+          <div class="label">总课时</div>
+        </div>
+        <div class="hero-meta-item">
+          <div class="num">~2<small>年</small></div>
+          <div class="label">学习周期</div>
+        </div>
+      </div>
+      
+      <!-- 8级卡片 -->
+      <div class="hero-levels" id="levels">
+        <a href="levels/L1-编程一级-启蒙期/index.html" class="level-card l1 reveal">
+          <div class="level-num">L1</div>
+          <div class="level-name">编程启蒙期</div>
+          <div class="level-hours">24课时</div>
+        </a>
+        <a href="levels/L2-编程二级-嵌套期/index.html" class="level-card l2 reveal">
+          <div class="level-num">L2</div>
+          <div class="level-name">嵌套结构期</div>
+          <div class="level-hours">32课时</div>
+        </a>
+        <a href="levels/L3-编程三级-数组期/index.html" class="level-card l3 reveal">
+          <div class="level-num">L3</div>
+          <div class="level-name">数组期</div>
+          <div class="level-hours">48课时</div>
+        </a>
+        <a href="levels/L4-编程四级-函数期/index.html" class="level-card l4 reveal">
+          <div class="level-num">L4</div>
+          <div class="level-name">函数递推期</div>
+          <div class="level-hours">40课时</div>
+        </a>
+        <a href="levels/L5-编程五级-搜索期/index.html" class="level-card l5 reveal">
+          <div class="level-num">L5</div>
+          <div class="level-name">搜索期</div>
+          <div class="level-hours">40课时</div>
+        </a>
+        <a href="levels/L6-编程六级-图论期/index.html" class="level-card l6 reveal">
+          <div class="level-num">L6</div>
+          <div class="level-name">图论期</div>
+          <div class="level-hours">40课时</div>
+        </a>
+        <a href="levels/L7-编程七级-动态规划期/index.html" class="level-card l7 reveal">
+          <div class="level-num">L7</div>
+          <div class="level-name">动态规划期</div>
+          <div class="level-hours">48课时</div>
+        </a>
+        <a href="levels/L8-编程八级-综合期/index.html" class="level-card l8 reveal">
+          <div class="level-num">L8</div>
+          <div class="level-name">拔高综合期</div>
+          <div class="level-hours">40课时</div>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 能力主线 -->
+  <section class="mainlines-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>五条能力主线</h2>
+        <p>横跨八个级别，纵向串联知识点的能力培养路径。每条主线都有明确的起点、发展轨迹和终点。</p>
+      </div>
+      <div class="mainline-grid">
+        <a href="mainlines/recursion-line/index.html" class="mainline-card reveal">
+          <div class="mainline-icon">
+            <i class="fas fa-code-branch"></i>
+          </div>
+          <div class="mainline-title">递归线</div>
+          <div class="mainline-desc">L3启动→L6分水岭</div>
+        </a>
+        <a href="mainlines/array-dp-line/index.html" class="mainline-card reveal">
+          <div class="mainline-icon">
+            <i class="fas fa-table"></i>
+          </div>
+          <div class="mainline-title">数组DP线</div>
+          <div class="mainline-desc">L3启动→L8高级</div>
+        </a>
+        <a href="mainlines/sort-divide-line/index.html" class="mainline-card reveal">
+          <div class="mainline-icon">
+            <i class="fas fa-sort-amount-down"></i>
+          </div>
+          <div class="mainline-title">排序分治线</div>
+          <div class="mainline-desc">L4启动→L5深化</div>
+        </a>
+        <a href="mainlines/graph-line/index.html" class="mainline-card reveal">
+          <div class="mainline-icon">
+            <i class="fas fa-project-diagram"></i>
+          </div>
+          <div class="mainline-title">图论线</div>
+          <div class="mainline-desc">L6启动→L8综合</div>
+        </a>
+        <a href="mainlines/math-tool-line/index.html" class="mainline-card reveal">
+          <div class="mainline-icon">
+            <i class="fas fa-calculator"></i>
+          </div>
+          <div class="mainline-title">数学工具线</div>
+          <div class="mainline-desc">贯穿始终</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- IOI教练引言 -->
+  <section class="container">
+    <div class="coach-section reveal">
+      <div class="coach-header">
+        <div class="coach-avatar">
+          <i class="fas fa-trophy"></i>
+        </div>
+        <div>
+          <div class="coach-title">IOI金牌教练</div>
+          <div class="coach-name">教学寄语</div>
+        </div>
+      </div>
+      <div class="coach-quote-large">
+        <p>我见过太多学生，在L1 rushed（赶进度），结果基础概念模糊，到L3学数组时完全跟不上。</p>
+        <p>我见过太多学生，在L5死记硬背递归模板，到L6面对搜索题时一筹莫展。</p>
+        <p>我也见过太多学生，在L7发现前面的断层太大，不得不回头补课，浪费大量时间。</p>
+        <p style="color: var(--accent);">这个教学体系，是我从数百名学生的血泪教训中总结出来的。它不是最快的路径，但这是最扎实、最不容易掉队的路径。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 六条铁律 -->
+  <section class="laws-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>六条教学铁律</h2>
+        <p>贯穿整个教学体系的核心原则，不可违反。</p>
+      </div>
+      <div class="laws-grid">
+        <div class="law-card reveal">
+          <div class="law-num">01</div>
+          <div class="law-title">考点 ≠ 教学目标</div>
+          <div class="law-desc">考指针不是教指针，是教内存地址概念。考试终点不等于能力终点。</div>
+        </div>
+        <div class="law-card reveal">
+          <div class="law-num">02</div>
+          <div class="law-title">主线优先于级别</div>
+          <div class="law-desc">递归线必须L3启动，前缀和必须和一维数组同步教。跟着主线走，不要死磕考纲顺序。</div>
+        </div>
+        <div class="law-card reveal">
+          <div class="law-num">03</div>
+          <div class="law-title">三遍学习法</div>
+          <div class="law-desc">裸用→组合→变体。跳过任何一遍，学生只会背代码，不会用思想。</div>
+        </div>
+        <div class="law-card reveal">
+          <div class="law-num">04</div>
+          <div class="law-title">拒绝死记硬背</div>
+          <div class="law-desc">排序从"为什么排"引入，递归从"拆子问题"引入。代码永远是最后一步。</div>
+        </div>
+        <div class="law-card reveal">
+          <div class="law-num">05</div>
+          <div class="law-title">基础不可跳</div>
+          <div class="law-desc">不理解内存分层就理解不了局部变量消失。不理解补码就理解不了整型溢出。</div>
+        </div>
+        <div class="law-card reveal">
+          <div class="law-num">06</div>
+          <div class="law-title">检验标准 > 内容</div>
+          <div class="law-desc">下课前怎么判断学生真学会了？不是默写代码，而是独立解决变体题。</div>
+        </div>
+      </div>
+      <div style="text-align: center; margin-top: var(--sp-6);">
+        <a href="philosophy/six-iron-laws.html" class="btn btn-secondary">了解六条铁律详情 <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 页脚 -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="philosophy/index.html">教学理念</a>
+        <a href="mainlines/index.html">能力主线</a>
+        <a href="index.html#levels">八级体系</a>
+        <a href="resources/index.html">学习资源</a>
+      </div>
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+      <p>从编程启蒙到竞赛入门 · 328小时完整路径</p>
+    </div>
+  </footer>
+
+  <!-- JS文件 -->
+  <script src="assets/js/main.js"></script>
+  
+  <!-- 首页特定脚本 -->
+  <script>
+    // 添加渐入动画延迟
+    document.querySelectorAll('.reveal').forEach((el, index) => {
+      el.style.transitionDelay = `${index * 0.05}s`;
+    });
+  </script>
+</body>
+</html>

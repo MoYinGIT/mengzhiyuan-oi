@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>能力主线 · 蒙知苑·OI</title>
+  <meta name="description" content="五条能力主线：递归线、数组DP线、排序分治线、图论线、数学工具线。横跨八个级别的纵向能力培养路径。">
+  
+  <!-- 字体和图标 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <!-- CSS文件 -->
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/layout.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/mainline.css">
+</head>
+<body>
+  <!-- 顶部导航 -->
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../philosophy/index.html">教学理念</a>
+        <a href="index.html" class="active">能力主线</a>
+        <a href="../index.html#levels">八级体系</a>
+        <a href="../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+  
+  <!-- 移动端菜单 -->
+  <div class="mobile-menu">
+    <a href="../philosophy/index.html">教学理念</a>
+    <a href="index.html">能力主线</a>
+    <a href="../index.html#levels">八级体系</a>
+    <a href="../resources/index.html">学习资源</a>
+  </div>
+
+  <!-- 页面头部 -->
+  <header class="page-header">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../index.html">首页</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>能力主线</span>
+      </div>
+      <div class="page-tag">
+        <i class="fas fa-route"></i> 纵向能力培养
+      </div>
+      <h1 class="page-title">五条能力主线</h1>
+      <p class="page-desc">
+        横跨八个级别，纵向串联知识点的能力培养路径。
+        每条主线都有明确的起点、发展轨迹和终点，共同构成完整的竞赛能力体系。
+      </p>
+    </div>
+  </header>
+
+  <!-- 主内容 -->
+  <main class="main-content">
+    <div class="container">
+
+      <!-- 五线概览 -->
+      <div class="mainline-hero reveal">
+        <a href="recursion-line/index.html" class="mainline-hero-card">
+          <div class="mainline-hero-icon">
+            <i class="fas fa-code-branch"></i>
+          </div>
+          <div class="mainline-hero-title">递归线</div>
+          <div class="mainline-hero-range">L3 → L6</div>
+        </a>
+        <a href="array-dp-line/index.html" class="mainline-hero-card">
+          <div class="mainline-hero-icon">
+            <i class="fas fa-table"></i>
+          </div>
+          <div class="mainline-hero-title">数组DP线</div>
+          <div class="mainline-hero-range">L3 → L8</div>
+        </a>
+        <a href="sort-divide-line/index.html" class="mainline-hero-card">
+          <div class="mainline-hero-icon">
+            <i class="fas fa-sort-amount-down"></i>
+          </div>
+          <div class="mainline-hero-title">排序分治线</div>
+          <div class="mainline-hero-range">L4 → L5</div>
+        </a>
+        <a href="graph-line/index.html" class="mainline-hero-card">
+          <div class="mainline-hero-icon">
+            <i class="fas fa-project-diagram"></i>
+          </div>
+          <div class="mainline-hero-title">图论线</div>
+          <div class="mainline-hero-range">L6 → L8</div>
+        </a>
+        <a href="math-tool-line/index.html" class="mainline-hero-card">
+          <div class="mainline-hero-icon">
+            <i class="fas fa-calculator"></i>
+          </div>
+          <div class="mainline-hero-title">数学工具线</div>
+          <div class="mainline-hero-range">L1 → L8</div>
+        </a>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 什么是能力主线 -->
+      <h2 class="reveal">什么是能力主线？</h2>
+      
+      <div class="coach-quote reveal">
+        <p>
+          GESP官方大纲是按"级别"组织的：L1学什么、L2学什么……但真实的算法能力不是按级别划分的，
+          而是按<strong>主题</strong>发展的。
+        </p>
+        <p style="margin-bottom: 0;">
+          比如"递归"这个能力，从L3开始播种，L4深化，L5应用，L6在搜索中达到分水岭。
+          这是一个连续的发展过程，不能割裂成碎片。
+          <strong>能力主线就是把这些跨级别的连续发展路径梳理出来。</strong>
+        </p>
+      </div>
+
+      <div class="reveal">
+        <h3>能力主线 vs 级别体系</h3>
+        <div class="comparison-block">
+          <div class="comparison-item" style="border-left-color: var(--fg-dim);">
+            <div class="comparison-label" style="color: var(--fg-dim);">
+              <i class="fas fa-layer-group"></i> 级别体系（横向）
+            </div>
+            <div class="comparison-content">
+              按学习阶段划分：L1学基础、L2学分支循环、L3学数组……
+              <br><br>
+              <strong>优点：</strong>适合阶段性考核<br>
+              <strong>缺点：</strong>割裂了能力发展的连续性
+            </div>
+          </div>
+          <div class="comparison-item right">
+            <div class="comparison-label">
+              <i class="fas fa-route"></i> 能力主线（纵向）
+            </div>
+            <div class="comparison-content">
+              按能力主题划分：递归线、DP线、图论线……
+              <br><br>
+              <strong>优点：</strong>展示能力的连续发展<br>
+              <strong>缺点：</strong>需要跨级别学习
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 五线总览表 -->
+      <h2 class="reveal">五条主线总览</h2>
+      
+      <div class="reveal">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>主线</th>
+              <th>启动级别</th>
+              <th>总课时</th>
+              <th>核心价值</th>
+              <th>关键分水岭</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong style="color: var(--level3);">递归线</strong></td>
+              <td>L3末</td>
+              <td>15+课时</td>
+              <td>自我相似、问题分解</td>
+              <td>L6搜索</td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--level1);">数组DP线</strong></td>
+              <td>L3</td>
+              <td>贯穿始终</td>
+              <td>状态表示、最优子结构</td>
+              <td>L6一维DP</td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--level4);">排序分治线</strong></td>
+              <td>L4</td>
+              <td>12课时</td>
+              <td>分治思想、复杂度分析</td>
+              <td>L5归并快排</td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--level7);">图论线</strong></td>
+              <td>L6</td>
+              <td>12课时</td>
+              <td>建模能力、抽象思维</td>
+              <td>L7最短路</td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--level8);">数学工具线</strong></td>
+              <td>L1</td>
+              <td>穿插进行</td>
+              <td>数论、组合、概率</td>
+              <td>持续积累</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 为什么重要 -->
+      <h2 class="reveal">为什么能力主线很重要？</h2>
+      
+      <div class="grid-3 reveal">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon" style="background: var(--accent-dim); color: var(--accent);">
+              <i class="fas fa-puzzle-piece"></i>
+            </div>
+            <h3 class="card-title">连接碎片知识</h3>
+          </div>
+          <p class="card-desc">
+            级别体系把知识切成了碎片。能力主线把这些碎片串成线，
+            让学生看到：L3的数组和L6的DP是一脉相承的。
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon" style="background: var(--level1-dim); color: var(--level1);">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <h3 class="card-title">规划长期发展</h3>
+          </div>
+          <p class="card-desc">
+            能力的发展需要时间。递归线从L3到L6需要15+个月。
+            主线帮助老师和家长规划长期学习路径。
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon" style="background: var(--level5-dim); color: var(--red);">
+              <i class="fas fa-life-ring"></i>
+            </div>
+            <h3 class="card-title">预防学习断层</h3>
+          </div>
+          <p class="card-desc">
+            GESP大纲的断层问题（L5递归→L6搜索）就是因为忽视了主线的连续性。
+            主线思维可以提前预防这种问题。
+          </p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 交叉矩阵 -->
+      <h2 class="reveal">主线与级别交叉矩阵</h2>
+      
+      <div class="cross-matrix reveal">
+        <table class="cross-matrix-table">
+          <thead>
+            <tr>
+              <th>主线 \ 级别</th>
+              <th>L1</th>
+              <th>L2</th>
+              <th>L3</th>
+              <th>L4</th>
+              <th>L5</th>
+              <th>L6</th>
+              <th>L7</th>
+              <th>L8</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong style="color: var(--level3);">递归线</strong></td>
+              <td class="cm-prep">-</td>
+              <td class="cm-prep">-</td>
+              <td class="cm-active">预热</td>
+              <td class="cm-active">深化</td>
+              <td class="cm-active">应用</td>
+              <td class="cm-active">分水岭</td>
+              <td class="cm-active">记忆化</td>
+              <td class="cm-prep">-</td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--level1);">数组DP线</strong></td>
+              <td class="cm-prep">-</td>
+              <td class="cm-prep">-</td>
+              <td class="cm-active">启动</td>
+              <td class="cm-active">深化</td>
+              <td class="cm-active">递推</td>
+              <td class="cm-active">一维DP</td>
+              <td class="cm-active">二维DP</td>
+              <td class="cm-active">高级</td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--level4);">排序分治线</strong></td>
+              <td class="cm-prep">-</td>
+              <td class="cm-prep">-</td>
+              <td class="cm-prep">-</td>
+              <td class="cm-active">启动</td>
+              <td class="cm-active">深化</td>
+              <td class="cm-prep">-</td>
+              <td class="cm-prep">-</td>
+              <td class="cm-prep">-</td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--level7);">图论线</strong></td>
+              <td class="cm-prep">-</td>
+              <td class="cm-prep">-</td>
+              <td class="cm-prep">-</td>
+              <td class="cm-prep">-</td>
+              <td class="cm-prep">-</td>
+              <td class="cm-active">启动</td>
+              <td class="cm-active">深化</td>
+              <td class="cm-active">综合</td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--level8);">数学工具线</strong></td>
+              <td class="cm-active">ASCII</td>
+              <td class="cm-active">位运算</td>
+              <td class="cm-active">基础</td>
+              <td class="cm-active">进阶</td>
+              <td class="cm-active">数论</td>
+              <td class="cm-active">组合</td>
+              <td class="cm-active">概率</td>
+              <td class="cm-active">几何</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="coach-quote reveal">
+        <p style="margin-bottom: 0;">
+          <strong>注意看：</strong>递归线从L3就开始预热，而不是等到L5。
+          数组DP线从L3启动，一直贯穿到L8。这些纵向连线就是能力主线的价值所在。
+        </p>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 如何选择主线 -->
+      <h2 class="reveal">如何选择学习主线？</h2>
+      
+      <div class="reveal">
+        <p>对于学生和老师，建议按以下优先级关注各主线：</p>
+        
+        <div class="stage-timeline" style="margin-top: var(--sp-6);">
+          <div class="stage-item stage-1">
+            <div class="stage-badge">L1-L2</div>
+            <div class="stage-content">
+              <h4>启蒙期：关注数学工具线</h4>
+              <p>打好基础：ASCII编码、位运算思维、数学表达能力</p>
+            </div>
+          </div>
+          <div class="stage-item stage-3">
+            <div class="stage-badge">L3</div>
+            <div class="stage-content">
+              <h4>关键期：递归线 + 数组DP线启动</h4>
+              <p>这是两条最重要主线的起点，务必扎实。L3的基础决定L6的高度。</p>
+            </div>
+          </div>
+          <div class="stage-item stage-4">
+            <div class="stage-badge">L4-L5</div>
+            <div class="stage-content">
+              <h4>深化期：排序分治线 + 递归应用</h4>
+              <p>分治思想建立，递归从理解走向熟练应用</p>
+            </div>
+          </div>
+          <div class="stage-item stage-6">
+            <div class="stage-badge">L6</div>
+            <div class="stage-content">
+              <h4>分水岭：搜索 + 图论线启动</h4>
+              <p>递归线收获成果（DFS），数组DP线进入一维DP，图论线启动</p>
+            </div>
+          </div>
+          <div class="stage-item stage-8">
+            <div class="stage-badge">L7-L8</div>
+            <div class="stage-content">
+              <h4>综合期：全部主线交织</h4>
+              <p>高级DP、图论算法、数学工具综合运用</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 页脚 -->
+      <footer class="site-footer" style="margin-top: var(--sp-12);">
+        <div class="container">
+          <div class="footer-links">
+            <a href="../philosophy/index.html">教学理念</a>
+            <a href="index.html">能力主线</a>
+            <a href="../index.html#levels">八级体系</a>
+            <a href="../resources/index.html">学习资源</a>
+          </div>
+          <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+        </div>
+      </footer>
+
+    </div>
+  </main>
+
+  <!-- JS文件 -->
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

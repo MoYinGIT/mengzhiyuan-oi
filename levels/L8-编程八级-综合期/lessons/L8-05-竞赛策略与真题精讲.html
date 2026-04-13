@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L8-05 竞赛策略与真题精讲 · 蒙知苑·OI</title>
+  <meta name="description" content="学习竞赛时间管理、骗分技巧、调试策略，精讲CSP/NOIP历年真题。">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../../assets/css/base.css">
+  <link rel="stylesheet" href="../../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../../assets/css/components.css">
+  <link rel="stylesheet" href="../../../assets/css/teaching-visuals.css">
+  <link rel="stylesheet" href="../../../assets/css/level.css">
+  
+  <style>
+    :root { --lv-color: var(--level8); --lv-dim: var(--level8-dim); }
+  </style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels" class="active">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+  
+  <div class="mobile-menu">
+    <a href="../../../philosophy/index.html">教学理念</a>
+    <a href="../../../mainlines/index.html">能力主线</a>
+    <a href="../../../index.html#levels">八级体系</a>
+    <a href="../../../resources/index.html">学习资源</a>
+  </div>
+
+  <div class="lesson-top-info">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../../../index.html">首页</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="../index.html">L8 综合期</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>L8-05</span>
+      </div>
+      <div class="lesson-header-row">
+        <div>
+          <h1 class="lesson-title-main">竞赛策略与真题精讲</h1>
+          <p class="lesson-subtitle">时间分配、骗分技巧、调试策略、CSP/NOIP真题详解</p>
+        </div>
+        <div class="lesson-meta">
+          <div class="meta-item"><i class="fas fa-clock"></i> 8课时</div>
+          <div class="meta-item"><i class="fas fa-calendar"></i> 约2周</div>
+          <div class="meta-item"><i class="fas fa-signal"></i> 难度 <span class="difficulty-star"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="main-content">
+    <div class="container">
+
+      <div class="goals-card reveal">
+        <h4><i class="fas fa-bullseye"></i> 本课三维目标</h4>
+        <div class="goals-grid">
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--red-dim); color: var(--red);">知识</span>
+            <span class="goal-text">竞赛时间分配、部分分策略、特殊数据技巧、常见错误类型</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--green-dim); color: var(--green);">技能</span>
+            <span class="goal-text">能在模拟赛中合理分配时间，会用多种技巧获取部分分</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--blue-dim); color: var(--blue);">思维</span>
+            <span class="goal-text">建立"总分最大化"的竞赛博弈思维，而非"每题都做对"的完美主义</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="coach-quote reveal">
+        <p>
+          竞赛不是期末考试，不是"会做的题全做对就能拿满分"。
+        </p>
+        <p>
+          竞赛是一场<strong>时间与策略的博弈</strong>。同样的知识水平，策略好的学生可能多得50分；
+          策略差的学生，可能把会做的题也做砸。L8最后一课，我们不学新算法，只学一件事：
+          <strong>怎么在考场上把会的东西转化为分数。</strong>
+        </p>
+        <p style="margin-bottom: 0;">
+          我见过太多学生，因为一道题卡了2小时，后面两道送分题没时间写；
+          也见过太多学生，因为不会骗分，明明有思路却只能拿0分。
+          这些教训，我希望你们不要在真正的考场上再经历。
+        </p>
+      </div>
+
+      <section class="reveal">
+        <h2>1. 时间分配策略</h2>
+        <p>以CSP-J（入门级，3.5小时，4道题）为例，推荐的时间分配：</p>
+        <table style="width: 100%; border-collapse: collapse; margin-top: var(--sp-4);">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--border);">
+              <th style="text-align: left; padding: var(--sp-3);">阶段</th>
+              <th style="text-align: left; padding: var(--sp-3);">时间</th>
+              <th style="text-align: left; padding: var(--sp-3);">任务</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border-dim);">
+              <td style="padding: var(--sp-3);">读题期</td>
+              <td style="padding: var(--sp-3);">0~15分钟</td>
+              <td style="padding: var(--sp-3);">快速浏览4道题，判断难度顺序和每题的可做性</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-dim);">
+              <td style="padding: var(--sp-3);">第一阶段</td>
+              <td style="padding: var(--sp-3);">15~75分钟</td>
+              <td style="padding: var(--sp-3);">做最有把握的1~2道题，确保拿到稳分</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-dim);">
+              <td style="padding: var(--sp-3);">第二阶段</td>
+              <td style="padding: var(--sp-3);">75~150分钟</td>
+              <td style="padding: var(--sp-3);">攻克中等难度题，写部分分代码</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-dim);">
+              <td style="padding: var(--sp-3);">第三阶段</td>
+              <td style="padding: var(--sp-3);">150~190分钟</td>
+              <td style="padding: var(--sp-3);">挑战难题，或者把之前题目的部分分拿到</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--sp-3);">检查期</td>
+              <td style="padding: var(--sp-3);">190~210分钟</td>
+              <td style="padding: var(--sp-3);">检查文件读写、数组大小、边界条件、编译提交</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="note-box warning">
+          <p>
+            <strong>铁律：</strong>任何一道题，如果已经想了30分钟还没有明确思路，
+            立刻切换到下一道题或写部分分。不要在考场上和一道题死磕。
+          </p>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>2. 骗分艺术与部分分策略</h2>
+        <p>
+          "骗分"不是作弊，而是在无法写出正解时，通过各种技巧获取部分分数的合法手段。
+          OI竞赛中，部分分往往占到总分的30%~70%。
+        </p>
+        <h3>常用骗分技巧</h3>
+        <ul>
+          <li>
+            <strong>特殊数据点：</strong>如果题目有n≤10的数据点，可以写暴力搜索或枚举。
+          </li>
+          <li>
+            <strong>退火/贪心：</strong>对于NP-hard问题，随机化贪心或模拟退火可能拿到不错的部分分。
+          </li>
+          <li>
+            <strong>输出特殊情况：</strong>如果题目有某种特殊情况容易处理（如链、树、全相等），
+            单独写分支处理这些情况。
+          </li>
+          <li>
+            <strong>随机输出/固定输出：</strong>万不得已时，输出一个看起来合理的固定答案，
+            有时能蒙对1~2个测试点。
+          </li>
+        </ul>
+      </section>
+
+      <section class="reveal">
+        <h2>3. 调试策略与常见错误</h2>
+        <p>考场上 Debugging 是一项核心技能。常见错误类型：</p>
+        <table style="width: 100%; border-collapse: collapse; margin-top: var(--sp-4);">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--border);">
+              <th style="text-align: left; padding: var(--sp-3);">错误类型</th>
+              <th style="text-align: left; padding: var(--sp-3);">表现</th>
+              <th style="text-align: left; padding: var(--sp-3);">排查方法</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border-dim);">
+              <td style="padding: var(--sp-3);">数组越界/开太小</td>
+              <td style="padding: var(--sp-3);">RE（Runtime Error）</td>
+              <td style="padding: var(--sp-3);">检查所有数组大小，尤其是线段树、图论中的4*n</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-dim);">
+              <td style="padding: var(--sp-3);">整数溢出</td>
+              <td style="padding: var(--sp-3);">WA（答案错误）</td>
+              <td style="padding: var(--sp-3);">中间结果用long long，乘法前先做除法</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-dim);">
+              <td style="padding: var(--sp-3);">边界条件</td>
+              <td style="padding: var(--sp-3);">部分点WA</td>
+              <td style="padding: var(--sp-3);">测试n=1, n=0, 全相同, 全不同等极端数据</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--sp-3);">算法复杂度错误</td>
+              <td style="padding: var(--sp-3);">TLE（超时）</td>
+              <td style="padding: var(--sp-3);">估算最坏情况下的操作次数</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="reveal">
+        <h2>4. 真题拆解：从题目到代码</h2>
+        <p>
+          以CSP-J 2022 某真题为例，演示完整的解题流程：
+        </p>
+        <ol>
+          <li><strong>读题抓关键词：</strong>"网格"、"最短路径"、"障碍物" → 想到BFS</li>
+          <li><strong>分析数据范围：</strong>n,m ≤ 1000 → BFS的O(nm)完全可行</li>
+          <li><strong>确定状态：</strong>坐标(x,y) + 可能的方向/步数</li>
+          <li><strong>写伪代码：</strong>先在草稿纸上写出BFS的核心逻辑</li>
+          <li><strong>编码+测试：</strong>先写裸BFS，用样例测试，再考虑边界</li>
+          <li><strong>提交前检查：</strong>文件读写、数组大小、long long</li>
+        </ol>
+        <div class="note-box">
+          <p>
+            <strong>教练建议：</strong>每套真题至少做三遍。第一遍限时模拟考场，
+            第二遍不计时深入思考优化，第三遍总结知识点和犯过的错误。
+          </p>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>5. 考场心态管理</h2>
+        <ul>
+          <li>
+            <strong>遇到不会的题很正常：</strong>CSP/NOIP的设计就是让大多数人做不完所有题。
+            目标是拿到该拿的分，而不是做对所有题。
+          </li>
+          <li>
+            <strong>不要反复改已提交的代码：</strong>如果没有十足把握，已经AC的代码不要轻易修改。
+            很多人把对的改错，得不偿失。
+          </li>
+          <li>
+            <strong>保持手部动作：</strong>即使想不出正解，也要写暴力、写部分分、写对拍程序。
+            手上的动作能缓解焦虑。
+          </li>
+          <li>
+            <strong>最后15分钟必须检查：</strong>检查文件读写是否正确、数组是否越界、是否使用了未初始化的变量。
+          </li>
+        </ul>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="reveal">
+        <h2>IOI教练最后的话</h2>
+        <div class="coach-quote">
+          <p>
+            恭喜你，走到了八级体系的最后一课。
+          </p>
+          <p>
+            如果你认真学完了L1到L8的所有内容，你已经具备了冲击CSP-S甚至NOIP的实力。
+            但请记住：算法竞赛没有终点，L8只是另一个起点。
+          </p>
+          <p>
+            真正的强者，不是在课堂上听完所有课的人，而是能把课堂上学到的思想，
+            应用到从未见过的题目上的人。
+          </p>
+          <p style="margin-bottom: 0;">
+            愿你在OI的路上，永远保持好奇，永远敢于挑战，永远不怕失败。
+            <strong>蒙知苑·OI，与你同行。</strong>
+          </p>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>课后任务</h2>
+        <div class="exercise-list">
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">1</span>
+              <h4 class="exercise-title">模拟赛一</h4>
+              <span class="exercise-tag easy">必修</span>
+            </div>
+            <p>限时3.5小时完成一套CSP-J真题，严格模拟考场环境，记录时间分配和得分。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">2</span>
+              <h4 class="exercise-title">错题复盘</h4>
+              <span class="exercise-tag easy">必修</span>
+            </div>
+            <p>整理L1-L8所有做错的题目，分类统计错误原因（知识点/代码/策略/心态）。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">3</span>
+              <h4 class="exercise-title">模板整理</h4>
+              <span class="exercise-tag medium">必修</span>
+            </div>
+            <p>整理一份属于自己的竞赛模板库，包含所有常用算法的最简正确代码。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">4</span>
+              <h4 class="exercise-title">挑战CSP-S真题</h4>
+              <span class="exercise-tag hard">挑战</span>
+            </div>
+            <p>选择1~2道CSP-S提高组真题，尝试独立完成。</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="checklist-box reveal">
+        <h4><i class="fas fa-clipboard-check"></i> L8 毕业自测清单</h4>
+        <ul>
+          <li>能在3.5小时内完成一套CSP-J级别模拟赛</li>
+          <li>掌握至少3种获取部分分的技巧</li>
+          <li>有自己的竞赛模板库（包含常用算法）</li>
+          <li>能准确判断一道题的难度和所需算法</li>
+          <li>考场上不会因为一道题卡壳而心态崩盘</li>
+          <li class="blocker">八级体系学习完成！但这只是OI长征的第一步。</li>
+        </ul>
+      </div>
+
+      <div class="lesson-nav reveal">
+        <a href="L8-04-状态压缩与计数DP.html" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> 上一课：状态压缩与计数DP
+        </a>
+        <a href="../index.html" class="btn btn-primary" style="background: var(--level8); border-color: var(--level8);">
+          返回L8首页 <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container">
+      <div class="footer-links">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+    </div>
+  </footer>
+
+  <script src="../../../assets/js/main.js"></script>
+</body>
+</html>

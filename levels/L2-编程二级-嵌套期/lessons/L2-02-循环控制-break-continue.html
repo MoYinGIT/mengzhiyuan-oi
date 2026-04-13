@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L2-02 循环控制-break-continue · 蒙知苑·OI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../../assets/css/base.css">
+  <link rel="stylesheet" href="../../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../../assets/css/components.css">
+  <link rel="stylesheet" href="../../../assets/css/teaching-visuals.css">
+  <link rel="stylesheet" href="../../../assets/css/level.css">
+  <style>:root { --lv-color: var(--level2); --lv-dim: var(--level2-dim); }</style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels" class="active">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="container">
+      <header class="lesson-header">
+        <div class="breadcrumb">
+          <a href="../../../index.html">首页</a>
+          <i class="fas fa-chevron-right"></i>
+          <a href="../index.html">L2 编程嵌套期</a>
+          <i class="fas fa-chevron-right"></i>
+          <span>第2课</span>
+        </div>
+        <h1 style="color: var(--level2);">L2-02 循环控制 - break / continue</h1>
+        <div class="lesson-meta">
+          <span><i class="fas fa-clock"></i> 6课时（270分钟）</span>
+          <span><i class="fas fa-tag"></i> L2核心</span>
+        </div>
+      </header>
+
+      <div class="lesson-section reveal">
+        <h2>教学目标</h2>
+        <div class="goal-list">
+          <h4><i class="fas fa-bullseye"></i> 知识目标</h4>
+          <ul>
+            <li>理解 break 和 continue 的作用和区别</li>
+            <li>掌握在多重循环中使用 break 的规则</li>
+            <li>理解循环控制对程序效率的影响</li>
+          </ul>
+        </div>
+        <div class="goal-list">
+          <h4><i class="fas fa-tools"></i> 技能目标</h4>
+          <ul>
+            <li>能正确使用 break 提前结束循环</li>
+            <li>能正确使用 continue 跳过当前迭代</li>
+            <li>能用循环控制优化枚举算法</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>break vs continue</h2>
+        <div class="comparison-block">
+          <div class="comparison-item wrong" style="border-left-color: var(--red);">
+            <div class="comparison-label" style="color: var(--red);"><i class="fas fa-stop-circle"></i> break</div>
+            <div class="comparison-content">
+              <strong>立即终止整个循环</strong>，跳出循环体，执行循环后面的代码。
+              <br><br>
+              比喻：比赛途中<strong>退赛</strong>，彻底结束。
+            </div>
+          </div>
+          <div class="comparison-item right" style="border-left-color: var(--green);">
+            <div class="comparison-label" style="color: var(--green);"><i class="fas fa-forward"></i> continue</div>
+            <div class="comparison-content">
+              <strong>跳过本次循环</strong>的剩余代码，直接进入下一次循环判断。
+              <br><br>
+              比喻：比赛途中<strong>跳过这一轮</strong>，下一轮继续。
+            </div>
+          </div>
+        </div>
+
+        <h3>代码对比</h3>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">C++</span>
+            <button class="code-copy"><i class="fas fa-copy"></i></button>
+          </div>
+          <pre><code>// break 示例：找到第一个能被7整除的数
+for (int i = 1; i <= 100; i++) {
+    if (i % 7 == 0) {
+        cout << "找到了：" << i << endl;
+        break;  // 找到就停止，不再继续查找
+    }
+}
+
+// continue 示例：输出1-10中所有奇数
+for (int i = 1; i <= 10; i++) {
+    if (i % 2 == 0) {
+        continue;  // 偶数跳过，不输出
+    }
+    cout << i << " ";  // 只输出奇数
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>多重循环中的 break</h2>
+        <div class="trap-box">
+          <div class="trap-title"><i class="fas fa-exclamation-triangle"></i> 重要规则</div>
+          <p>break <strong>只跳出当前所在的那一层循环</strong>，不会跳出所有外层循环！</p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">C++</span>
+            <button class="code-copy"><i class="fas fa-copy"></i></button>
+          </div>
+          <pre><code>for (int i = 1; i <= 3; i++) {
+    for (int j = 1; j <= 3; j++) {
+        if (j == 2) {
+            break;  // 只跳出内层 j 循环
+        }
+        cout << i << "," << j << " ";
+    }
+    cout << endl;
+}
+
+// 输出：
+// 1,1 
+// 2,1 
+// 3,1 </code></pre>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>IOI教练视角</h2>
+        <div class="trap-box">
+          <div class="trap-title"><i class="fas fa-exclamation-triangle"></i> 陷阱：continue 后忘记更新变量</div>
+          <p>如果在 continue 之前有更新循环变量的代码，被 continue 跳过后可能导致死循环。比如 while 循环中，continue 跳过了 i++。</p>
+        </div>
+        <div class="coach-quote">
+          <p style="margin-bottom: 0;"><strong>优化思维：</strong>break 的价值在于"找到答案后立刻停止"，避免不必要的计算。这是竞赛中常用的优化技巧——能提前结束就绝不多做一步。</p>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>练习设计</h2>
+        <div class="goal-list">
+          <h4><i class="fas fa-dumbbell"></i> 基础练习</h4>
+          <ul>
+            <li>输入 n，判断 n 是否为质数（用 break 优化）</li>
+            <li>输出 1-100 中所有能被 3 整除但不能被 5 整除的数（用 continue）</li>
+            <li>找到 100 以内最大的质数</li>
+          </ul>
+        </div>
+        <div class="goal-list">
+          <h4><i class="fas fa-rocket"></i> 提高练习</h4>
+          <ul>
+            <li>输入 n 个数，找到第一个大于 100 的数并输出其位置</li>
+            <li>打印 1-100，跳过所有包含数字 7 的数</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>自查清单</h2>
+        <div class="checklist-box">
+          <h4><i class="fas fa-check-square"></i> 本课自查</h4>
+          <ul>
+            <li>能清楚区分 break 和 continue 的作用</li>
+            <li>知道 break 只跳出当前层循环</li>
+            <li>能用 break 优化质数判断等算法</li>
+            <li>不会因 continue 导致死循环</li>
+            <li class="blocker">如果没有完成以上检查项，不要进入下一课</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lesson-nav reveal">
+        <a href="L2-01-多重循环.html" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> 上一课</a>
+        <a href="L2-03-字符与ASCII.html" class="btn btn-primary" style="background: var(--level2); border-color: var(--level2);">下一课：字符与ASCII <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container"><p>蒙知苑·OI · IOI金牌教练教案体系</p></div>
+  </footer>
+
+  <script src="../../../assets/js/main.js"></script>
+  <script src="../../../assets/js/teaching-visuals.js"></script>
+</body>
+</html>

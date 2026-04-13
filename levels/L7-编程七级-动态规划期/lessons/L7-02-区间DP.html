@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L7-02 区间DP · 蒙知苑·OI</title>
+  <meta name="description" content="学习区间DP的核心思想，掌握石子合并、矩阵链乘、括号匹配等经典问题。">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../../assets/css/base.css">
+  <link rel="stylesheet" href="../../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../../assets/css/components.css">
+  <link rel="stylesheet" href="../../../assets/css/teaching-visuals.css">
+  <link rel="stylesheet" href="../../../assets/css/level.css">
+  
+  <style>
+    :root { --lv-color: var(--level7); --lv-dim: var(--level7-dim); }
+  </style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels" class="active">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+  
+  <div class="mobile-menu">
+    <a href="../../../philosophy/index.html">教学理念</a>
+    <a href="../../../mainlines/index.html">能力主线</a>
+    <a href="../../../index.html#levels">八级体系</a>
+    <a href="../../../resources/index.html">学习资源</a>
+  </div>
+
+  <div class="lesson-top-info">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../../../index.html">首页</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="../index.html">L7 动态规划期</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>L7-02</span>
+      </div>
+      <div class="lesson-header-row">
+        <div>
+          <h1 class="lesson-title-main">区间DP</h1>
+          <p class="lesson-subtitle">区间合并、石子合并、矩阵链乘、区间最值</p>
+        </div>
+        <div class="lesson-meta">
+          <div class="meta-item"><i class="fas fa-clock"></i> 10课时</div>
+          <div class="meta-item"><i class="fas fa-calendar"></i> 约2.5周</div>
+          <div class="meta-item"><i class="fas fa-signal"></i> 难度 <span class="difficulty-star"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="main-content">
+    <div class="container">
+
+      <div class="goals-card reveal">
+        <h4><i class="fas fa-bullseye"></i> 本课三维目标</h4>
+        <div class="goals-grid">
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--red-dim); color: var(--red);">知识</span>
+            <span class="goal-text">区间DP状态定义、枚举长度和分割点、边界条件</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--green-dim); color: var(--green);">技能</span>
+            <span class="goal-text">能独立解决石子合并、矩阵链乘、括号匹配等经典区间DP问题</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--blue-dim); color: var(--blue);">思维</span>
+            <span class="goal-text">建立"大区间由小区间合并而来"的递推思维</span>
+          </div>
+        </div>
+      </div>
+
+      <section class="reveal">
+        <h2>1. 什么是区间DP？</h2>
+        <p>
+          区间DP是一类以<strong>区间</strong>作为状态的动态规划。
+          它的核心思想是：一个区间 [l, r] 的答案，可以由它内部的更小区间通过某种规则合并得到。
+        </p>
+        <p>
+          典型的区间DP问题是<strong>石子合并</strong>：有一排石子，每次只能合并相邻的两堆，
+          代价是两堆石子的重量之和。求把所有石子合并成一堆的最小总代价。
+        </p>
+        <div class="visual-demo" data-type="mermaid">
+graph TD
+    A[1,2,3,4] --> B[1,2] & C[3,4]
+    B --> D[1] & E[2]
+    C --> F[3] & G[4]
+    style A fill:#3b82f6
+    style B fill:#10b981
+    style C fill:#10b981
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>2. 区间DP的标准套路</h2>
+        <p>
+          区间DP有两个固定的循环结构：
+        </p>
+        <ol>
+          <li><strong>枚举区间长度 len</strong>（从小到大）</li>
+          <li><strong>枚举左端点 l</strong>，计算右端点 <code class="inline-code">r = l + len - 1</code></li>
+          <li><strong>枚举分割点 k</strong>（l ≤ k < r），尝试把 [l, r] 拆成 [l, k] 和 [k+1, r]</li>
+        </ol>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">区间DP标准框架</span>
+            <button class="copy-btn" data-clipboard-target="#code1">复制</button>
+          </div>
+          <pre><code id="code1" class="language-cpp">// dp[l][r] = 区间[l,r]的最优值
+for (int len = 2; len <= n; len++) {        // 枚举区间长度
+    for (int l = 1; l + len - 1 <= n; l++) { // 枚举左端点
+        int r = l + len - 1;                  // 计算右端点
+        dp[l][r] = INF;                       // 初始化
+        for (int k = l; k < r; k++) {         // 枚举分割点
+            dp[l][r] = min(dp[l][r], 
+                           dp[l][k] + dp[k+1][r] + mergeCost(l, r));
+        }
+    }
+}</code></pre>
+        </div>
+        <div class="note-box">
+          <p>
+            <strong>记忆口诀：</strong>"长度从小到大，左端点从左到右，分割点扫一遍"。
+          </p>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>3. 经典问题：石子合并</h2>
+        <p>
+          问题：n 堆石子排成一排，第 i 堆重量为 <code class="inline-code">a[i]</code>。
+          每次只能合并相邻的两堆，代价为合并后总重量。求合并成一堆的最小代价。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">石子合并代码</span>
+            <button class="copy-btn" data-clipboard-target="#code2">复制</button>
+          </div>
+          <pre><code id="code2" class="language-cpp">const int INF = 1e9;
+int a[305], pre[305];
+int dp[305][305];
+
+// pre[i] 是前缀和，pre[i] = a[1] + ... + a[i]
+
+for (int i = 1; i <= n; i++) {
+    pre[i] = pre[i-1] + a[i];
+    dp[i][i] = 0;  // 一堆石子不需要合并
+}
+
+for (int len = 2; len <= n; len++) {
+    for (int l = 1; l + len - 1 <= n; l++) {
+        int r = l + len - 1;
+        dp[l][r] = INF;
+        for (int k = l; k < r; k++) {
+            int cost = dp[l][k] + dp[k+1][r] + pre[r] - pre[l-1];
+            dp[l][r] = min(dp[l][r], cost);
+        }
+    }
+}
+
+cout << dp[1][n] << endl;</code></pre>
+        </div>
+        <p>
+          合并区间 [l, r] 的代价 = 左半部分最优代价 + 右半部分最优代价 + 区间总重量。
+          区间总重量用前缀和 O(1) 计算。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>4. 矩阵链乘</h2>
+        <p>
+          问题：给定 n 个矩阵的维度，求把它们相乘所需的最少标量乘法次数。
+          矩阵乘法满足结合律，不同的结合顺序计算量可能差别巨大。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">矩阵链乘代码</span>
+            <button class="copy-btn" data-clipboard-target="#code3">复制</button>
+          </div>
+          <pre><code id="code3" class="language-cpp">// p[i] 是第i个矩阵的行数，p[i+1]是列数
+// 矩阵i的维度是 p[i] × p[i+1]
+
+for (int len = 2; len <= n; len++) {
+    for (int l = 1; l + len - 1 <= n; l++) {
+        int r = l + len - 1;
+        dp[l][r] = INF;
+        for (int k = l; k < r; k++) {
+            // 在k处分割：左边[l,k]，右边[k+1,r]
+            int cost = dp[l][k] + dp[k+1][r] + p[l] * p[k+1] * p[r+1];
+            dp[l][r] = min(dp[l][r], cost);
+        }
+    }
+}</code></pre>
+        </div>
+        <p>
+          和石子合并的结构几乎完全一样，只是合并代价的计算公式不同。
+          这正是区间DP的模板化特征。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>5. 回文串与括号匹配</h2>
+        <p>
+          区间DP还可以用来解决字符串问题。例如：求一个字符串中最长回文子序列的长度。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">最长回文子序列</span>
+            <button class="copy-btn" data-clipboard-target="#code4">复制</button>
+          </div>
+          <pre><code id="code4" class="language-cpp">// dp[l][r] = s[l..r]中最长回文子序列的长度
+for (int i = 1; i <= n; i++) dp[i][i] = 1;
+
+for (int len = 2; len <= n; len++) {
+    for (int l = 1; l + len - 1 <= n; l++) {
+        int r = l + len - 1;
+        if (s[l] == s[r]) {
+            dp[l][r] = dp[l+1][r-1] + 2;
+        } else {
+            dp[l][r] = max(dp[l+1][r], dp[l][r-1]);
+        }
+    }
+}
+</code></pre>
+        </div>
+        <p>
+          如果两端字符相同，可以同时选；否则，舍弃左端或右端中的一个，取更优者。
+        </p>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="reveal">
+        <h2>IOI教练常见教学陷阱</h2>
+        <div class="traps-grid">
+          <div class="trap-card">
+            <div class="trap-title">陷阱1：区间长度从1开始</div>
+            <p class="trap-desc">
+              很多区间DP中长度为1的答案是已知的（如dp[i][i]=0）。
+              循环应从len=2开始，否则分割点k的循环会出问题。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱2：右端点计算错误</div>
+            <p class="trap-desc">
+              右端点 <code class="inline-code">r = l + len - 1</code>，不是 <code class="inline-code">l + len</code>。
+              这个off-by-one错误很常见。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱3：只记模板不理解合并代价</div>
+            <p class="trap-desc">
+              不同问题的合并代价公式不同。要让学生自己推导：
+              把 [l,k] 和 [k+1,r] 合并起来，代价是什么？
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>课后练习题</h2>
+        <div class="exercise-list">
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">1</span>
+              <h4 class="exercise-title">石子合并（基础版）</h4>
+              <span class="exercise-tag easy">入门</span>
+            </div>
+            <p>一排n堆石子，求合并成一堆的最小总代价。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">2</span>
+              <h4 class="exercise-title">石子合并（环形版）</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>石子排成一个环，求环形合并的最小代价。（提示：把数组复制一遍）</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">3</span>
+              <h4 class="exercise-title">矩阵链乘</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>给定矩阵维度序列，求最优乘法顺序的最少乘法次数。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">4</span>
+              <h4 class="exercise-title">括号匹配</h4>
+              <span class="exercise-tag hard">挑战</span>
+            </div>
+            <p>给定括号序列，求最少添加多少个括号使其完全匹配。（用区间DP）</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="checklist-box reveal">
+        <h4><i class="fas fa-clipboard-check"></i> 本课自测清单</h4>
+        <ul>
+          <li>能说出区间DP的三层循环结构：len → l → k</li>
+          <li>能独立写出石子合并的完整代码</li>
+          <li>理解前缀和在区间DP中的作用</li>
+          <li>能写出矩阵链乘的转移方程</li>
+          <li>能用区间DP解决简单的字符串问题（如回文子序列）</li>
+          <li class="blocker">如果任何一条不满足，不要进入L7-03树形DP</li>
+        </ul>
+      </div>
+
+      <div class="lesson-nav reveal">
+        <a href="L7-01-背包问题.html" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> 上一课：背包问题
+        </a>
+        <a href="L7-03-树形DP.html" class="btn btn-primary" style="background: var(--level7); border-color: var(--level7);">
+          下一课：树形DP <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container">
+      <div class="footer-links">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+    </div>
+  </footer>
+
+  <script src="../../../assets/js/main.js"></script>
+</body>
+</html>

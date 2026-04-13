@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L1-01 变量与数据类型 · 蒙知苑·OI</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../../assets/css/base.css">
+  <link rel="stylesheet" href="../../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../../assets/css/components.css">
+  <link rel="stylesheet" href="../../../assets/css/teaching-visuals.css">
+  <link rel="stylesheet" href="../../../assets/css/level.css">
+  
+  <style>
+    :root { --lv-color: var(--level1); --lv-dim: var(--level1-dim); }
+  </style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels" class="active">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="container">
+
+      <header class="lesson-header">
+        <div class="breadcrumb">
+          <a href="../../../index.html">首页</a>
+          <i class="fas fa-chevron-right"></i>
+          <a href="../index.html">L1 编程启蒙期</a>
+          <i class="fas fa-chevron-right"></i>
+          <span>第1课</span>
+        </div>
+        <h1 style="color: var(--level1);">L1-01 变量与数据类型</h1>
+        <div class="lesson-meta">
+          <span><i class="fas fa-clock"></i> 3课时（135分钟）</span>
+          <span><i class="fas fa-tag"></i> L1基础</span>
+          <span><i class="fas fa-signal"></i> 入门级</span>
+        </div>
+      </header>
+
+      <div class="lesson-section reveal">
+        <h2>教学目标</h2>
+        <div class="goal-list">
+          <h4><i class="fas fa-bullseye"></i> 知识目标</h4>
+          <ul>
+            <li>理解变量是存储数据的容器</li>
+            <li>掌握三种基本数据类型：int、double、char</li>
+            <li>理解变量必须先声明后使用</li>
+          </ul>
+        </div>
+        <div class="goal-list">
+          <h4><i class="fas fa-tools"></i> 技能目标</h4>
+          <ul>
+            <li>能正确声明和初始化变量</li>
+            <li>能根据需求选择合适的数据类型</li>
+            <li>能使用cout输出变量值</li>
+          </ul>
+        </div>
+        <div class="goal-list">
+          <h4><i class="fas fa-brain"></i> 思维目标</h4>
+          <ul>
+            <li>建立变量名是地址的别名的底层直觉</li>
+            <li>理解数据类型的本质是存储空间和解释方式</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>核心概念：变量是存储数据的盒子</h2>
+        
+        <div class="coach-quote">
+          <p>想象一下，你有一个盒子，你可以在盒子里放东西，给盒子贴标签，以后通过标签找到盒子里的东西。</p>
+          <p style="margin-bottom: 0;"><strong>变量就是这样一个盒子：</strong>变量名是标签，变量的值是盒子里的东西，变量的类型决定了盒子的大小和能放什么。</p>
+        </div>
+
+        <h3>内存布局可视化</h3>
+        <div data-type="memory" data-memory='[
+          {"addr": "0x7ffe", "cells": ["0A", "00", "00", "00"], "var": "int age = 10;", "changed": [0]},
+          {"addr": "0x7ffa", "cells": ["48", "00", "00", "00"], "var": "char c = H;", "changed": [0]}
+        ]'></div>
+
+        <h3>变量三要素</h3>
+        <div class="three-pass-detail">
+          <div class="pass-card" data-pass="要素1">
+            <h4>变量名</h4>
+            <p>标识变量的名字，编程时通过名字访问变量。</p>
+            <div class="pass-example">
+              <strong>命名规则</strong>
+              只能包含字母、数字、下划线，不能以数字开头
+            </div>
+          </div>
+          <div class="pass-card" data-pass="要素2">
+            <h4>变量类型</h4>
+            <p>决定变量能存储什么数据，占用多少内存。</p>
+            <div class="pass-example">
+              <strong>三种基本类型</strong>
+              int整数、double小数、char字符
+            </div>
+          </div>
+          <div class="pass-card" data-pass="要素3">
+            <h4>变量值</h4>
+            <p>变量中实际存储的数据，可以被修改。</p>
+            <div class="pass-example">
+              <strong>重要特性</strong>
+              变量的值可以被覆盖（赋值运算）
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>三种基本数据类型</h2>
+        
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>类型</th>
+              <th>说明</th>
+              <th>示例</th>
+              <th>占用空间</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>int</code></td>
+              <td>整数类型</td>
+              <td>10, -5, 0, 10000</td>
+              <td>4字节</td>
+            </tr>
+            <tr>
+              <td><code>double</code></td>
+              <td>双精度浮点数（小数）</td>
+              <td>3.14, -0.5, 2.0</td>
+              <td>8字节</td>
+            </tr>
+            <tr>
+              <td><code>char</code></td>
+              <td>字符类型</td>
+              <td>A, b, 9, #</td>
+              <td>1字节</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>代码示例</h3>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">C++</span>
+            <button class="code-copy"><i class="fas fa-copy"></i></button>
+          </div>
+          <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    // 1. 声明变量并初始化
+    int age = 10;           // 整数类型
+    double price = 3.5;     // 小数类型
+    char grade = 'A';       // 字符类型
+    
+    // 2. 输出变量值
+    cout << "年龄: " << age << endl;
+    cout << "价格: " << price << endl;
+    cout << "等级: " << grade << endl;
+    
+    return 0;
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>IOI教练视角：教学陷阱</h2>
+        
+        <div class="trap-box">
+          <div class="trap-title"><i class="fas fa-exclamation-triangle"></i> 陷阱1：变量未初始化就使用</div>
+          <p>初学者常常声明变量后忘记赋值就直接使用。未初始化的变量值是随机的，会导致程序行为不确定。</p>
+        </div>
+
+        <div class="trap-box">
+          <div class="trap-title"><i class="fas fa-exclamation-triangle"></i> 陷阱2：混淆整数除法和小数除法</div>
+          <p>在C++中，5 / 2 的结果是 2（整数除法），而不是 2.5。要得到 2.5，至少需要一个操作数是 double 类型。</p>
+        </div>
+
+        <div class="trap-box">
+          <div class="trap-title"><i class="fas fa-exclamation-triangle"></i> 陷阱3：字符和字符串混淆</div>
+          <p>'A' 是 char 类型，用单引号；"A" 是字符串类型，用双引号。初学者容易混用导致编译错误。</p>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>练习设计</h2>
+        
+        <div class="goal-list">
+          <h4><i class="fas fa-dumbbell"></i> 基础练习</h4>
+          <ul>
+            <li>声明三个变量分别存储你的年龄、身高（米）、姓名首字母，并输出</li>
+            <li>交换两个int变量的值（引入临时变量）</li>
+          </ul>
+        </div>
+        <div class="goal-list">
+          <h4><i class="fas fa-rocket"></i> 提高练习</h4>
+          <ul>
+            <li>计算并输出一个圆的周长和面积（半径为double类型）</li>
+            <li>探究：int类型变量能存储的最大值是多少？</li>
+          </ul>
+        </div>
+        <div class="goal-list">
+          <h4><i class="fas fa-lightbulb"></i> 思考题</h4>
+          <ul>
+            <li>为什么 char 用单引号，而 cout 输出字符串用双引号？</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>自查清单</h2>
+        <div class="checklist-box">
+          <h4><i class="fas fa-check-square"></i> 本课自查</h4>
+          <ul>
+            <li>能独立写出变量声明和初始化的代码</li>
+            <li>能说出 int、double、char 的区别和适用场景</li>
+            <li>知道变量命名的基本规则</li>
+            <li>理解赋值运算的含义（不是数学等号）</li>
+            <li class="blocker">如果没有完成以上检查项，不要进入下一课</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lesson-nav reveal">
+        <a href="../index.html" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> 返回L1首页
+        </a>
+        <a href="L1-02-运算符与表达式.html" class="btn btn-primary" style="background: var(--level1); border-color: var(--level1);">
+          下一课：运算符与表达式 <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container">
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+    </div>
+  </footer>
+
+  <script src="../../../assets/js/main.js"></script>
+  <script src="../../../assets/js/teaching-visuals.js"></script>
+</body>
+</html>

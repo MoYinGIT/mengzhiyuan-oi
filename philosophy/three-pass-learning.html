@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>三遍学习法 · 蒙知苑·OI</title>
+  <meta name="description" content="IOI金牌教练的三遍学习法：裸用→组合→变体，每个概念必须经历的三遍学习过程。">
+  
+  <!-- 字体和图标 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <!-- CSS文件 -->
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/layout.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/philosophy.css">
+</head>
+<body>
+  <!-- 顶部导航 -->
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="index.html" class="active">教学理念</a>
+        <a href="../mainlines/index.html">能力主线</a>
+        <a href="../index.html#levels">八级体系</a>
+        <a href="../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+  
+  <!-- 移动端菜单 -->
+  <div class="mobile-menu">
+    <a href="index.html">教学理念</a>
+    <a href="../mainlines/index.html">能力主线</a>
+    <a href="../index.html#levels">八级体系</a>
+    <a href="../resources/index.html">学习资源</a>
+  </div>
+
+  <!-- 页面头部 -->
+  <header class="page-header">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../index.html">首页</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="index.html">教学理念</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>三遍学习法</span>
+      </div>
+      <div class="page-tag">
+        <i class="fas fa-redo-alt"></i> 铁律三详解
+      </div>
+      <h1 class="page-title">三遍学习法</h1>
+      <p class="page-desc">
+        裸用→组合→变体。每个概念必须经历的三遍学习过程。跳过任何一遍，学生只会背代码，不会用思想。
+      </p>
+    </div>
+  </header>
+
+  <!-- 主内容 -->
+  <main class="main-content">
+    <div class="container">
+
+      <!-- 核心概念 -->
+      <div class="coach-quote reveal">
+        <p style="margin-bottom: 0;">
+          我观察了数百名学生的学习轨迹，发现了一个规律：<strong>真正掌握一个概念的学生，都经历了三个阶段</strong>——
+          第一阶段孤立使用，第二阶段组合应用，第三阶段灵活变体。
+          缺少任何一个阶段，掌握都是不牢固的。
+        </p>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 三遍详解 -->
+      <h2 class="reveal">三遍学习详解</h2>
+      
+      <div class="three-pass-detail reveal">
+        <div class="pass-card" data-pass="第一遍">
+          <h4>裸用（孤立使用）</h4>
+          <p>单独使用新概念，理解其基本用法和原理。不要与其他复杂概念混合，确保学生掌握核心机制。</p>
+          <div class="pass-example">
+            <strong>教学目标</strong>
+            <ul style="margin: var(--sp-2) 0 0; padding-left: var(--sp-4);">
+              <li>理解概念的基本语法</li>
+              <li>能独立完成基础练习</li>
+              <li>建立初步的直觉</li>
+            </ul>
+          </div>
+          <div class="pass-example">
+            <strong>for循环示例</strong>
+            写简单的累加、打印图形、遍历数组。只练循环本身，不加if判断。
+          </div>
+        </div>
+        <div class="pass-card" data-pass="第二遍">
+          <h4>组合（结合应用）</h4>
+          <p>将新概念与已学知识结合，理解概念间的协作关系。这是从孤立知识到知识网络的过渡。</p>
+          <div class="pass-example">
+            <strong>教学目标</strong>
+            <ul style="margin: var(--sp-2) 0 0; padding-left: var(--sp-4);">
+              <li>能与其他概念结合使用</li>
+              <li>理解概念间的依赖关系</li>
+              <li>解决综合题目</li>
+            </ul>
+          </div>
+          <div class="pass-example">
+            <strong>for循环示例</strong>
+            for循环+if判断，实现筛选、统计、找最大最小值。
+          </div>
+        </div>
+        <div class="pass-card" data-pass="第三遍">
+          <h4>变体（灵活运用）</h4>
+          <p>解决变形题目，理解概念的本质，而非表面形式。能独立应对变体题，才算真正掌握。</p>
+          <div class="pass-example">
+            <strong>教学目标</strong>
+            <ul style="margin: var(--sp-2) 0 0; padding-left: var(--sp-4);">
+              <li>能处理边界变化</li>
+              <li>能应对条件变形</li>
+              <li>真正理解本质</li>
+            </ul>
+          </div>
+          <div class="pass-example">
+            <strong>for循环示例</strong>
+            变形循环边界、倒序遍历、步长不为1、多重循环嵌套。
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 为什么需要三遍 -->
+      <h2 class="reveal">为什么需要三遍？</h2>
+      
+      <div class="grid-2 reveal">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon" style="background: var(--level5-dim); color: var(--red);">
+              <i class="fas fa-times"></i>
+            </div>
+            <h3 class="card-title">只走第一遍的问题</h3>
+          </div>
+          <p class="card-desc">
+            学生只能照葫芦画瓢，题目稍有变化就不会。他们记住了代码的形式，但没理解代码的本质。
+            考试时遇到变体题，只能凭运气蒙。
+          </p>
+          <div class="trap-box" style="margin: var(--sp-3) 0 0;">
+            <div class="trap-title">典型表现</div>
+            <p>"老师，这个题和例题长得不一样，我不会做..."</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon" style="background: var(--level1-dim); color: var(--green);">
+              <i class="fas fa-check"></i>
+            </div>
+            <h3 class="card-title">走完三遍的效果</h3>
+          </div>
+          <p class="card-desc">
+            学生理解概念的本质，能灵活应对各种变体。他们知道"为什么要这样做"，
+            而不仅仅是"怎么做"。遇到新题目能举一反三。
+          </p>
+          <div class="coach-quote" style="margin: var(--sp-3) 0 0;">
+            <p style="margin-bottom: 0;">"这个题虽然是新的，但核心思想和那道题一样..."</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 实例：for循环的三遍 -->
+      <h2 class="reveal">实例：for循环的三遍学习</h2>
+      
+      <div class="reveal">
+        <h3>第一遍：裸用（2课时）</h3>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">C++</span>
+            <button class="code-copy"><i class="fas fa-copy"></i></button>
+          </div>
+          <pre><code>// 基础练习1：打印1到10
+for (int i = 1; i <= 10; i++) {
+    cout << i << endl;
+}
+
+// 基础练习2：计算1到100的和
+int sum = 0;
+for (int i = 1; i <= 100; i++) {
+    sum = sum + i;
+}
+cout << sum << endl;
+
+// 基础练习3：打印n个星号
+int n;
+cin >> n;
+for (int i = 1; i <= n; i++) {
+    cout << "*";
+}</code></pre>
+        </div>
+        <p><strong>第一遍要点：</strong>只练循环本身，不涉及条件判断、数组等其他概念。目标是建立"循环就是重复执行"的基本直觉。</p>
+      </div>
+
+      <div class="reveal">
+        <h3>第二遍：组合（2课时）</h3>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">C++</span>
+            <button class="code-copy"><i class="fas fa-copy"></i></button>
+          </div>
+          <pre><code>// 组合练习1：统计奇数的个数
+int count = 0;
+for (int i = 1; i <= n; i++) {
+    if (i % 2 == 1) {  // 结合if判断
+        count++;
+    }
+}
+
+// 组合练习2：找最大值
+int maxVal = -1;
+for (int i = 1; i <= n; i++) {
+    int x;
+    cin >> x;
+    if (x > maxVal) {  // 结合变量比较
+        maxVal = x;
+    }
+}
+
+// 组合练习3：累加符合条件的数
+int sum = 0;
+for (int i = 1; i <= n; i++) {
+    if (i % 3 == 0 || i % 5 == 0) {  // 结合逻辑运算
+        sum += i;
+    }
+}</code></pre>
+        </div>
+        <p><strong>第二遍要点：</strong>for循环与if判断、变量运算结合。理解"循环是框架，内部可以嵌套各种逻辑"。</p>
+      </div>
+
+      <div class="reveal">
+        <h3>第三遍：变体（2课时）</h3>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">C++</span>
+            <button class="code-copy"><i class="fas fa-copy"></i></button>
+          </div>
+          <pre><code>// 变体练习1：倒序遍历（边界变化）
+for (int i = n; i >= 1; i--) {
+    cout << i << endl;
+}
+
+// 变体练习2：步长不为1（条件变形）
+for (int i = 2; i <= n; i += 2) {  // 只遍历偶数
+    cout << i << endl;
+}
+
+// 变体练习3：双重循环嵌套（本质理解）
+for (int i = 1; i <= n; i++) {
+    for (int j = 1; j <= i; j++) {  // 内层循环边界依赖外层
+        cout << "*";
+    }
+    cout << endl;
+}
+
+// 变体练习4：while改写（形式变化，本质不变）
+int i = 1;
+while (i <= n) {
+    cout << i << endl;
+    i++;
+}</code></pre>
+        </div>
+        <p><strong>第三遍要点：</strong>各种变形：倒序、步长变化、嵌套、改用while。目标是理解"循环的本质是控制流程"，而非特定的语法形式。</p>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 实施建议 -->
+      <h2 class="reveal">实施建议</h2>
+      
+      <div class="checklist-box reveal">
+        <h4><i class="fas fa-tasks"></i> 给老师</h4>
+        <ul>
+          <li>每概念至少分配3个课时走三遍（裸用1课时+组合1课时+变体1课时）</li>
+          <li>变体题必须占练习题量的50%以上</li>
+          <li>如果学生在变体环节卡壳，说明前两遍没走好，需要回头补</li>
+          <li>不要为了赶进度跳过第三遍——这是最容易被跳、却最重要的一遍</li>
+          <li class="blocker">宁可少讲几个概念，也要把每个概念走通三遍</li>
+        </ul>
+      </div>
+
+      <div class="checklist-box reveal">
+        <h4><i class="fas fa-user-graduate"></i> 给学生/家长</h4>
+        <ul>
+          <li>学习时主动寻找变体题练习，不要只做和例题一样的题目</li>
+          <li>做完题后问自己：如果条件变了，我还能做吗？</li>
+          <li>遇到变体题卡壳是好事，说明发现了知识漏洞</li>
+          <li>不要满足于"能做原题"，要追求"理解本质"</li>
+          <li class="blocker">如果只能背代码而不能灵活应变，说明还需要继续练习</li>
+        </ul>
+      </div>
+
+      <!-- 导航 -->
+      <div style="display: flex; justify-content: space-between; margin-top: var(--sp-8);">
+        <a href="six-iron-laws.html" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> 六条教学铁律
+        </a>
+        <a href="teaching-rhythm.html" class="btn btn-primary">
+          整体教学节奏 <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="index.html">教学理念</a>
+        <a href="../mainlines/index.html">能力主线</a>
+        <a href="../index.html#levels">八级体系</a>
+        <a href="../resources/index.html">学习资源</a>
+      </div>
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+    </div>
+  </footer>
+
+  <!-- JS文件 -->
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

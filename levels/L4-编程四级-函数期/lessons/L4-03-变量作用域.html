@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L4-03 变量作用域 · 蒙知苑·OI</title>
+  <meta name="description" content="学习C++局部变量、全局变量、作用域规则与生命周期，建立内存管理意识。">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../../assets/css/base.css">
+  <link rel="stylesheet" href="../../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../../assets/css/components.css">
+  <link rel="stylesheet" href="../../../assets/css/teaching-visuals.css">
+  <link rel="stylesheet" href="../../../assets/css/level.css">
+  
+  <style>
+    :root { --lv-color: var(--level4); --lv-dim: var(--level4-dim); }
+  </style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels" class="active">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+  
+  <div class="mobile-menu">
+    <a href="../../../philosophy/index.html">教学理念</a>
+    <a href="../../../mainlines/index.html">能力主线</a>
+    <a href="../../../index.html#levels">八级体系</a>
+    <a href="../../../resources/index.html">学习资源</a>
+  </div>
+
+  <div class="lesson-top-info">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../../../index.html">首页</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="../index.html">L4 函数期</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>L4-03</span>
+      </div>
+      <div class="lesson-header-row">
+        <div>
+          <h1 class="lesson-title-main">变量作用域</h1>
+          <p class="lesson-subtitle">局部变量、全局变量、作用域规则、生命周期</p>
+        </div>
+        <div class="lesson-meta">
+          <div class="meta-item"><i class="fas fa-clock"></i> 8课时</div>
+          <div class="meta-item"><i class="fas fa-calendar"></i> 约2周</div>
+          <div class="meta-item"><i class="fas fa-signal"></i> 难度 <span class="difficulty-star"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="main-content">
+    <div class="container">
+
+      <div class="goals-card reveal">
+        <h4><i class="fas fa-bullseye"></i> 本课三维目标</h4>
+        <div class="goals-grid">
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--red-dim); color: var(--red);">知识</span>
+            <span class="goal-text">局部变量、全局变量、作用域、生命周期、命名冲突</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--green-dim); color: var(--green);">技能</span>
+            <span class="goal-text">能合理选择局部/全局变量，避免命名冲突和作用域错误</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--blue-dim); color: var(--blue);">思维</span>
+            <span class="goal-text">理解"变量的可见范围"与"存活时间"是两个不同概念</span>
+          </div>
+        </div>
+      </div>
+
+      <section class="reveal">
+        <h2>1. 局部变量 vs 全局变量</h2>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">作用域对比</span>
+            <button class="copy-btn" data-clipboard-target="#code1">复制</button>
+          </div>
+          <pre><code id="code1" class="language-cpp">int global = 100; // 全局变量：所有函数都能访问
+
+void foo() {
+    int local = 10; // 局部变量：只能在 foo 内访问
+    cout << global << endl; // ✅ 可以访问全局变量
+    cout << local << endl;  // ✅ 可以访问自己的局部变量
+}
+
+int main() {
+    cout << global << endl; // ✅ 可以访问全局变量
+    // cout << local << endl; // ❌ 编译错误！local 在 foo 里定义
+    return 0;
+}</code></pre>
+        </div>
+        <table style="width: 100%; border-collapse: collapse; margin-top: var(--sp-4);">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--border);">
+              <th style="text-align: left; padding: var(--sp-3);">特性</th>
+              <th style="text-align: left; padding: var(--sp-3);">局部变量</th>
+              <th style="text-align: left; padding: var(--sp-3);">全局变量</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border-dim);">
+              <td style="padding: var(--sp-3);">定义位置</td>
+              <td style="padding: var(--sp-3);">函数内部</td>
+              <td style="padding: var(--sp-3);">函数外部</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-dim);">
+              <td style="padding: var(--sp-3);">可见范围</td>
+              <td style="padding: var(--sp-3);">只在定义它的函数/块内</td>
+              <td style="padding: var(--sp-3);">整个程序的所有函数</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-dim);">
+              <td style="padding: var(--sp-3);">生命周期</td>
+              <td style="padding: var(--sp-3);">函数执行时存在，结束后销毁</td>
+              <td style="padding: var(--sp-3);">程序开始时就存在，结束时销毁</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--sp-3);">初始值</td>
+              <td style="padding: var(--sp-3);">不确定（垃圾值）</td>
+              <td style="padding: var(--sp-3);">自动初始化为 0</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="reveal">
+        <h2>2. 命名冲突：局部优先</h2>
+        <p>
+          如果局部变量和全局变量同名，函数内部优先使用<strong>局部变量</strong>。
+          这叫做"局部遮蔽"（shadowing）。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">同名变量的优先级</span>
+            <button class="copy-btn" data-clipboard-target="#code2">复制</button>
+          </div>
+          <pre><code id="code2" class="language-cpp">int x = 100; // 全局变量
+
+void test() {
+    int x = 10; // 局部变量
+    cout << x << endl; // 输出 10（局部优先）
+}
+
+int main() {
+    test();
+    cout << x << endl; // 输出 100（全局变量）
+    return 0;
+}</code></pre>
+        </div>
+        <div class="note-box warning">
+          <p>
+            <strong>建议：</strong>尽量避免局部变量和全局变量同名。这会让代码非常难读，也容易出现意想不到的Bug。
+          </p>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>3. 块级作用域</h2>
+        <p>
+          在C++中，花括号 <code class="inline-code">{}</code> 不仅用于函数体，还定义了一个<strong>代码块</strong>。
+          在代码块内定义的变量，只能在该代码块内访问。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">块级作用域示例</span>
+            <button class="copy-btn" data-clipboard-target="#code3">复制</button>
+          </div>
+          <pre><code id="code3" class="language-cpp">int main() {
+    int a = 10;
+    if (a > 5) {
+        int b = 20; // b 只在 if 块内有效
+        cout << b << endl; // ✅ 合法
+    }
+    // cout << b << endl; // ❌ 编译错误！b 已经"死"了
+    
+    for (int i = 0; i < 5; i++) {
+        // i 只在 for 循环内有效
+    }
+    // cout << i << endl; // ❌ 编译错误（某些旧编译器可能允许）
+    
+    return 0;
+}</code></pre>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>4. 全局数组：竞赛中的标配</h2>
+        <p>
+          在竞赛编程中，大数组通常定义为全局变量。原因有三：
+        </p>
+        <ol>
+          <li>全局数组空间更大，不会因为栈溢出而崩溃</li>
+          <li>全局数组自动初始化为0，省去手动清零</li>
+          <li>所有函数都可以直接访问，方便多函数协作</li>
+        </ol>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">竞赛标准写法</span>
+            <button class="copy-btn" data-clipboard-target="#code4">复制</button>
+          </div>
+          <pre><code id="code4" class="language-cpp">const int MAXN = 100005;
+int a[MAXN];      // 全局数组，自动清零
+long long pre[MAXN]; // 前缀和数组
+
+void readData(int n) {
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
+    }
+}
+
+int solve(int n) {
+    // 直接访问全局数组 a
+    int sum = 0;
+    for (int i = 0; i < n; i++) {
+        sum += a[i];
+    }
+    return sum;
+}</code></pre>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>5. 全局变量的滥用与节制</h2>
+        <p>
+          全局变量虽然方便，但也有明显缺点：
+        </p>
+        <ul>
+          <li><strong>可读性下降</strong>：任何函数都可能修改它，追踪数据流很困难</li>
+          <li><strong>可维护性差</strong>：程序变大后，全局变量互相干扰</li>
+          <li><strong>并发问题</strong>：多线程环境下全局变量是重灾区</li>
+        </ul>
+        <div class="note-box">
+          <p>
+            <strong>L4阶段的建议：</strong>数组和常量可以全局定义；普通的计数器、中间结果尽量用局部变量。
+            养成"能用局部就不用全局"的好习惯。
+          </p>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="reveal">
+        <h2>IOI教练常见教学陷阱</h2>
+        <div class="traps-grid">
+          <div class="trap-card">
+            <div class="trap-title">陷阱1：把大数组定义在函数内部</div>
+            <p class="trap-desc">
+              很多学生习惯把所有变量都定义在main里。竞赛中10^5以上的数组必须放全局，
+              否则栈溢出会导致神秘的运行时错误。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱2：全局变量不初始化就使用</div>
+            <p class="trap-desc">
+              虽然全局变量会自动初始化为0，但依赖这一点而不显式初始化，
+              会让代码可读性变差。重要变量建议显式赋值。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱3：局部变量和循环变量同名</div>
+            <p class="trap-desc">
+              外层循环用 <code class="inline-code">i</code>，内层循环也用 <code class="inline-code">i</code>，会导致内层覆盖外层。
+              虽然合法，但极容易出错。嵌套循环建议用 <code class="inline-code">i, j, k</code> 区分。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>课后练习题</h2>
+        <div class="exercise-list">
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">1</span>
+              <h4 class="exercise-title">预测输出</h4>
+              <span class="exercise-tag easy">入门</span>
+            </div>
+            <p>给出多段包含全局变量和局部变量冲突的代码，让学生预测输出结果。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">2</span>
+              <h4 class="exercise-title">作用域Bug修复</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>给定一段因变量作用域问题导致编译错误的程序，要求学生修复。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">3</span>
+              <h4 class="exercise-title">全局vs局部数组</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>比较把同样大小的数组定义在main内和main外的区别，解释为什么竞赛常用全局数组。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">4</span>
+              <h4 class="exercise-title">模块化改造</h4>
+              <span class="exercise-tag hard">挑战</span>
+            </div>
+            <p>将一个滥用全局变量的程序，改造为尽量使用局部变量和参数传递的版本。</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="checklist-box reveal">
+        <h4><i class="fas fa-clipboard-check"></i> 本课自测清单</h4>
+        <ul>
+          <li>能准确区分局部变量和全局变量的作用域和生命周期</li>
+          <li>理解"局部优先"原则（同名变量时局部遮蔽全局）</li>
+          <li>知道为什么竞赛中大数组要定义为全局变量</li>
+          <li>能避免常见的循环变量命名冲突</li>
+          <li>能在代码中合理选择局部变量和全局变量</li>
+          <li class="blocker">如果任何一条不满足，不要进入L4-04递归基础</li>
+        </ul>
+      </div>
+
+      <div class="lesson-nav reveal">
+        <a href="L4-02-参数传递与返回值.html" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> 上一课：参数传递与返回值
+        </a>
+        <a href="L4-04-递归基础.html" class="btn btn-primary" style="background: var(--level4); border-color: var(--level4);">
+          下一课：递归基础 <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container">
+      <div class="footer-links">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+    </div>
+  </footer>
+
+  <script src="../../../assets/js/main.js"></script>
+</body>
+</html>

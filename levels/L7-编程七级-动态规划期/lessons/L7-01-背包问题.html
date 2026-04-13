@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L7-01 背包问题 · 蒙知苑·OI</title>
+  <meta name="description" content="学习0/1背包、完全背包、多重背包问题，掌握空间优化和经典变形。">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../../assets/css/base.css">
+  <link rel="stylesheet" href="../../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../../assets/css/components.css">
+  <link rel="stylesheet" href="../../../assets/css/teaching-visuals.css">
+  <link rel="stylesheet" href="../../../assets/css/level.css">
+  
+  <style>
+    :root { --lv-color: var(--level7); --lv-dim: var(--level7-dim); }
+  </style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels" class="active">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+  
+  <div class="mobile-menu">
+    <a href="../../../philosophy/index.html">教学理念</a>
+    <a href="../../../mainlines/index.html">能力主线</a>
+    <a href="../../../index.html#levels">八级体系</a>
+    <a href="../../../resources/index.html">学习资源</a>
+  </div>
+
+  <div class="lesson-top-info">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../../../index.html">首页</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="../index.html">L7 动态规划期</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>L7-01</span>
+      </div>
+      <div class="lesson-header-row">
+        <div>
+          <h1 class="lesson-title-main">背包问题</h1>
+          <p class="lesson-subtitle">0/1背包、完全背包、多重背包、空间优化、经典变形</p>
+        </div>
+        <div class="lesson-meta">
+          <div class="meta-item"><i class="fas fa-clock"></i> 10课时</div>
+          <div class="meta-item"><i class="fas fa-calendar"></i> 约2.5周</div>
+          <div class="meta-item"><i class="fas fa-signal"></i> 难度 <span class="difficulty-star"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="main-content">
+    <div class="container">
+
+      <div class="goals-card reveal">
+        <h4><i class="fas fa-bullseye"></i> 本课三维目标</h4>
+        <div class="goals-grid">
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--red-dim); color: var(--red);">知识</span>
+            <span class="goal-text">0/1背包、完全背包、多重背包的状态定义与转移方程</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--green-dim); color: var(--green);">技能</span>
+            <span class="goal-text">能独立写出三种背包的代码，掌握一维数组空间优化</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--blue-dim); color: var(--blue);">思维</span>
+            <span class="goal-text">建立"容量作为状态维度"的背包建模思维</span>
+          </div>
+        </div>
+      </div>
+
+      <section class="reveal">
+        <h2>1. 0/1背包问题</h2>
+        <p>
+          问题：有 n 个物品和一个容量为 V 的背包。每个物品只能选一次，
+          第 i 个物品的体积是 <code class="inline-code">w[i]</code>，价值是 <code class="inline-code">v[i]</code>。
+          求在不超过背包容量的前提下，能装下的最大价值。
+        </p>
+        <p>
+          <strong>状态定义：</strong><code class="inline-code">dp[i][j]</code> 表示前 i 个物品，在容量为 j 的背包中能获得的最大价值。
+        </p>
+        <p>
+          <strong>状态转移：</strong>对于第 i 个物品，有两种选择：
+        </p>
+        <ul>
+          <li><strong>不选：</strong><code class="inline-code">dp[i][j] = dp[i-1][j]</code></li>
+          <li><strong>选：</strong><code class="inline-code">dp[i][j] = dp[i-1][j-w[i]] + v[i]</code>（前提是 <code class="inline-code">j ≥ w[i]</code>）</li>
+        </ul>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">0/1背包二维代码</span>
+            <button class="copy-btn" data-clipboard-target="#code1">复制</button>
+          </div>
+          <pre><code id="code1" class="language-cpp">// 初始化：前0个物品，价值都是0
+for (int j = 0; j <= V; j++) dp[0][j] = 0;
+
+for (int i = 1; i <= n; i++) {
+    for (int j = 0; j <= V; j++) {
+        dp[i][j] = dp[i-1][j];  // 不选第i个
+        if (j >= w[i]) {
+            dp[i][j] = max(dp[i][j], dp[i-1][j-w[i]] + v[i]);
+        }
+    }
+}</code></pre>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>2. 空间优化：一维数组</h2>
+        <p>
+          观察发现，<code class="inline-code">dp[i][j]</code> 只依赖于 <code class="inline-code">dp[i-1][...]</code>，
+          所以可以把二维优化成一维数组。
+        </p>
+        <p>
+          <strong>关键技巧：</strong>容量 j 必须<strong>倒序遍历</strong>！
+          如果正序遍历，同一轮中前面的更新会影响到后面，相当于一个物品被选了多次。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">0/1背包一维优化</span>
+            <button class="copy-btn" data-clipboard-target="#code2">复制</button>
+          </div>
+          <pre><code id="code2" class="language-cpp">int dp[MAXV] = {0};
+
+for (int i = 1; i <= n; i++) {
+    for (int j = V; j >= w[i]; j--) {  // 必须倒序！
+        dp[j] = max(dp[j], dp[j - w[i]] + v[i]);
+    }
+}</code></pre>
+        </div>
+        <div class="visual-demo" data-type="memory" data-memory='[
+          {"addr":"dp","cells":["0","5","5","8","8","13","13"],"var":"正序错误(物品被重复选)"},
+          {"addr":"dp","cells":["0","5","5","8","8","10","13"],"var":"倒序正确(每个物品只选一次)"}
+        ]'></div>
+      </section>
+
+      <section class="reveal">
+        <h2>3. 完全背包</h2>
+        <p>
+          完全背包中，每个物品可以选无限次。状态转移方程和0/1背包很像，
+          但容量 j 需要<strong>正序遍历</strong>！
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">完全背包一维优化</span>
+            <button class="copy-btn" data-clipboard-target="#code3">复制</button>
+          </div>
+          <pre><code id="code3" class="language-cpp">int dp[MAXV] = {0};
+
+for (int i = 1; i <= n; i++) {
+    for (int j = w[i]; j <= V; j++) {  // 正序！允许重复选
+        dp[j] = max(dp[j], dp[j - w[i]] + v[i]);
+    }
+}</code></pre>
+        </div>
+        <div class="note-box">
+          <p>
+            <strong>记忆口诀：</strong>0/1背包倒着走（每个只选一次），完全背包正着走（可以重复选）。
+          </p>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>4. 多重背包</h2>
+        <p>
+          多重背包中，每个物品最多可以选 <code class="inline-code">c[i]</code> 次。
+          最简单的做法是把它拆成 <code class="inline-code">c[i]</code> 个0/1背包物品，但这样效率太低。
+        </p>
+        <p>
+          <strong>二进制优化：</strong>把 <code class="inline-code">c[i]</code> 拆成 1, 2, 4, ..., 剩余部分。
+          这样任何数量都可以由这些数组合而成，且拆分后的物品数从 O(c) 降到 O(log c)。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">多重背包二进制优化</span>
+            <button class="copy-btn" data-clipboard-target="#code4">复制</button>
+          </div>
+          <pre><code id="code4" class="language-cpp">// 把每个物品拆分成若干"新物品"
+vector&lt;pair&lt;int, int&gt;&gt; items;  // (weight, value)
+
+for (int i = 1; i <= n; i++) {
+    int cnt = c[i];
+    int k = 1;
+    while (cnt > 0) {
+        int use = min(k, cnt);
+        items.push_back({w[i] * use, v[i] * use});
+        cnt -= use;
+        k *= 2;
+    }
+}
+
+// 然后对这些"新物品"做0/1背包
+for (auto [weight, value] : items) {
+    for (int j = V; j >= weight; j--) {
+        dp[j] = max(dp[j], dp[j - weight] + value);
+    }
+}</code></pre>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>5. 背包问题的常见变形</h2>
+        <ul>
+          <li>
+            <strong>恰好装满：</strong>初始化时，<code class="inline-code">dp[0] = 0</code>，其余为 <code class="inline-code">-INF</code>。
+            这样只有恰好装满的容量才会被更新。
+          </li>
+          <li>
+            <strong>求方案数：</strong>把 <code class="inline-code">max</code> 改成求和，记录达到最大价值的方案数量。
+          </li>
+          <li>
+            <strong>求具体方案：</strong>用二维数组记录每个状态是从哪个决策转移来的，最后回溯输出。
+          </li>
+          <li>
+            <strong>分组背包：</strong>物品分成若干组，每组最多选一个。对每组做一次0/1背包决策。
+          </li>
+        </ul>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="reveal">
+        <h2>IOI教练常见教学陷阱</h2>
+        <div class="traps-grid">
+          <div class="trap-card">
+            <div class="trap-title">陷阱1：0/1背包正序遍历</div>
+            <p class="trap-desc">
+              这是背包问题最高频的错误。正序遍历会让同一个物品被多次使用，
+              把0/1背包变成了完全背包。必须反复强调倒序的原因。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱2：容量初始化错误</div>
+            <p class="trap-desc">
+              "不超过容量求最大价值"时全部初始化为0；"恰好装满"时dp[0]=0，其余为-INF。
+              两种场景初始化不同，写错会导致答案错误。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱3：只会背模板不会识别模型</div>
+            <p class="trap-desc">
+              很多题目不会直接说"背包"。比如"在总时间限制内获得最大分数"、"在预算内买最多东西"——
+              这些都是背包。要训练学生的建模能力。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>课后练习题</h2>
+        <div class="exercise-list">
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">1</span>
+              <h4 class="exercise-title">0/1背包基础</h4>
+              <span class="exercise-tag easy">入门</span>
+            </div>
+            <p>经典0/1背包，求不超过背包容量的最大价值。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">2</span>
+              <h4 class="exercise-title">完全背包</h4>
+              <span class="exercise-tag easy">入门</span>
+            </div>
+            <p>每种硬币有无限张，问凑成金额m有多少种方案（或最大/最小数量）。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">3</span>
+              <h4 class="exercise-title">多重背包</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>每种物品有数量限制，用二进制优化求解最大价值。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">4</span>
+              <h4 class="exercise-title">分组背包</h4>
+              <span class="exercise-tag hard">挑战</span>
+            </div>
+            <p>物品分为若干组，每组最多选一个，求最大价值。</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="checklist-box reveal">
+        <h4><i class="fas fa-clipboard-check"></i> 本课自测清单</h4>
+        <ul>
+          <li>能写出0/1背包的二维和一维代码</li>
+          <li>理解为什么0/1背包要倒序、完全背包要正序</li>
+          <li>能独立写出完全背包的一维代码</li>
+          <li>理解多重背包二进制优化的思想</li>
+          <li>能识别生活中的背包问题模型</li>
+          <li class="blocker">如果任何一条不满足，不要进入L7-02区间DP</li>
+        </ul>
+      </div>
+
+      <div class="lesson-nav reveal">
+        <a href="../index.html" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> 返回L7首页
+        </a>
+        <a href="L7-02-区间DP.html" class="btn btn-primary" style="background: var(--level7); border-color: var(--level7);">
+          下一课：区间DP <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container">
+      <div class="footer-links">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+    </div>
+  </footer>
+
+  <script src="../../../assets/js/main.js"></script>
+</body>
+</html>

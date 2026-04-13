@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>图论线 · 蒙知苑·OI</title>
+  <meta name="description" content="图论线详情：从L6启动，学习图的存储、遍历、最短路、生成树等核心算法。">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../assets/css/base.css">
+  <link rel="stylesheet" href="../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../assets/css/components.css">
+  <link rel="stylesheet" href="../../assets/css/mainline.css">
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../philosophy/index.html">教学理念</a>
+        <a href="../index.html" class="active">能力主线</a>
+        <a href="../../index.html#levels">八级体系</a>
+        <a href="../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+  
+  <div class="mobile-menu">
+    <a href="../../philosophy/index.html">教学理念</a>
+    <a href="../index.html">能力主线</a>
+    <a href="../../index.html#levels">八级体系</a>
+    <a href="../../resources/index.html">学习资源</a>
+  </div>
+
+  <header class="page-header">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../../index.html">首页</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="../index.html">能力主线</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>图论线</span>
+      </div>
+      <div class="page-tag" style="color: var(--level7);">
+        <i class="fas fa-project-diagram"></i> 能力主线 · 图论线
+      </div>
+      <h1 class="page-title">图论线</h1>
+      <p class="page-desc">
+        从L6启动，L7深化——学习图的存储、遍历、最短路、生成树等核心算法。
+        图论是算法竞赛的重要板块，也是现实问题的抽象模型。
+      </p>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container">
+
+      <div class="coach-quote reveal">
+        <p>
+          图论是算法竞赛中最"实用"的板块。
+          从地图导航到社交网络，从电路设计到任务调度，<strong>现实问题用图论建模后，就变成了算法问题</strong>。
+        </p>
+        <p style="margin-bottom: 0;">
+          但图论也是学生最容易"畏难"的板块——因为图是抽象的数据结构，不像数组那么直观。
+          我们的教学策略是：从树的特例入手，逐步过渡到一般图。
+        </p>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2 class="reveal">图论线的发展阶段</h2>
+      
+      <div class="mainline-timeline-detail reveal">
+        <div class="timeline-stage active">
+          <div class="timeline-stage-marker" style="border-color: var(--level6); color: var(--level6);">L6</div>
+          <div class="timeline-stage-content">
+            <div class="timeline-stage-header">
+              <span class="timeline-stage-title">图论入门期</span>
+              <span class="timeline-stage-badge" style="background: var(--level6-dim); color: var(--level6);">启动</span>
+            </div>
+            <div class="timeline-stage-desc">
+              <strong>核心内容：</strong>
+              <ul style="margin: var(--sp-2) 0;">
+                <li>树的基础概念（图的特例，容易理解）</li>
+                <li>树的遍历（DFS、BFS）</li>
+                <li>二叉树、二叉搜索树初步</li>
+                <li>从树过渡到一般图</li>
+              </ul>
+              <strong>思维目标：</strong>建立"图是节点和边的集合"的基本认知
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-stage active">
+          <div class="timeline-stage-marker" style="border-color: var(--level7); color: var(--level7);">L7</div>
+          <div class="timeline-stage-content">
+            <div class="timeline-stage-header">
+              <span class="timeline-stage-title">图论深化期</span>
+              <span class="timeline-stage-badge" style="background: var(--level7-dim); color: var(--level7);">深化</span>
+            </div>
+            <div class="timeline-stage-desc">
+              <strong>核心内容：</strong>
+              <ul style="margin: var(--sp-2) 0;">
+                <li>图的存储（邻接矩阵、邻接表）</li>
+                <li>图的遍历（DFS、BFS）</li>
+                <li>最短路算法（Dijkstra、Floyd）</li>
+                <li>最小生成树（Kruskal、Prim）</li>
+                <li>拓扑排序</li>
+              </ul>
+              <strong>思维目标：</strong>掌握经典图算法，理解算法选择的场景
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-stage active">
+          <div class="timeline-stage-marker" style="border-color: var(--level8); color: var(--level8);">L8</div>
+          <div class="timeline-stage-content">
+            <div class="timeline-stage-header">
+              <span class="timeline-stage-title">图论综合期</span>
+              <span class="timeline-stage-badge" style="background: var(--level8-dim); color: var(--level8);">综合</span>
+            </div>
+            <div class="timeline-stage-desc">
+              <strong>核心内容：</strong>
+              <ul style="margin: var(--sp-2) 0;">
+                <li>强连通分量</li>
+                <li>网络流初步</li>
+                <li>图论建模实战</li>
+                <li>图论与其他算法结合</li>
+              </ul>
+              <strong>思维目标：</strong>把现实问题抽象为图论问题
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2 class="reveal">为什么从树开始？</h2>
+      
+      <div class="reveal">
+        <p>树是图的特例（无环连通图），具有以下优势：</p>
+        <ul>
+          <li><strong>直观：</strong>树有清晰的层次结构，容易画图理解</li>
+          <li><strong>简单：</strong>树没有环，遍历不会重复访问</li>
+          <li><strong>重要：</strong>很多实际问题本身就是树结构</li>
+        </ul>
+        <p>学生掌握树的遍历后，再引入一般图的环，就会水到渠成。</p>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2 class="reveal">核心算法对比</h2>
+      
+      <div class="reveal">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>算法</th>
+              <th>适用场景</th>
+              <th>时间复杂度</th>
+              <th>关键思想</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Dijkstra</td>
+              <td>单源最短路（无负权）</td>
+              <td>O((V+E)logV)</td>
+              <td>贪心：每次选最近的</td>
+            </tr>
+            <tr>
+              <td>Floyd</td>
+              <td>全源最短路</td>
+              <td>O(V³)</td>
+              <td>DP：逐点尝试中转</td>
+            </tr>
+            <tr>
+              <td>Kruskal</td>
+              <td>最小生成树</td>
+              <td>O(ElogE)</td>
+              <td>贪心：选最小的边</td>
+            </tr>
+            <tr>
+              <td>Prim</td>
+              <td>最小生成树（稠密图）</td>
+              <td>O(V²)或O(ElogV)</td>
+              <td>贪心：逐点扩展</td>
+            </tr>
+            <tr>
+              <td>拓扑排序</td>
+              <td>有向无环图（DAG）</td>
+              <td>O(V+E)</td>
+              <td>先处理入度为0的点</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2 class="reveal">常见问题</h2>
+      
+      <div class="reveal">
+        <h3>Q1：图论需要什么前置知识？</h3>
+        <p>需要递归线（DFS用递归实现）和数组DP线（Floyd用DP）的基础。这也是图论线在L6才启动的原因——需要等待前两条主线铺垫完成。</p>
+      </div>
+
+      <div class="reveal">
+        <h3>Q2：学生觉得图论太抽象怎么办？</h3>
+        <p>多画图！图论是唯一一个"画图就能理解"的算法板块。鼓励学生把每个算法都用手画图模拟一遍，比看代码有效得多。</p>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; margin-top: var(--sp-8);">
+        <a href="../sort-divide-line/index.html" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> 上一条：排序分治线
+        </a>
+        <a href="../math-tool-line/index.html" class="btn btn-primary">
+          下一条：数学工具线 <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container">
+      <div class="footer-links">
+        <a href="../../philosophy/index.html">教学理念</a>
+        <a href="../index.html">能力主线</a>
+        <a href="../../index.html#levels">八级体系</a>
+        <a href="../../resources/index.html">学习资源</a>
+      </div>
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+    </div>
+  </footer>
+
+  <script src="../../assets/js/main.js"></script>
+</body>
+</html>

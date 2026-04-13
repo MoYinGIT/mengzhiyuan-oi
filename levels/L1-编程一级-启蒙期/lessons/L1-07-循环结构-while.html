@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L1-07 循环结构-while · 蒙知苑·OI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../../assets/css/base.css">
+  <link rel="stylesheet" href="../../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../../assets/css/components.css">
+  <link rel="stylesheet" href="../../../assets/css/teaching-visuals.css">
+  <link rel="stylesheet" href="../../../assets/css/level.css">
+  <style>:root { --lv-color: var(--level1); --lv-dim: var(--level1-dim); }</style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels" class="active">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="container">
+      <header class="lesson-header">
+        <div class="breadcrumb">
+          <a href="../../../index.html">首页</a>
+          <i class="fas fa-chevron-right"></i>
+          <a href="../index.html">L1 编程启蒙期</a>
+          <i class="fas fa-chevron-right"></i>
+          <span>第7课</span>
+        </div>
+        <h1 style="color: var(--level1);">L1-07 循环结构 - while</h1>
+        <div class="lesson-meta">
+          <span><i class="fas fa-clock"></i> 3课时（135分钟）</span>
+          <span><i class="fas fa-tag"></i> L1核心</span>
+        </div>
+      </header>
+
+      <div class="lesson-section reveal">
+        <h2>教学目标</h2>
+        <div class="goal-list">
+          <h4><i class="fas fa-bullseye"></i> 知识目标</h4>
+          <ul>
+            <li>理解 while 循环的适用场景</li>
+            <li>掌握 while 和 do-while 的语法</li>
+            <li>理解 while 和 for 的区别</li>
+          </ul>
+        </div>
+        <div class="goal-list">
+          <h4><i class="fas fa-tools"></i> 技能目标</h4>
+          <ul>
+            <li>能用 while 实现条件控制的循环</li>
+            <li>能避免死循环</li>
+            <li>能根据场景选择 for 或 while</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>while 循环：当条件满足时重复</h2>
+        <div class="coach-quote">
+          <p>for 循环适合"知道要循环多少次"的场景，而 while 循环适合"不知道要循环多少次，但知道什么时候停止"的场景。</p>
+          <p style="margin-bottom: 0;">比如：不断读取输入，直到输入为0时停止。这种场景用 while 最合适。</p>
+        </div>
+
+        <h3>while 语法</h3>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">C++</span>
+            <button class="code-copy"><i class="fas fa-copy"></i></button>
+          </div>
+          <pre><code>while (条件) {
+    // 条件成立时执行
+}</code></pre>
+        </div>
+
+        <h3>do-while 语法</h3>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">C++</span>
+            <button class="code-copy"><i class="fas fa-copy"></i></button>
+          </div>
+          <pre><code>do {
+    // 先执行一次，再判断条件
+} while (条件);</code></pre>
+        </div>
+
+        <h3>流程图对比</h3>
+        <div data-type="mermaid">flowchart TD
+    subgraph while循环
+        A[判断条件] -->|成立| B[执行循环体]
+        B --> A
+        A -->|不成立| C[结束]
+    end
+    
+    subgraph do-while循环
+        D[执行循环体] --> E[判断条件]
+        E -->|成立| D
+        E -->|不成立| F[结束]
+    end
+</div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>代码示例</h2>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">C++</span>
+            <button class="code-copy"><i class="fas fa-copy"></i></button>
+          </div>
+          <pre><code>// 示例1：不断读入数字，直到输入0停止
+int n;
+cin >> n;
+while (n != 0) {
+    cout << "你输入了：" << n << endl;
+    cin >> n;  // 关键：必须更新条件变量，否则死循环！
+}
+
+// 示例2：求一个正整数的各位数字之和
+int x;
+cin >> x;
+int sum = 0;
+while (x > 0) {
+    sum += x % 10;  // 取最后一位
+    x /= 10;        // 去掉最后一位
+}
+cout << "各位数字之和：" << sum << endl;
+
+// 示例3：do-while 至少执行一次
+int password;
+do {
+    cout << "请输入密码：";
+    cin >> password;
+} while (password != 123456);
+cout << "密码正确！" << endl;</code></pre>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>for vs while：如何选择？</h2>
+        <table class="compare-table">
+          <thead>
+            <tr><th>场景</th><th>推荐</th><th>原因</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>已知循环次数</td><td>for</td><td>三要素清晰，不易遗漏</td></tr>
+            <tr><td>未知循环次数，已知停止条件</td><td>while</td><td>条件控制更直观</td></tr>
+            <tr><td>至少需要执行一次</td><td>do-while</td><td>保证先执行再判断</td></tr>
+            <tr><td>遍历数组/序列</td><td>for</td><td>下标控制方便</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>IOI教练视角</h2>
+        <div class="trap-box">
+          <div class="trap-title"><i class="fas fa-skull-crossbones"></i> 最危险的陷阱：死循环</div>
+          <p>while 循环如果条件永远为真，就会陷入死循环，程序永远不会结束。初学者最容易犯的错误就是忘记在循环体内更新条件变量。</p>
+          <pre style="margin-top: var(--sp-2);"><code>// 死循环示例！
+int i = 1;
+while (i <= 10) {
+    cout << i << endl;
+    // 糟糕！忘记写 i++ 了
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>练习设计</h2>
+        <div class="goal-list">
+          <h4><i class="fas fa-dumbbell"></i> 基础练习</h4>
+          <ul>
+            <li>用 while 循环计算 1 到 n 的和</li>
+            <li>用 while 循环求一个数的反转（如 123 -> 321）</li>
+            <li>猜数字游戏：程序想一个1-100的数，用户不断猜测，直到猜对</li>
+          </ul>
+        </div>
+        <div class="goal-list">
+          <h4><i class="fas fa-rocket"></i> 提高练习</h4>
+          <ul>
+            <li>输入两个正整数，用辗转相除法求最大公约数（GCD）</li>
+            <li>用 while 循环判断一个数是否是回文数</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>自查清单</h2>
+        <div class="checklist-box">
+          <h4><i class="fas fa-check-square"></i> 本课自查</h4>
+          <ul>
+            <li>能正确写出 while 和 do-while 循环</li>
+            <li>不会在 while 循环中忘记更新条件变量</li>
+            <li>能根据场景判断用 for 还是 while</li>
+            <li>能用 while 处理"未知次数"的循环场景</li>
+            <li class="blocker">如果没有完成以上检查项，不要进入下一课</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lesson-nav reveal">
+        <a href="L1-06-循环结构-for.html" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> 上一课</a>
+        <a href="L1-08-循环嵌套.html" class="btn btn-primary" style="background: var(--level1); border-color: var(--level1);">下一课：循环嵌套 <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container"><p>蒙知苑·OI · IOI金牌教练教案体系</p></div>
+  </footer>
+
+  <script src="../../../assets/js/main.js"></script>
+  <script src="../../../assets/js/teaching-visuals.js"></script>
+</body>
+</html>

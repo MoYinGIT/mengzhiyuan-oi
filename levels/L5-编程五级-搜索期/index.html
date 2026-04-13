@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L5 编程五级搜索期 · 蒙知苑·OI</title>
+  <meta name="description" content="L5编程五级搜索期：40课时，学习DFS、BFS、回溯法、搜索剪枝、状态表示。">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../assets/css/base.css">
+  <link rel="stylesheet" href="../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../assets/css/components.css">
+  <link rel="stylesheet" href="../../assets/css/teaching-visuals.css">
+  <link rel="stylesheet" href="../../assets/css/level.css">
+  
+  <style>
+    :root { --lv-color: var(--level5); --lv-dim: var(--level5-dim); }
+  </style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../philosophy/index.html">教学理念</a>
+        <a href="../../mainlines/index.html">能力主线</a>
+        <a href="../../index.html#levels" class="active">八级体系</a>
+        <a href="../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+  
+  <div class="mobile-menu">
+    <a href="../../philosophy/index.html">教学理念</a>
+    <a href="../../mainlines/index.html">能力主线</a>
+    <a href="../../index.html#levels">八级体系</a>
+    <a href="../../resources/index.html">学习资源</a>
+  </div>
+
+  <header class="lv-hero">
+    <div class="container">
+      <div class="breadcrumb" style="justify-content: center;">
+        <a href="../../index.html">首页</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>八级体系</span>
+      </div>
+      <div class="lv-badge" style="border-color: var(--level5); color: var(--level5);">
+        <i class="fas fa-search"></i> 编程搜索期
+      </div>
+      <h1 class="lv-title">L5 编程五级搜索期</h1>
+      <p style="color: var(--fg-muted); max-width: 600px; margin: 0 auto;">
+        DFS与BFS是竞赛算法的核心支柱。从这一刻起，学生开始用"搜索"的眼光看世界
+      </p>
+      <div class="lv-stats">
+        <div class="lv-stat">
+          <div class="lv-stat-num">40</div>
+          <div class="lv-stat-label">总课时</div>
+        </div>
+        <div class="lv-stat">
+          <div class="lv-stat-num">10</div>
+          <div class="lv-stat-label">学习周数</div>
+        </div>
+        <div class="lv-stat">
+          <div class="lv-stat-num">5</div>
+          <div class="lv-stat-label">核心知识点</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container">
+
+      <div class="coach-quote reveal">
+        <p>
+          L5是整个八级体系中<strong>最关键的质变期</strong>之一。
+        </p>
+        <p>
+          如果说L1-L4还是在学"语法+基础算法"，那么L5开始，学生真正进入了<strong>算法思维</strong>的领域。
+          DFS和BFS不仅是两种搜索技术，更是一种<strong>系统性地探索解空间</strong>的思维方式。
+        </p>
+        <p style="margin-bottom: 0;">
+          我见过太多学生，L5时畏难退缩，结果到省选、NOI时连基本的搜索题都做不出来。
+          L5的搜索能力，是区分"会写代码"和"会解决问题"的分水岭。
+        </p>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2 class="reveal">核心知识点</h2>
+      <div class="lv-topics reveal">
+        <a href="lessons/L5-01-DFS基础.html" class="lv-topic-card">
+          <div class="lv-topic-icon"><i class="fas fa-sitemap"></i></div>
+          <div class="lv-topic-title">DFS基础</div>
+          <div class="lv-topic-desc">深度优先搜索、递归实现、迷宫探索、连通块计数</div>
+          <div class="lv-topic-meta">
+            <span><i class="fas fa-clock"></i> 8课时</span>
+            <span><i class="fas fa-book"></i> 第1课</span>
+          </div>
+        </a>
+        <a href="lessons/L5-02-BFS基础.html" class="lv-topic-card">
+          <div class="lv-topic-icon"><i class="fas fa-water"></i></div>
+          <div class="lv-topic-title">BFS基础</div>
+          <div class="lv-topic-desc">广度优先搜索、队列实现、最短路径、层序遍历</div>
+          <div class="lv-topic-meta">
+            <span><i class="fas fa-clock"></i> 8课时</span>
+            <span><i class="fas fa-book"></i> 第2课</span>
+          </div>
+        </a>
+        <a href="lessons/L5-03-回溯法.html" class="lv-topic-card">
+          <div class="lv-topic-icon"><i class="fas fa-undo"></i></div>
+          <div class="lv-topic-title">回溯法</div>
+          <div class="lv-topic-desc">全排列、N皇后、子集生成、状态恢复</div>
+          <div class="lv-topic-meta">
+            <span><i class="fas fa-clock"></i> 8课时</span>
+            <span><i class="fas fa-book"></i> 第3课</span>
+          </div>
+        </a>
+        <a href="lessons/L5-04-搜索剪枝.html" class="lv-topic-card">
+          <div class="lv-topic-icon"><i class="fas fa-cut"></i></div>
+          <div class="lv-topic-title">搜索剪枝</div>
+          <div class="lv-topic-desc">可行性剪枝、最优性剪枝、剪枝的艺术与边界</div>
+          <div class="lv-topic-meta">
+            <span><i class="fas fa-clock"></i> 8课时</span>
+            <span><i class="fas fa-book"></i> 第4课</span>
+          </div>
+        </a>
+        <a href="lessons/L5-05-状态表示与哈希.html" class="lv-topic-card">
+          <div class="lv-topic-icon"><i class="fas fa-fingerprint"></i></div>
+          <div class="lv-topic-title">状态表示与哈希</div>
+          <div class="lv-topic-desc">状态编码、去重、set/map应用、记忆化搜索入门</div>
+          <div class="lv-topic-meta">
+            <span><i class="fas fa-clock"></i> 8课时</span>
+            <span><i class="fas fa-book"></i> 第5课</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2 class="reveal">课时列表</h2>
+      <div class="lesson-list reveal">
+        <a href="lessons/L5-01-DFS基础.html" class="lesson-item">
+          <div class="lesson-num">01</div>
+          <div class="lesson-content">
+            <div class="lesson-title">DFS基础</div>
+            <div class="lesson-desc">深度优先搜索、递归实现、迷宫探索、连通块计数</div>
+          </div>
+          <div class="lesson-hours">8课时</div>
+        </a>
+        <a href="lessons/L5-02-BFS基础.html" class="lesson-item">
+          <div class="lesson-num">02</div>
+          <div class="lesson-content">
+            <div class="lesson-title">BFS基础</div>
+            <div class="lesson-desc">广度优先搜索、队列实现、最短路径、层序遍历</div>
+          </div>
+          <div class="lesson-hours">8课时</div>
+        </a>
+        <a href="lessons/L5-03-回溯法.html" class="lesson-item">
+          <div class="lesson-num">03</div>
+          <div class="lesson-content">
+            <div class="lesson-title">回溯法</div>
+            <div class="lesson-desc">全排列、N皇后、子集生成、状态恢复</div>
+          </div>
+          <div class="lesson-hours">8课时</div>
+        </a>
+        <a href="lessons/L5-04-搜索剪枝.html" class="lesson-item">
+          <div class="lesson-num">04</div>
+          <div class="lesson-content">
+            <div class="lesson-title">搜索剪枝</div>
+            <div class="lesson-desc">可行性剪枝、最优性剪枝、剪枝的艺术与边界</div>
+          </div>
+          <div class="lesson-hours">8课时</div>
+        </a>
+        <a href="lessons/L5-05-状态表示与哈希.html" class="lesson-item">
+          <div class="lesson-num">05</div>
+          <div class="lesson-content">
+            <div class="lesson-title">状态表示与哈希</div>
+            <div class="lesson-desc">状态编码、去重、set/map应用、记忆化搜索入门</div>
+          </div>
+          <div class="lesson-hours">8课时</div>
+        </a>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2 class="reveal">能力主线交汇</h2>
+      <div class="reveal">
+        <div class="card" style="margin-bottom: var(--sp-4);">
+          <div class="card-header">
+            <div class="card-icon" style="background: var(--level3-dim); color: var(--level3);">
+              <i class="fas fa-code-branch"></i>
+            </div>
+            <h3 class="card-title">递归线 - L5深化</h3>
+          </div>
+          <p class="card-desc">
+            DFS本质就是递归的应用。L4学的递归三要素，在L5通过迷宫、连通块、回溯等题目得到全面深化。
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon" style="background: var(--level4-dim); color: var(--level4);">
+              <i class="fas fa-sort-amount-down"></i>
+            </div>
+            <h3 class="card-title">排序分治线 - L5衔接</h3>
+          </div>
+          <p class="card-desc">
+            搜索与分治常常结合。L5的搜索剪枝和二分决策，为L6更高级的分治应用做铺垫。
+          </p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2 class="reveal">升级检验标准</h2>
+      <div class="checklist-box reveal">
+        <h4><i class="fas fa-clipboard-check"></i> L5 升级检查清单</h4>
+        <ul>
+          <li>看到"迷宫探索"类题目，能秒想到DFS或BFS</li>
+          <li>能独立写出标准DFS和BFS模板代码</li>
+          <li>理解DFS用递归、BFS用队列的本质区别</li>
+          <li>能用回溯法解决全排列、N皇后等经典问题</li>
+          <li>掌握至少两种剪枝技巧，能明显优化搜索效率</li>
+          <li class="blocker">如果以上任何一条不满足，不要进入L6</li>
+        </ul>
+      </div>
+
+      <div class="coach-quote reveal">
+        <p style="margin-bottom: 0;">
+          <strong>给家长的话：</strong>L5开始，题目的抽象程度会显著提升。
+          如果孩子某道题想了20分钟还没有思路，这是正常的。搜索题需要<strong>大量练习和试错</strong>才能建立直觉。
+          请不要因为一两道题不会做就怀疑孩子的能力。
+        </p>
+      </div>
+
+      <div class="lesson-nav reveal">
+        <a href="../L4-编程四级-函数期/index.html" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> L4 编程函数期
+        </a>
+        <a href="lessons/L5-01-DFS基础.html" class="btn btn-primary" style="background: var(--level5); border-color: var(--level5);">
+          开始学习第一课 <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container">
+      <div class="footer-links">
+        <a href="../../philosophy/index.html">教学理念</a>
+        <a href="../../mainlines/index.html">能力主线</a>
+        <a href="../../index.html#levels">八级体系</a>
+        <a href="../../resources/index.html">学习资源</a>
+      </div>
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+    </div>
+  </footer>
+
+  <script src="../../assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>排序分治线 · 蒙知苑·OI</title>
+  <meta name="description" content="排序分治线详情：从L4启动，理解分治思想，掌握归并排序和快速排序。">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../assets/css/base.css">
+  <link rel="stylesheet" href="../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../assets/css/components.css">
+  <link rel="stylesheet" href="../../assets/css/mainline.css">
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../philosophy/index.html">教学理念</a>
+        <a href="../index.html" class="active">能力主线</a>
+        <a href="../../index.html#levels">八级体系</a>
+        <a href="../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+  
+  <div class="mobile-menu">
+    <a href="../../philosophy/index.html">教学理念</a>
+    <a href="../index.html">能力主线</a>
+    <a href="../../index.html#levels">八级体系</a>
+    <a href="../../resources/index.html">学习资源</a>
+  </div>
+
+  <header class="page-header">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../../index.html">首页</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="../index.html">能力主线</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>排序分治线</span>
+      </div>
+      <div class="page-tag" style="color: var(--level4);">
+        <i class="fas fa-sort-amount-down"></i> 能力主线 · 排序分治线
+      </div>
+      <h1 class="page-title">排序分治线</h1>
+      <p class="page-desc">
+        从L4启动，L5深化——理解"分治"思想，掌握归并排序和快速排序。
+        排序是手段，分治是目的。
+      </p>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container">
+
+      <div class="coach-quote reveal">
+        <p>
+          排序教学最大的误区，是<strong>只教排序，不教分治</strong>。
+        </p>
+        <p style="margin-bottom: 0;">
+          归并排序和快速排序的价值，不在于"排序"这个结果，而在于"分治"这个过程。
+          分治思想是算法设计的核心范式，必须在L4-L5建立起来。
+        </p>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2 class="reveal">为什么排序要从"为什么排"引入？</h2>
+      
+      <div class="comparison-block reveal">
+        <div class="comparison-item wrong">
+          <div class="comparison-label"><i class="fas fa-times-circle"></i> 错误做法</div>
+          <div class="comparison-content">
+            <p>直接教代码：</p>
+            <pre style="background: var(--bg-deep); padding: var(--sp-2); border-radius: 4px; margin-top: var(--sp-2);"><code>void qsort(int l, int r) {
+  if (l >= r) return;
+  int mid = ...
+  // ...
+}</code></pre>
+            <p style="margin-top: var(--sp-2);">学生背下来，多做几遍就会了。</p>
+          </div>
+        </div>
+        <div class="comparison-item right">
+          <div class="comparison-label"><i class="fas fa-check-circle"></i> 正确做法</div>
+          <div class="comparison-content">
+            <p><strong>先问：为什么要排序？</strong></p>
+            <ul style="margin: var(--sp-2) 0;">
+              <li>为了快速查找（二分）</li>
+              <li>为了去重（相邻比较）</li>
+              <li>为了贪心选择（排序后取最大）</li>
+            </ul>
+            <p><strong>再问：如何高效排序？</strong></p>
+            <p style="margin-top: var(--sp-2);">引出分治思想。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2 class="reveal">排序分治线的发展阶段</h2>
+      
+      <div class="mainline-timeline-detail reveal">
+        <div class="timeline-stage active">
+          <div class="timeline-stage-marker" style="border-color: var(--level4); color: var(--level4);">L4</div>
+          <div class="timeline-stage-content">
+            <div class="timeline-stage-header">
+              <span class="timeline-stage-title">基础排序期</span>
+              <span class="timeline-stage-badge" style="background: var(--level4-dim); color: var(--level4);">启动</span>
+            </div>
+            <div class="timeline-stage-desc">
+              <strong>核心内容：</strong>
+              <ul style="margin: var(--sp-2) 0;">
+                <li>选择排序、冒泡排序（理解排序本质）</li>
+                <li>插入排序（近乎有序的优化）</li>
+                <li>排序的应用（查找、去重、贪心）</li>
+              </ul>
+              <strong>思维目标：</strong>理解"为什么排序"比"怎么排序"更重要
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-stage active">
+          <div class="timeline-stage-marker" style="border-color: var(--level5); color: var(--level5);">L5</div>
+          <div class="timeline-stage-content">
+            <div class="timeline-stage-header">
+              <span class="timeline-stage-title">分治排序期</span>
+              <span class="timeline-stage-badge" style="background: var(--level5-dim); color: var(--level5);">深化</span>
+            </div>
+            <div class="timeline-stage-desc">
+              <strong>核心内容：</strong>
+              <ul style="margin: var(--sp-2) 0;">
+                <li>归并排序（稳定的分治）</li>
+                <li>快速排序（高效的分治）</li>
+                <li>分治思想抽象：分解→解决→合并</li>
+                <li>逆序对计数（分治应用）</li>
+              </ul>
+              <strong>思维目标：</strong>建立分治思想，理解递归与分治的关系
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2 class="reveal">分治思想的核心</h2>
+      
+      <div class="reveal">
+        <div class="card" style="margin-bottom: var(--sp-4);">
+          <div class="card-header">
+            <div class="card-icon" style="background: var(--accent-dim); color: var(--accent);">
+              <i class="fas fa-sitemap"></i>
+            </div>
+            <h3 class="card-title">分治三步法</h3>
+          </div>
+          <p class="card-desc">
+            <strong>分解：</strong>把大问题拆成若干个小问题<br>
+            <strong>解决：</strong>递归解决每个小问题<br>
+            <strong>合并：</strong>把小问题的解合并成大问题的解
+          </p>
+        </div>
+
+        <div class="trap-box">
+          <div class="trap-title"><i class="fas fa-lightbulb"></i> 关键洞察</div>
+          <p style="margin-bottom: 0;">归并排序和快速排序的区别在于"分解"的方式：归并排序是"先分后治"（稳定但需额外空间），快速排序是"先治后分"（不稳定但原地排序）。理解这个区别，就理解了分治的灵活性。</p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2 class="reveal">常见问题</h2>
+      
+      <div class="reveal">
+        <h3>Q1：学生需要先掌握递归再学分治吗？</h3>
+        <p>是的。分治依赖递归实现。这也是为什么排序分治线在L4启动（此时递归线已经进入L3末-L4阶段）。两条主线在此处交汇，相互支撑。</p>
+      </div>
+
+      <div class="reveal">
+        <h3>Q2：实际编程中需要手写排序吗？</h3>
+        <p>通常不需要，sort()函数足够。但学习排序的价值在于理解分治思想。就像学微积分不是为了手算积分表，而是为了理解变化的本质。</p>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; margin-top: var(--sp-8);">
+        <a href="../array-dp-line/index.html" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> 上一条：数组DP线
+        </a>
+        <a href="../graph-line/index.html" class="btn btn-primary">
+          下一条：图论线 <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container">
+      <div class="footer-links">
+        <a href="../../philosophy/index.html">教学理念</a>
+        <a href="../index.html">能力主线</a>
+        <a href="../../index.html#levels">八级体系</a>
+        <a href="../../resources/index.html">学习资源</a>
+      </div>
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+    </div>
+  </footer>
+
+  <script src="../../assets/js/main.js"></script>
+</body>
+</html>

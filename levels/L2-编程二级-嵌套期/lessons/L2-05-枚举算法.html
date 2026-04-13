@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L2-05 枚举算法 · 蒙知苑·OI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../../assets/css/base.css">
+  <link rel="stylesheet" href="../../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../../assets/css/components.css">
+  <link rel="stylesheet" href="../../../assets/css/teaching-visuals.css">
+  <link rel="stylesheet" href="../../../assets/css/level.css">
+  <style>:root { --lv-color: var(--level2); --lv-dim: var(--level2-dim); }</style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels" class="active">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="container">
+      <header class="lesson-header">
+        <div class="breadcrumb">
+          <a href="../../../index.html">首页</a>
+          <i class="fas fa-chevron-right"></i>
+          <a href="../index.html">L2 编程嵌套期</a>
+          <i class="fas fa-chevron-right"></i>
+          <span>第5课</span>
+        </div>
+        <h1 style="color: var(--level2);">L2-05 枚举算法</h1>
+        <div class="lesson-meta">
+          <span><i class="fas fa-clock"></i> 7课时（315分钟）</span>
+          <span><i class="fas fa-tag"></i> L2核心</span>
+        </div>
+      </header>
+
+      <div class="lesson-section reveal">
+        <h2>教学目标</h2>
+        <div class="goal-list">
+          <h4><i class="fas fa-bullseye"></i> 知识目标</h4>
+          <ul>
+            <li>理解枚举算法的核心思想：逐一尝试所有可能</li>
+            <li>掌握枚举的范围确定和条件筛选</li>
+            <li>理解枚举与循环的关系</li>
+          </ul>
+        </div>
+        <div class="goal-list">
+          <h4><i class="fas fa-tools"></i> 技能目标</h4>
+          <ul>
+            <li>能用循环实现简单的枚举算法</li>
+            <li>能合理确定枚举范围，避免无效计算</li>
+            <li>能用 break 优化枚举过程</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>枚举算法的核心思想</h2>
+        <div class="coach-quote">
+          <p>枚举算法的本质就是：<strong>把所有可能的答案一个一个试过去，符合条件的就留下。</strong></p>
+          <p style="margin-bottom: 0;">听起来很笨？但很多问题，只要枚举范围不大，这就是最简单、最可靠的方法。而且，很多高级算法的本质也是优化过的枚举。</p>
+        </div>
+
+        <h3>枚举三步法</h3>
+        <div class="three-pass-detail">
+          <div class="pass-card" data-pass="步骤1">
+            <h4>确定范围</h4>
+            <p>明确需要枚举哪些对象，范围是什么。</p>
+            <div class="pass-example">
+              <strong>关键</strong>
+              范围不能太大，否则超时
+            </div>
+          </div>
+          <div class="pass-card" data-pass="步骤2">
+            <h4>逐一尝试</h4>
+            <p>用循环遍历范围内的每一个候选答案。</p>
+            <div class="pass-example">
+              <strong>关键</strong>
+              确保不遗漏、不重复
+            </div>
+          </div>
+          <div class="pass-card" data-pass="步骤3">
+            <h4>条件筛选</h4>
+            <p>对每个候选答案进行验证，符合就输出或记录。</p>
+            <div class="pass-example">
+              <strong>关键</strong>
+              验证条件要写对
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>经典案例</h2>
+        
+        <h3>案例1：百钱买百鸡</h3>
+        <div class="coach-quote">
+          <p>公鸡5钱一只，母鸡3钱一只，小鸡1钱三只。用100钱买100只鸡，问公鸡、母鸡、小鸡各多少只？</p>
+        </div>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">C++</span>
+            <button class="code-copy"><i class="fas fa-copy"></i></button>
+          </div>
+          <pre><code>// 枚举公鸡和母鸡的数量，小鸡数量由总数确定
+for (int x = 0; x <= 20; x++) {        // 公鸡最多20只
+    for (int y = 0; y <= 33; y++) {    // 母鸡最多33只
+        int z = 100 - x - y;           // 小鸡数量
+        if (z % 3 == 0 && 5 * x + 3 * y + z / 3 == 100) {
+            cout << x << " " << y << " " << z << endl;
+        }
+    }
+}</code></pre>
+        </div>
+
+        <h3>案例2：找出1-1000中的所有质数</h3>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">C++</span>
+            <button class="code-copy"><i class="fas fa-copy"></i></button>
+          </div>
+          <pre><code>for (int i = 2; i <= 1000; i++) {
+    bool isPrime = true;
+    for (int j = 2; j * j <= i; j++) {
+        if (i % j == 0) {
+            isPrime = false;
+            break;  // 找到因子就停止
+        }
+    }
+    if (isPrime) {
+        cout << i << " ";
+    }
+}</code></pre>
+        </div>
+        <div class="coach-quote">
+          <p style="margin-bottom: 0;"><strong>优化思维：</strong>判断质数时，只需枚举到 sqrt(i) 即可。这是枚举优化的典型例子——缩小枚举范围。</p>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>IOI教练视角</h2>
+        <div class="trap-box">
+          <div class="trap-title"><i class="fas fa-exclamation-triangle"></i> 陷阱：枚举范围过大</div>
+          <p>初学枚举最容易犯的错误就是范围设得太大，导致程序运行缓慢甚至超时。枚举前一定要先估算范围，尽量缩小。</p>
+        </div>
+        <div class="trap-box">
+          <div class="trap-title"><i class="fas fa-exclamation-triangle"></i> 陷阱：遗漏边界</div>
+          <p>枚举范围的起止点要仔细考虑。比如"1到100"应该写成 i = 1; i <= 100，不要漏掉等于的情况。</p>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>练习设计</h2>
+        <div class="goal-list">
+          <h4><i class="fas fa-dumbbell"></i> 基础练习</h4>
+          <ul>
+            <li>输入 n，找出 1-n 中所有能被 3 或 5 整除的数</li>
+            <li>输入 n，找出第 n 个质数</li>
+            <li>输入一个正整数，找出它的所有因数</li>
+          </ul>
+        </div>
+        <div class="goal-list">
+          <h4><i class="fas fa-rocket"></i> 提高练习</h4>
+          <ul>
+            <li>完美数：找出 1-1000 中的所有完美数（等于其真因数之和的数，如 6 = 1+2+3）</li>
+            <li>水仙花数：找出所有三位水仙花数</li>
+            <li>鸡兔同笼：已知头数和脚数，求鸡和兔各多少只</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>L2 结业自查清单</h2>
+        <div class="checklist-box">
+          <h4><i class="fas fa-clipboard-check"></i> L2 升级检查清单</h4>
+          <ul>
+            <li>能独立写出三重循环，控制循环变量不混淆</li>
+            <li>能正确使用 break 和 continue</li>
+            <li>理解字符的本质是整数，能进行字符运算</li>
+            <li>能遍历字符串并进行简单操作</li>
+            <li>能用枚举思想解决简单的穷举问题</li>
+            <li class="blocker">如果以上任何一条不满足，不要进入L3</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lesson-nav reveal">
+        <a href="L2-04-字符串基础.html" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> 上一课</a>
+        <a href="../index.html" class="btn btn-primary" style="background: var(--level2); border-color: var(--level2);">完成L2学习 <i class="fas fa-check"></i></a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container"><p>蒙知苑·OI · IOI金牌教练教案体系</p></div>
+  </footer>
+
+  <script src="../../../assets/js/main.js"></script>
+  <script src="../../../assets/js/teaching-visuals.js"></script>
+</body>
+</html>

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L3-04 前缀和 · 蒙知苑·OI</title>
+  <meta name="description" content="学习前缀和的定义、预处理与区间查询，建立空间换时间思维。">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../../assets/css/base.css">
+  <link rel="stylesheet" href="../../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../../assets/css/components.css">
+  <link rel="stylesheet" href="../../../assets/css/teaching-visuals.css">
+  <link rel="stylesheet" href="../../../assets/css/level.css">
+  
+  <style>
+    :root { --lv-color: var(--level3); --lv-dim: var(--level3-dim); }
+  </style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels" class="active">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+  
+  <div class="mobile-menu">
+    <a href="../../../philosophy/index.html">教学理念</a>
+    <a href="../../../mainlines/index.html">能力主线</a>
+    <a href="../../../index.html#levels">八级体系</a>
+    <a href="../../../resources/index.html">学习资源</a>
+  </div>
+
+  <div class="lesson-top-info">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../../../index.html">首页</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="../index.html">L3 数组期</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>L3-04</span>
+      </div>
+      <div class="lesson-header-row">
+        <div>
+          <h1 class="lesson-title-main">前缀和</h1>
+          <p class="lesson-subtitle">前缀和定义、预处理、区间查询、空间换时间</p>
+        </div>
+        <div class="lesson-meta">
+          <div class="meta-item"><i class="fas fa-clock"></i> 10课时</div>
+          <div class="meta-item"><i class="fas fa-calendar"></i> 约2.5周</div>
+          <div class="meta-item"><i class="fas fa-signal"></i> 难度 <span class="difficulty-star"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="main-content">
+    <div class="container">
+
+      <div class="goals-card reveal">
+        <h4><i class="fas fa-bullseye"></i> 本课三维目标</h4>
+        <div class="goals-grid">
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--red-dim); color: var(--red);">知识</span>
+            <span class="goal-text">前缀和定义、递推公式、区间求和公式</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--green-dim); color: var(--green);">技能</span>
+            <span class="goal-text">能独立写出前缀和预处理代码，并用O(1)回答区间查询</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--blue-dim); color: var(--blue);">思维</span>
+            <span class="goal-text">建立"预处理换查询效率"的空间换时间思维</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="coach-quote reveal">
+        <p>
+          前缀和是我<strong>最推荐在L3教</strong>的内容之一，它是数组DP线的正式起点。
+        </p>
+        <p style="margin-bottom: 0;">
+          很多机构把前缀和放在L5-L6才讲，但我坚持L3就引入。
+          因为前缀和与一维数组天然契合，学生一旦掌握，就能用O(1)解决区间查询问题——
+          这是他们第一次体验到"空间换时间"的算法魅力。
+        </p>
+      </div>
+
+      <section class="reveal">
+        <h2>1. 问题引入：区间求和</h2>
+        <p>假设有一个数组，存储了某班级30天的数学平均分：</p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">原始数组</span>
+            <button class="copy-btn" data-clipboard-target="#code1">复制</button>
+          </div>
+          <pre><code id="code1" class="language-cpp">int score[6] = {5, 3, 8, 2, 7, 4};
+// 下标:           0  1  2  3  4  5</code></pre>
+        </div>
+        <p>现在老师频繁提问："第2天到第4天的总分是多少？"</p>
+        <p>朴素做法：每次用循环加一遍，复杂度 O(n)。</p>
+        <p>但如果提问10000次呢？总复杂度变成 O(n × q)，太慢了。</p>
+        <p><strong>前缀和</strong>就是解决这类问题的利器：先花 O(n) 预处理，之后每次查询 O(1)。</p>
+      </section>
+
+      <section class="reveal">
+        <h2>2. 前缀和的定义</h2>
+        <p>
+          前缀和数组 <code class="inline-code">pre[i]</code> 表示原数组从第0个元素到第 <code class="inline-code">i</code> 个元素的累加和（包含两端）。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">前缀和公式</span>
+            <button class="copy-btn" data-clipboard-target="#code2">复制</button>
+          </div>
+          <pre><code id="code2" class="language-cpp">pre[0] = a[0];
+pre[1] = a[0] + a[1];
+pre[2] = a[0] + a[1] + a[2];
+// ...
+pre[i] = pre[i-1] + a[i];  // 递推公式！</code></pre>
+        </div>
+        <div class="visual-demo" data-type="memory" data-memory='[
+          {"addr":"a","cells":["5","3","8","2","7","4"],"var":"原数组"},
+          {"addr":"pre","cells":["5","8","16","18","25","29"],"var":"前缀和","changed":[0,1,2,3,4,5]}
+        ]'></div>
+      </section>
+
+      <section class="reveal">
+        <h2>3. 区间求和的 O(1) 查询</h2>
+        <p>
+          要求 <code class="inline-code">a[l] + a[l+1] + ... + a[r]</code> 的和，用前缀和只需要一步：
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">区间求和公式</span>
+            <button class="copy-btn" data-clipboard-target="#code3">复制</button>
+          </div>
+          <pre><code id="code3" class="language-cpp">sum(l, r) = pre[r] - pre[l-1];  // 当 l > 0 时
+sum(0, r) = pre[r];             // 当 l == 0 时</code></pre>
+        </div>
+        <p>例如求 <code class="inline-code">a[2] + a[3] + a[4]</code>：</p>
+        <ul>
+          <li><code class="inline-code">pre[4] = 5+3+8+2+7 = 25</code></li>
+          <li><code class="inline-code">pre[1] = 5+3 = 8</code></li>
+          <li><code class="inline-code">sum = 25 - 8 = 17</code>（即 8+2+7 = 17）✅</li>
+        </ul>
+        <div class="note-box">
+          <p>
+            <strong>记忆口诀：</strong>前缀和做差，右端点减去左端点前一个。
+            <code class="inline-code">pre[r] - pre[l-1]</code>。
+          </p>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>4. 完整代码模板</h2>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">前缀和模板代码</span>
+            <button class="copy-btn" data-clipboard-target="#code4">复制</button>
+          </div>
+          <pre><code id="code4" class="language-cpp">const int MAXN = 100005;
+int a[MAXN];
+long long pre[MAXN]; // 注意：前缀和可能爆int
+
+int main() {
+    int n;
+    cin >> n;
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
+    }
+    
+    // 预处理前缀和
+    pre[0] = a[0];
+    for (int i = 1; i < n; i++) {
+        pre[i] = pre[i-1] + a[i];
+    }
+    
+    // 回答q次查询
+    int q;
+    cin >> q;
+    while (q--) {
+        int l, r;
+        cin >> l >> r;
+        if (l == 0) {
+            cout << pre[r] << endl;
+        } else {
+            cout << pre[r] - pre[l-1] << endl;
+        }
+    }
+    return 0;
+}</code></pre>
+        </div>
+        <div class="note-box warning">
+          <p>
+            <strong>注意数据类型：</strong>前缀和很容易超出 <code class="inline-code">int</code> 的范围。
+            如果数组元素个数是 10^5，每个元素最大 10^9，前缀和最大 10^14，必须用 <code class="inline-code">long long</code>。
+          </p>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>5. 二维前缀和（拓展）</h2>
+        <p>
+          如果问题变成"子矩阵求和"，就需要二维前缀和。这是为后续数组DP和搜索做铺垫。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">二维前缀和递推</span>
+            <button class="copy-btn" data-clipboard-target="#code5">复制</button>
+          </div>
+          <pre><code id="code5" class="language-cpp">pre[i][j] = a[i][j] 
+          + pre[i-1][j] 
+          + pre[i][j-1] 
+          - pre[i-1][j-1];
+
+// 子矩阵 (x1,y1) 到 (x2,y2) 的和
+sum = pre[x2][y2] 
+    - pre[x1-1][y2] 
+    - pre[x2][y1-1] 
+    + pre[x1-1][y1-1];</code></pre>
+        </div>
+        <p>二维前缀和的核心思想和一维完全一样：用容斥原理，把大矩形拆成几个已知前缀和的组合。</p>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="reveal">
+        <h2>IOI教练常见教学陷阱</h2>
+        <div class="traps-grid">
+          <div class="trap-card">
+            <div class="trap-title">陷阱1：下标从0还是从1开始搞混</div>
+            <p class="trap-desc">
+              很多教材为了简化，把前缀和数组下标从1开始教。
+              但如果学生L1-L2习惯了0-based，突然改1-based会混乱。
+              建议统一用0-based，并通过 <code class="inline-code">if (l==0)</code> 处理边界。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱2：前缀和数组用int导致溢出</div>
+            <p class="trap-desc">
+              这是竞赛中最高频的隐性Bug之一。从L3就要养成"求和先想 long long"的习惯。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱3：只讲公式不讲思想</div>
+            <p class="trap-desc">
+              前缀和的灵魂是"空间换时间"和"预处理加速查询"。
+              如果只让学生背 <code class="inline-code">pre[r]-pre[l-1]</code>，他们遇到变体题就不会做了。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>课后练习题</h2>
+        <div class="exercise-list">
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">1</span>
+              <h4 class="exercise-title">区间求和</h4>
+              <span class="exercise-tag easy">入门</span>
+            </div>
+            <p>给定 n 个整数和 q 次查询，每次查询区间 [l, r] 的和。用前缀和 O(1) 回答。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">2</span>
+              <h4 class="exercise-title">最大连续子段和（入门版）</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>给定 n 个整数，找出连续子数组的最大和。提示：枚举左端点，用前缀和快速计算。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">3</span>
+              <h4 class="exercise-title">子矩阵求和</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>给定 n×m 矩阵和 q 次查询，每次查询子矩阵 (x1,y1) 到 (x2,y2) 的元素之和。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">4</span>
+              <h4 class="exercise-title">差分思想初步</h4>
+              <span class="exercise-tag hard">挑战</span>
+            </div>
+            <p>给定长度为 n 的数组，进行 q 次操作：把区间 [l, r] 内每个数都加上 x。要求在 O(n+q) 内完成所有操作。</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="checklist-box reveal">
+        <h4><i class="fas fa-clipboard-check"></i> 本课自测清单</h4>
+        <ul>
+          <li>能独立写出前缀和预处理代码</li>
+          <li>能正确应用区间求和公式 <code class="inline-code">pre[r] - pre[l-1]</code></li>
+          <li>知道前缀和数组要用 long long</li>
+          <li>理解"预处理 O(n)，查询 O(1)"的时间优势</li>
+          <li>能写出二维前缀和的递推公式（拓展）</li>
+          <li class="blocker">如果任何一条不满足，不要进入L3-05简单DP入门</li>
+        </ul>
+      </div>
+
+      <div class="lesson-nav reveal">
+        <a href="L3-03-数组越界与内存.html" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> 上一课：数组越界与内存
+        </a>
+        <a href="L3-05-简单DP入门.html" class="btn btn-primary" style="background: var(--level3); border-color: var(--level3);">
+          下一课：简单DP入门 <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container">
+      <div class="footer-links">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+    </div>
+  </footer>
+
+  <script src="../../../assets/js/main.js"></script>
+</body>
+</html>

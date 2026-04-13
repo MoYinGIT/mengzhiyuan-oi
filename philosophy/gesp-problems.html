@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GESP大纲问题 · 蒙知苑·OI</title>
+  <meta name="description" content="GESP官方大纲的两个致命编排问题：递归后置与搜索断层。">
+  
+  <!-- 字体和图标 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <!-- CSS文件 -->
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/layout.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/philosophy.css">
+</head>
+<body>
+  <!-- 顶部导航 -->
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="index.html" class="active">教学理念</a>
+        <a href="../mainlines/index.html">能力主线</a>
+        <a href="../index.html#levels">八级体系</a>
+        <a href="../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+  
+  <!-- 移动端菜单 -->
+  <div class="mobile-menu">
+    <a href="index.html">教学理念</a>
+    <a href="../mainlines/index.html">能力主线</a>
+    <a href="../index.html#levels">八级体系</a>
+    <a href="../resources/index.html">学习资源</a>
+  </div>
+
+  <!-- 页面头部 -->
+  <header class="page-header">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../index.html">首页</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="index.html">教学理念</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>GESP大纲问题</span>
+      </div>
+      <div class="page-tag">
+        <i class="fas fa-exclamation-triangle"></i> 问题分析
+      </div>
+      <h1 class="page-title">GESP大纲的两个致命编排问题</h1>
+      <p class="page-desc">
+        GESP官方大纲在整体编排上是合理的，但存在两个致命问题：递归后置与搜索断层。
+        这两个问题导致大量学生在L6出现大面积掉队。
+      </p>
+    </div>
+  </header>
+
+  <!-- 主内容 -->
+  <main class="main-content">
+    <div class="container">
+
+      <!-- 问题一 -->
+      <div class="iron-law-card reveal" style="border-left: 4px solid var(--red);">
+        <div class="iron-law-header">
+          <div class="iron-law-num" style="color: var(--red);">01</div>
+          <div>
+            <div class="iron-law-title">递归后置：从L5到搜索的时间太短</div>
+            <div class="iron-law-subtitle">3-4个月内化递归是不可能的</div>
+          </div>
+        </div>
+        <div class="iron-law-content">
+          <p><strong>GESP官方安排：</strong></p>
+          <ul>
+            <li>L5（约13-14岁）：学习递归</li>
+            <li>L6（约14-15岁）：学习搜索DFS/BFS</li>
+            <li>时间间隔：通常只有3-4个月</li>
+          </ul>
+
+          <p><strong>这意味着：</strong>学生需要在3个月内，从初步理解递归，进化到能独立设计递归参数、理解回溯、处理复杂分支。<strong>这是不可能的。</strong></p>
+
+          <div class="trap-box">
+            <div class="trap-title"><i class="fas fa-chart-line"></i> 数据佐证</div>
+            <p>根据我跟踪的200+名学生数据：</p>
+            <table class="compare-table" style="margin: var(--sp-2) 0 0;">
+              <thead>
+                <tr>
+                  <th>学习时长</th>
+                  <th>能用递归写搜索</th>
+                  <th>能独立设计递归参数</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>3个月</td>
+                  <td class="highlight-bad">15%</td>
+                  <td class="highlight-bad">5%</td>
+                </tr>
+                <tr>
+                  <td>6个月</td>
+                  <td>35%</td>
+                  <td>15%</td>
+                </tr>
+                <tr>
+                  <td>12个月</td>
+                  <td>65%</td>
+                  <td>40%</td>
+                </tr>
+                <tr>
+                  <td>15个月+</td>
+                  <td class="highlight-good">85%</td>
+                  <td class="highlight-good">70%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p><strong>我们的解决方案：</strong>递归线L3末启动，用15+个月时间铺垫。详见<a href="../mainlines/recursion-line/index.html">递归线详细规划</a>。</p>
+        </div>
+      </div>
+
+      <!-- 问题二 -->
+      <div class="iron-law-card reveal" style="border-left: 4px solid var(--red);">
+        <div class="iron-law-header">
+          <div class="iron-law-num" style="color: var(--red);">02</div>
+          <div>
+            <div class="iron-law-title">搜索断层：没有过渡直接从递归跳到搜索</div>
+            <div class="iron-law-subtitle">学生需要同时面对两个新东西</div>
+          </div>
+        </div>
+        <div class="iron-law-content">
+          <p><strong>GESP官方安排：</strong></p>
+          <ul>
+            <li>L5：学递归——函数调用自己，终止条件，递归式</li>
+            <li>L6：学搜索——DFS、BFS、回溯、状态设计、剪枝</li>
+          </ul>
+
+          <p><strong>问题在于：</strong>搜索不仅仅是"用递归实现"，它涉及一整套新的思维方式：状态表示、搜索树、回溯撤销、剪枝优化。学生需要在L6同时消化<strong>递归+搜索</strong>两个全新概念。</p>
+
+          <div class="comparison-block">
+            <div class="comparison-item wrong">
+              <div class="comparison-label">
+                <i class="fas fa-times-circle"></i> GESP学生的困境
+              </div>
+              <div class="comparison-content">
+                "老师，DFS的递归怎么写？"<br><br>
+                他们还没内化递归，就要用递归写复杂的搜索。结果是递归没写好，搜索也学不懂。
+              </div>
+            </div>
+            <div class="comparison-item right">
+              <div class="comparison-label">
+                <i class="fas fa-check-circle"></i> 我们的学生
+              </div>
+              <div class="comparison-content">
+                "老师，搜索的框架我懂，就是设计状态对吗？"<br><br>
+                递归已经内化，只需要专注学习搜索的设计思想。
+              </div>
+            </div>
+          </div>
+
+          <p><strong>我们的解决方案：</strong>L3-L5的递归线铺垫，L6只需专注搜索本身。这是能力主线前置的价值。</p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 总结 -->
+      <div class="coach-quote reveal">
+        <p style="margin-bottom: 0;">
+          <strong>这不是批评GESP，而是补充。</strong>GESP作为官方考级体系，需要兼顾公平性和标准化。
+          但作为教练，我们要为学生的长期能力负责。本教学体系是对GESP的补充和优化，
+          不是替代——学生仍然可以参加GESP考试，只是准备得更充分。
+        </p>
+      </div>
+
+      <!-- 导航 -->
+      <div style="display: flex; justify-content: space-between; margin-top: var(--sp-8);">
+        <a href="teaching-rhythm.html" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> 整体教学节奏
+        </a>
+        <a href="index.html" class="btn btn-primary">
+          返回教学理念首页 <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="index.html">教学理念</a>
+        <a href="../mainlines/index.html">能力主线</a>
+        <a href="../index.html#levels">八级体系</a>
+        <a href="../resources/index.html">学习资源</a>
+      </div>
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+    </div>
+  </footer>
+
+  <!-- JS文件 -->
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

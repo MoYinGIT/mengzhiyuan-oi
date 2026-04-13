@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L1-06 循环结构-for · 蒙知苑·OI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../../assets/css/base.css">
+  <link rel="stylesheet" href="../../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../../assets/css/components.css">
+  <link rel="stylesheet" href="../../../assets/css/teaching-visuals.css">
+  <link rel="stylesheet" href="../../../assets/css/level.css">
+  <style>:root { --lv-color: var(--level1); --lv-dim: var(--level1-dim); }</style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels" class="active">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="container">
+      <header class="lesson-header">
+        <div class="breadcrumb">
+          <a href="../../../index.html">首页</a>
+          <i class="fas fa-chevron-right"></i>
+          <a href="../index.html">L1 编程启蒙期</a>
+          <i class="fas fa-chevron-right"></i>
+          <span>第6课</span>
+        </div>
+        <h1 style="color: var(--level1);">L1-06 循环结构 - for</h1>
+        <div class="lesson-meta">
+          <span><i class="fas fa-clock"></i> 3课时（135分钟）</span>
+          <span><i class="fas fa-tag"></i> L1核心</span>
+        </div>
+      </header>
+
+      <div class="lesson-section reveal">
+        <h2>教学目标</h2>
+        <div class="goal-list">
+          <h4><i class="fas fa-bullseye"></i> 知识目标</h4>
+          <ul>
+            <li>理解循环的意义：重复执行代码</li>
+            <li>掌握 for 循环的三要素语法</li>
+            <li>理解循环变量的作用和变化规律</li>
+          </ul>
+        </div>
+        <div class="goal-list">
+          <h4><i class="fas fa-tools"></i> 技能目标</h4>
+          <ul>
+            <li>能用 for 循环实现固定次数的重复操作</li>
+            <li>能实现累加、计数等常见循环应用</li>
+            <li>能正确控制循环的起止条件</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>循环的本质：让计算机重复劳动</h2>
+        <div class="coach-quote">
+          <p>人类讨厌重复劳动，但计算机最擅长的就是重复劳动。</p>
+          <p style="margin-bottom: 0;">如果要打印1到100，你不需要写100行 cout。写一个循环，让计算机替你重复100次。</p>
+        </div>
+
+        <h3>for 循环语法</h3>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">C++</span>
+            <button class="code-copy"><i class="fas fa-copy"></i></button>
+          </div>
+          <pre><code>for (初始化; 循环条件; 更新操作) {
+    // 循环体：每次循环执行的代码
+}</code></pre>
+        </div>
+
+        <h3>for 循环三要素</h3>
+        <div class="three-pass-detail">
+          <div class="pass-card" data-pass="要素1">
+            <h4>初始化</h4>
+            <p>设置循环变量的初始值。</p>
+            <div class="pass-example">
+              <strong>示例</strong>
+              int i = 1;
+            </div>
+          </div>
+          <div class="pass-card" data-pass="要素2">
+            <h4>循环条件</h4>
+            <p>判断循环是否继续执行的条件。</p>
+            <div class="pass-example">
+              <strong>示例</strong>
+              i <= 100
+            </div>
+          </div>
+          <div class="pass-card" data-pass="要素3">
+            <h4>更新操作</h4>
+            <p>每次循环结束后对循环变量的修改。</p>
+            <div class="pass-example">
+              <strong>示例</strong>
+              i++
+            </div>
+          </div>
+        </div>
+
+        <h3>流程图可视化</h3>
+        <div data-type="mermaid">flowchart TD
+    A[初始化 i=1] --> B{i <= 100?}
+    B -->|是| C[执行循环体]
+    C --> D[i++]
+    D --> B
+    B -->|否| E[结束循环]
+</div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>变量跟踪：累加过程</h2>
+        <div data-type="tracker" data-tracker='{
+          "headers": ["循环次数", "i的值", "sum的值", "执行语句"],
+          "rows": [
+            [{"value":"初始"}, {"value":"-"}, {"value":"0","highlight":true}, {"value":"int sum = 0;"}],
+            [{"value":"第1次"}, {"value":"1","highlight":true}, {"value":"1","highlight":true}, {"value":"sum = 0 + 1"}],
+            [{"value":"第2次"}, {"value":"2","highlight":true}, {"value":"3","highlight":true}, {"value":"sum = 1 + 2"}],
+            [{"value":"第3次"}, {"value":"3","highlight":true}, {"value":"6","highlight":true}, {"value":"sum = 3 + 3"}],
+            [{"value":"..."}, {"value":"..."}, {"value":"..."}, {"value":"..."}],
+            [{"value":"第100次"}, {"value":"100","highlight":true}, {"value":"5050","highlight":true}, {"value":"sum = 4950 + 100"}]
+          ]
+        }'></div>
+
+        <h3>代码示例</h3>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">C++</span>
+            <button class="code-copy"><i class="fas fa-copy"></i></button>
+          </div>
+          <pre><code>// 计算 1+2+3+...+100
+int sum = 0;
+for (int i = 1; i <= 100; i++) {
+    sum = sum + i;
+}
+cout << "总和是：" << sum << endl;
+
+// 打印 1 到 10
+for (int i = 1; i <= 10; i++) {
+    cout << i << " ";
+}
+cout << endl;
+
+// 打印 n 个星号
+int n;
+cin >> n;
+for (int i = 1; i <= n; i++) {
+    cout << "*";
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>IOI教练视角</h2>
+        <div class="trap-box">
+          <div class="trap-title"><i class="fas fa-exclamation-triangle"></i> 陷阱：边界错误</div>
+          <p>for 循环最容易犯的错误是边界控制。比如想循环10次，写了 i < 10（只有9次）或者 i <= 10（有11次）。</p>
+          <p style="margin-top: var(--sp-2);"><strong>调试技巧：</strong>循环前先手动模拟 i 的取值，确认循环次数正确。</p>
+        </div>
+        <div class="trap-box">
+          <div class="trap-title"><i class="fas fa-exclamation-triangle"></i> 陷阱：循环变量在循环外使用</div>
+          <p>在 C++ 中，for (int i = 1; ...) 声明的 i 只在循环内部有效。初学者常在循环外使用 i 导致编译错误。</p>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>练习设计</h2>
+        <div class="goal-list">
+          <h4><i class="fas fa-dumbbell"></i> 基础练习</h4>
+          <ul>
+            <li>用 for 循环计算 1 到 n 的和</li>
+            <li>用 for 循环计算 n 的阶乘</li>
+            <li>输入 n，输出 1 到 n 中所有偶数</li>
+          </ul>
+        </div>
+        <div class="goal-list">
+          <h4><i class="fas fa-rocket"></i> 提高练习</h4>
+          <ul>
+            <li>输入 n，判断 n 是否为质数（只能被1和自身整除）</li>
+            <li>输出 1 到 100 中所有能被3整除但不能被5整除的数</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lesson-section reveal">
+        <h2>自查清单</h2>
+        <div class="checklist-box">
+          <h4><i class="fas fa-check-square"></i> 本课自查</h4>
+          <ul>
+            <li>能正确写出 for 循环的三要素</li>
+            <li>能控制循环次数不出错</li>
+            <li>能用循环实现累加和计数</li>
+            <li>理解循环变量 i 的变化过程</li>
+            <li class="blocker">如果没有完成以上检查项，不要进入下一课</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lesson-nav reveal">
+        <a href="L1-05-选择结构-switch.html" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> 上一课</a>
+        <a href="L1-07-循环结构-while.html" class="btn btn-primary" style="background: var(--level1); border-color: var(--level1);">下一课：循环结构-while <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container"><p>蒙知苑·OI · IOI金牌教练教案体系</p></div>
+  </footer>
+
+  <script src="../../../assets/js/main.js"></script>
+  <script src="../../../assets/js/teaching-visuals.js"></script>
+</body>
+</html>

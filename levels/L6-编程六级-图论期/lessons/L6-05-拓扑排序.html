@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L6-05 拓扑排序 · 蒙知苑·OI</title>
+  <meta name="description" content="学习Kahn算法、DFS拓扑序、DAG上的动态规划，掌握拓扑排序的应用。">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../../assets/css/base.css">
+  <link rel="stylesheet" href="../../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../../assets/css/components.css">
+  <link rel="stylesheet" href="../../../assets/css/teaching-visuals.css">
+  <link rel="stylesheet" href="../../../assets/css/level.css">
+  
+  <style>
+    :root { --lv-color: var(--level6); --lv-dim: var(--level6-dim); }
+  </style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels" class="active">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+  
+  <div class="mobile-menu">
+    <a href="../../../philosophy/index.html">教学理念</a>
+    <a href="../../../mainlines/index.html">能力主线</a>
+    <a href="../../../index.html#levels">八级体系</a>
+    <a href="../../../resources/index.html">学习资源</a>
+  </div>
+
+  <div class="lesson-top-info">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../../../index.html">首页</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="../index.html">L6 图论期</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>L6-05</span>
+      </div>
+      <div class="lesson-header-row">
+        <div>
+          <h1 class="lesson-title-main">拓扑排序</h1>
+          <p class="lesson-subtitle">Kahn算法、DFS拓扑序、DAG上的DP</p>
+        </div>
+        <div class="lesson-meta">
+          <div class="meta-item"><i class="fas fa-clock"></i> 8课时</div>
+          <div class="meta-item"><i class="fas fa-calendar"></i> 约2周</div>
+          <div class="meta-item"><i class="fas fa-signal"></i> 难度 <span class="difficulty-star"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="main-content">
+    <div class="container">
+
+      <div class="goals-card reveal">
+        <h4><i class="fas fa-bullseye"></i> 本课三维目标</h4>
+        <div class="goals-grid">
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--red-dim); color: var(--red);">知识</span>
+            <span class="goal-text">拓扑排序定义、Kahn算法、DFS求拓扑序、DAG概念</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--green-dim); color: var(--green);">技能</span>
+            <span class="goal-text">能用Kahn算法或DFS求拓扑序，判断有向图是否存在环</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--blue-dim); color: var(--blue);">思维</span>
+            <span class="goal-text">理解拓扑序与依赖关系、任务调度、前置条件的天然联系</span>
+          </div>
+        </div>
+      </div>
+
+      <section class="reveal">
+        <h2>1. 什么是拓扑排序？</h2>
+        <p>
+          拓扑排序是对<strong>有向无环图（DAG）</strong>的顶点进行线性排序，使得对于图中的每一条有向边 u→v，
+          u 在排序中都出现在 v 的前面。
+        </p>
+        <p>
+          换句话说，拓扑排序就是把有依赖关系的事情排一个先后顺序：先做A，再做B，最后做C。
+          生活中的例子：课程选修计划（先学C语言再学数据结构）、软件编译顺序（先编译依赖库再编译主程序）、项目管理（先完成前置任务）。
+        </p>
+        <div class="note-box warning">
+          <p>
+            <strong>注意：</strong>如果图中存在环，就不存在拓扑排序。因为环上的节点互相依赖，无法确定先后顺序。
+          </p>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>2. Kahn算法（BFS版拓扑排序）</h2>
+        <p>
+          Kahn算法的核心思想： repeatedly找到入度为0的顶点，把它加入拓扑序列，然后删除它以及从它出发的所有边。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">Kahn算法模板</span>
+            <button class="copy-btn" data-clipboard-target="#code1">复制</button>
+          </div>
+          <pre><code id="code1" class="language-cpp">vector&lt;int&gt; topoSort(int n) {
+    vector&lt;int&gt; inDegree(n + 1, 0);
+    
+    // 计算每个点的入度
+    for (int u = 1; u <= n; u++) {
+        for (int v : adj[u]) {
+            inDegree[v]++;
+        }
+    }
+    
+    queue&lt;int&gt; q;
+    for (int i = 1; i <= n; i++) {
+        if (inDegree[i] == 0) q.push(i);
+    }
+    
+    vector&lt;int&gt; result;
+    while (!q.empty()) {
+        int u = q.front();
+        q.pop();
+        result.push_back(u);
+        
+        for (int v : adj[u]) {
+            inDegree[v]--;
+            if (inDegree[v] == 0) {
+                q.push(v);
+            }
+        }
+    }
+    
+    // 如果结果中节点数 < n，说明有环
+    if (result.size() < n) {
+        // 存在环，无拓扑序
+    }
+    
+    return result;
+}</code></pre>
+        </div>
+        <p>
+          如果最后 <code class="inline-code">result.size() == n</code>，说明成功得到了拓扑序；
+          否则图中存在环。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>3. DFS求拓扑序</h2>
+        <p>
+          除了Kahn算法，还可以用DFS求拓扑序。思路是：
+          对一个节点u，先递归处理它所有的后继节点，然后把u加入序列。
+          最后把序列反转，就是拓扑序。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">DFS拓扑排序</span>
+            <button class="copy-btn" data-clipboard-target="#code2">复制</button>
+          </div>
+          <pre><code id="code2" class="language-cpp">vector&lt;int&gt; topo;
+int state[MAXN];  // 0=未访问, 1=访问中, 2=已完成
+bool hasCycle = false;
+
+void dfs(int u) {
+    state[u] = 1;
+    for (int v : adj[u]) {
+        if (state[v] == 0) {
+            dfs(v);
+        } else if (state[v] == 1) {
+            hasCycle = true;  // 遇到回边，有环
+        }
+    }
+    state[u] = 2;
+    topo.push_back(u);  // 后序遍历加入
+}
+
+// 调用完成后，reverse(topo.begin(), topo.end()) 即为拓扑序</code></pre>
+        </div>
+        <p>
+          DFS版拓扑排序天然支持<strong>判环</strong>，和L6-02中有向图判环的方法完全一致。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>4. DAG上的动态规划</h2>
+        <p>
+          拓扑排序最重要的应用之一，就是在DAG上进行动态规划。
+          因为拓扑序保证了处理某个节点时，它的所有前驱节点都已经被处理过了。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">DAG最长路径</span>
+            <button class="copy-btn" data-clipboard-target="#code3">复制</button>
+          </div>
+          <pre><code id="code3" class="language-cpp">// 先求拓扑序
+vector&lt;int&gt; order = topoSort(n);
+
+// dp[u] 表示从起点到u的最长路径长度
+vector&lt;long long&gt; dp(n + 1, -INF);
+dp[start] = 0;
+
+for (int u : order) {
+    if (dp[u] == -INF) continue;  // 不可达
+    for (int v : adj[u]) {
+        if (dp[u] + w(u,v) > dp[v]) {
+            dp[v] = dp[u] + w(u,v);
+        }
+    }
+}</code></pre>
+        </div>
+        <p>
+          DAG上的DP不需要像一般图那样用SPFA或Bellman-Ford，
+          只需要按拓扑序递推，复杂度是 O(n+m)。
+          这是图论与DP结合的最经典场景之一。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>5. Kahn vs DFS拓扑排序</h2>
+        <table style="width: 100%; border-collapse: collapse; margin-top: var(--sp-4);">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--border);">
+              <th style="text-align: left; padding: var(--sp-3);">特性</th>
+              <th style="text-align: left; padding: var(--sp-3);">Kahn算法</th>
+              <th style="text-align: left; padding: var(--sp-3);">DFS拓扑序</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border-dim);">
+              <td style="padding: var(--sp-3);">数据结构</td>
+              <td style="padding: var(--sp-3);">队列 + 入度数组</td>
+              <td style="padding: var(--sp-3);">递归栈 + 三色标记</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-dim);">
+              <td style="padding: var(--sp-3);">代码长度</td>
+              <td style="padding: var(--sp-3);">稍长</td>
+              <td style="padding: var(--sp-3);">稍短</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--sp-3);">竞赛偏好</td>
+              <td style="padding: var(--sp-3);">更直观，适合初学者</td>
+              <td style="padding: var(--sp-3);">与DFS判环天然结合</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="reveal">
+        <h2>IOI教练常见教学陷阱</h2>
+        <div class="traps-grid">
+          <div class="trap-card">
+            <div class="trap-title">陷阱1：有向图存在环仍求拓扑序</div>
+            <p class="trap-desc">
+              有环图不存在拓扑序。很多学生在Kahn算法结束后不检查结果大小，
+              直接输出一个不完整的序列，导致WA。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱2：入度更新遗漏</div>
+            <p class="trap-desc">
+              Kahn算法中，删除节点u后，必须把所有u的出边邻居的入度减1。
+              遗漏一条边就会导致后续判断错误。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱3：DFS拓扑序忘记reverse</div>
+            <p class="trap-desc">
+              DFS得到的是后序遍历序列，必须反转才是拓扑序。
+              很多学生漏掉reverse这一步。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>课后练习题</h2>
+        <div class="exercise-list">
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">1</span>
+              <h4 class="exercise-title">课程表</h4>
+              <span class="exercise-tag easy">入门</span>
+            </div>
+            <p>给定n门课程和它们的先修关系，判断是否能完成所有课程。如果能，输出一种合法的修课顺序。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">2</span>
+              <h4 class="exercise-title">任务调度</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>给定n个任务和m个依赖关系，求完成所有任务所需的最少时间（假设每个任务耗时1单位，多个无依赖任务可并行）。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">3</span>
+              <h4 class="exercise-title">DAG最长路径</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>给定DAG，求从起点到终点的最长路径长度（路径上所有边权之和最大）。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">4</span>
+              <h4 class="exercise-title">字典序最小的拓扑序</h4>
+              <span class="exercise-tag hard">挑战</span>
+            </div>
+            <p>在Kahn算法中，把普通队列换成优先队列（小根堆），求字典序最小的拓扑序。</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="checklist-box reveal">
+        <h4><i class="fas fa-clipboard-check"></i> 本课自测清单</h4>
+        <ul>
+          <li>能解释拓扑排序的定义和适用条件（DAG）</li>
+          <li>能独立写出Kahn算法完整代码</li>
+          <li>能用DFS求拓扑序，并知道最后要reverse</li>
+          <li>能用拓扑排序判断有向图是否存在环</li>
+          <li>理解DAG上DP与拓扑排序的关系</li>
+          <li class="blocker">如果任何一条不满足，不要进入L7综合期</li>
+        </ul>
+      </div>
+
+      <div class="lesson-nav reveal">
+        <a href="L6-04-最小生成树.html" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> 上一课：最小生成树
+        </a>
+        <a href="../index.html" class="btn btn-primary" style="background: var(--level6); border-color: var(--level6);">
+          返回L6首页 <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container">
+      <div class="footer-links">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+    </div>
+  </footer>
+
+  <script src="../../../assets/js/main.js"></script>
+</body>
+</html>

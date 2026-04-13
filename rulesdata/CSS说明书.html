@@ -1,0 +1,1474 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSS 架构说明</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #0a0a0c;
+    --bg: #111115;
+    --bg-card: #18181d;
+    --bg-card-hover: #1f1f26;
+    --bg-elevated: #222229;
+    --border: #2a2a33;
+    --border-light: #35354a;
+    --fg: #e8e6e3;
+    --fg-muted: #8a8894;
+    --fg-dim: #5c5a66;
+    --accent: #d4a44c;
+    --accent-dim: rgba(212,164,76,0.15);
+    --red: #e05555;
+    --red-dim: rgba(224,85,85,0.12);
+    --green: #4caf7d;
+    --green-dim: rgba(76,175,125,0.12);
+    --cyan: #4aafbf;
+    --cyan-dim: rgba(74,175,191,0.12);
+    --orange: #e08a3a;
+    --orange-dim: rgba(224,138,58,0.12);
+    --purple: #9a5cd0;
+    --purple-dim: rgba(154,92,208,0.12);
+    --sp-1: 4px;
+    --sp-2: 8px;
+    --sp-3: 12px;
+    --sp-4: 16px;
+    --sp-5: 20px;
+    --sp-6: 24px;
+    --sp-8: 32px;
+    --sp-10: 40px;
+    --sp-12: 48px;
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    --font-serif: 'Noto Serif SC', serif;
+    --font-sans: 'Noto Sans SC', sans-serif;
+    --content-max: 960px;
+    --transition-fast: 0.15s ease;
+    --transition-base: 0.2s ease;
+    --transition-slow: 0.3s ease;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) var(--bg);
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--bg-deep);
+    color: var(--fg);
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* 背景氛围 */
+  body::before {
+    content: '';
+    position: fixed;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(212,164,76,0.04) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    bottom: -200px; left: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(74,175,191,0.03) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* 顶部导航 */
+  .top-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,10,12,0.88);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    height: 52px;
+    display: flex;
+    align-items: center;
+    padding: 0 var(--sp-6);
+  }
+
+  .top-bar-inner {
+    max-width: var(--content-max);
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .top-bar-logo {
+    font-family: var(--font-serif);
+    font-weight: 900;
+    font-size: 14px;
+    color: var(--accent);
+    letter-spacing: 2px;
+  }
+
+  .top-bar-logo span {
+    color: var(--fg-dim);
+    font-weight: 400;
+    font-size: 11px;
+    margin-left: var(--sp-2);
+    letter-spacing: 0;
+  }
+
+  .top-bar-nav {
+    display: flex;
+    gap: var(--sp-1);
+  }
+
+  .top-bar-nav a {
+    font-size: 11px;
+    color: var(--fg-dim);
+    text-decoration: none;
+    padding: var(--sp-1) var(--sp-2);
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+  }
+
+  .top-bar-nav a:hover {
+    color: var(--fg-muted);
+    background: var(--bg-card);
+  }
+
+  /* 容器 */
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: var(--content-max);
+    margin: 0 auto;
+    padding: 0 var(--sp-6);
+  }
+
+  /* 英雄区 */
+  .hero {
+    padding: 64px 0 40px;
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-family: var(--font-serif);
+    font-size: clamp(26px, 4vw, 38px);
+    font-weight: 900;
+    line-height: 1.3;
+    margin-bottom: var(--sp-4);
+    letter-spacing: 1px;
+  }
+
+  .hero h1 .accent {
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: 15px;
+    color: var(--fg-muted);
+    max-width: 520px;
+    margin: 0 auto;
+    line-height: 1.8;
+  }
+
+  /* 加载顺序条 */
+  .load-order {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin: 40px 0 0;
+    flex-wrap: wrap;
+  }
+
+  .load-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 600;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    color: var(--fg-muted);
+    transition: all var(--transition-base);
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .load-chip:hover {
+    border-color: var(--border-light);
+    transform: translateY(-1px);
+  }
+
+  .load-chip .chip-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .load-chip:nth-child(1) .chip-dot { background: var(--fg-dim); }
+  .load-chip:nth-child(2) .chip-dot { background: var(--cyan); }
+  .load-chip:nth-child(3) .chip-dot { background: var(--green); }
+  .load-chip:nth-child(4) .chip-dot { background: var(--accent); }
+  .load-chip:nth-child(5) .chip-dot { background: var(--red); }
+  .load-chip:nth-child(6) .chip-dot { background: var(--purple); }
+  .load-chip:nth-child(7) .chip-dot { background: var(--orange); }
+
+  .load-arrow {
+    color: var(--fg-dim);
+    font-size: 10px;
+    padding: 0 2px;
+    opacity: 0.4;
+  }
+
+  .load-note {
+    font-size: 11px;
+    color: var(--fg-dim);
+    margin-top: var(--sp-3);
+    text-align: center;
+  }
+
+  .load-note i {
+    color: var(--accent);
+    margin-right: 4px;
+  }
+
+  /* 分割线 */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: var(--sp-8) 0;
+  }
+
+  /* 总览表格 */
+  .overview-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 12px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    margin-bottom: var(--sp-8);
+  }
+
+  .overview-table thead th {
+    padding: var(--sp-3) var(--sp-4);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-elevated);
+    color: var(--fg-dim);
+  }
+
+  .overview-table tbody td {
+    padding: var(--sp-3) var(--sp-4);
+    border-bottom: 1px solid var(--border);
+    color: var(--fg-muted);
+    vertical-align: top;
+    line-height: 1.6;
+  }
+
+  .overview-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .overview-table tbody tr:hover td {
+    background: rgba(255,255,255,0.015);
+  }
+
+  .overview-table .ot-file {
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    color: var(--fg);
+    white-space: nowrap;
+    font-size: 11px;
+  }
+
+  .overview-table .ot-file .ot-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+
+  .overview-table .ot-one {
+    color: var(--fg);
+    font-weight: 500;
+    font-size: 12px;
+  }
+
+  /* 原则区 */
+  .principles {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-4);
+    margin-bottom: var(--sp-8);
+  }
+
+  .principle-card {
+    padding: var(--sp-5);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    transition: all var(--transition-base);
+  }
+
+  .principle-card:hover {
+    border-color: var(--border-light);
+    transform: translateY(-1px);
+  }
+
+  .principle-card .pc-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    margin-bottom: var(--sp-3);
+  }
+
+  .principle-card h3 {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: var(--sp-2);
+  }
+
+  .principle-card p {
+    font-size: 12px;
+    color: var(--fg-muted);
+    line-height: 1.7;
+  }
+
+  /* ===== 文件详情区块 ===== */
+  .file-section {
+    margin-bottom: var(--sp-10);
+    scroll-margin-top: 64px;
+  }
+
+  .file-header {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-4);
+    margin-bottom: var(--sp-6);
+    padding-bottom: var(--sp-5);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .file-num {
+    font-family: var(--font-serif);
+    font-size: 36px;
+    font-weight: 900;
+    line-height: 1;
+    flex-shrink: 0;
+    opacity: 0.15;
+  }
+
+  .file-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .file-name {
+    font-family: 'Courier New', monospace;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--fg);
+    margin-bottom: var(--sp-1);
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+  }
+
+  .file-name .fn-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .file-one-liner {
+    font-size: 14px;
+    color: var(--fg-muted);
+    line-height: 1.6;
+  }
+
+  .file-meta-row {
+    display: flex;
+    gap: var(--sp-4);
+    flex-wrap: wrap;
+    margin-top: var(--sp-3);
+  }
+
+  .file-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--fg-dim);
+  }
+
+  .file-meta i {
+    font-size: 10px;
+    opacity: 0.6;
+  }
+
+  .file-meta strong {
+    color: var(--fg-muted);
+    font-weight: 600;
+  }
+
+  /* 文件内容分栏 */
+  .file-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-5);
+  }
+
+  .file-col {
+    min-width: 0;
+  }
+
+  .file-col-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--fg-dim);
+    margin-bottom: var(--sp-3);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .file-col-title i {
+    font-size: 10px;
+  }
+
+  .file-col-title.green i { color: var(--green); }
+  .file-col-title.red i { color: var(--red); }
+  .file-col-title.accent i { color: var(--accent); }
+  .file-col-title.cyan i { color: var(--cyan); }
+
+  /* 组件列表 */
+  .comp-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .comp-list li {
+    font-size: 12px;
+    color: var(--fg-muted);
+    padding: var(--sp-2) 0;
+    border-bottom: 1px solid rgba(42,42,51,0.5);
+    line-height: 1.6;
+    display: flex;
+    align-items: flex-start;
+    gap: var(--sp-2);
+  }
+
+  .comp-list li:last-child {
+    border-bottom: none;
+  }
+
+  .comp-list li .comp-class {
+    font-family: 'Courier New', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--accent);
+    background: var(--accent-dim);
+    padding: 1px 5px;
+    border-radius: 3px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .comp-list li .comp-desc {
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* 不管什么列表 */
+  .dont-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .dont-list li {
+    font-size: 12px;
+    color: var(--fg-dim);
+    padding: var(--sp-2) 0;
+    border-bottom: 1px solid rgba(42,42,51,0.5);
+    line-height: 1.6;
+    display: flex;
+    align-items: flex-start;
+    gap: var(--sp-2);
+  }
+
+  .dont-list li:last-child {
+    border-bottom: none;
+  }
+
+  .dont-list li i {
+    color: var(--fg-dim);
+    font-size: 9px;
+    margin-top: 5px;
+    flex-shrink: 0;
+    opacity: 0.4;
+  }
+
+  /* 什么时候打开 */
+  .when-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .when-list li {
+    font-size: 12px;
+    color: var(--fg-muted);
+    padding: var(--sp-2) 0;
+    border-bottom: 1px solid rgba(42,42,51,0.5);
+    line-height: 1.6;
+    display: flex;
+    align-items: flex-start;
+    gap: var(--sp-2);
+  }
+
+  .when-list li:last-child {
+    border-bottom: none;
+  }
+
+  .when-list li i {
+    color: var(--cyan);
+    font-size: 9px;
+    margin-top: 5px;
+    flex-shrink: 0;
+  }
+
+  /* 依赖关系图 */
+  .dep-graph {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+    padding: var(--sp-4);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--sp-5);
+  }
+
+  .dep-row {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    font-size: 11px;
+  }
+
+  .dep-file {
+    font-family: 'Courier New', monospace;
+    font-weight: 600;
+    color: var(--fg);
+    white-space: nowrap;
+    min-width: 100px;
+  }
+
+  .dep-arrow {
+    color: var(--fg-dim);
+    font-size: 10px;
+  }
+
+  .dep-desc {
+    color: var(--fg-dim);
+  }
+
+  /* 颜色变量展示 */
+  .var-showcase {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+    margin-bottom: var(--sp-4);
+  }
+
+  .var-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: var(--radius-md);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    font-size: 10px;
+    font-family: 'Courier New', monospace;
+    color: var(--fg-dim);
+  }
+
+  .var-chip .var-swatch {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    flex-shrink: 0;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  /* 关系矩阵 */
+  .relation-matrix {
+    overflow-x: auto;
+    margin-bottom: var(--sp-5);
+  }
+
+  .relation-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 10px;
+    min-width: 700px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  .relation-table thead th {
+    padding: var(--sp-2) var(--sp-3);
+    font-weight: 700;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-elevated);
+    color: var(--fg-dim);
+    font-size: 9px;
+  }
+
+  .relation-table thead th:first-child {
+    text-align: left;
+    width: 90px;
+  }
+
+  .relation-table tbody td {
+    padding: var(--sp-2) var(--sp-3);
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    color: var(--fg-dim);
+    vertical-align: middle;
+  }
+
+  .relation-table tbody td:first-child {
+    text-align: left;
+    font-weight: 600;
+    color: var(--fg-muted);
+    font-size: 9px;
+    font-family: 'Courier New', monospace;
+  }
+
+  .relation-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .rm-yes {
+    color: var(--green);
+    font-weight: 700;
+  }
+
+  .rm-no {
+    opacity: 0.2;
+  }
+
+  /* 页脚 */
+  .site-footer {
+    border-top: 1px solid var(--border);
+    padding: var(--sp-8) var(--sp-6);
+    text-align: center;
+    color: var(--fg-dim);
+    font-size: 11px;
+    line-height: 2;
+  }
+
+  /* 滚动渐入 */
+  .reveal {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: all 0.4s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* 响应式 */
+  @media (max-width: 768px) {
+    .container { padding: 0 var(--sp-4); }
+    .hero { padding: 40px 0 var(--sp-8); }
+    .hero h1 { font-size: 22px; }
+    .load-order { gap: var(--sp-1); }
+    .load-arrow { display: none; }
+    .load-chip { font-size: 10px; padding: 4px 8px; }
+    .principles { grid-template-columns: 1fr; }
+    .file-columns { grid-template-columns: 1fr; }
+    .file-header { flex-direction: column; gap: var(--sp-3); }
+    .file-num { font-size: 28px; }
+    .file-name { font-size: 15px; }
+    .top-bar-nav { display: none; }
+    .overview-table { font-size: 10px; }
+    .overview-table thead th,
+    .overview-table tbody td { padding: var(--sp-2); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- 顶部导航 -->
+<nav class="top-bar">
+  <div class="top-bar-inner">
+    <div class="top-bar-logo">CSS 架构<span>说明文档</span></div>
+    <div class="top-bar-nav">
+      <a href="#overview">总览</a>
+      <a href="#principles">原则</a>
+      <a href="#f-base">base</a>
+      <a href="#f-layout">layout</a>
+      <a href="#f-components">components</a>
+      <a href="#f-level">level</a>
+      <a href="#f-philosophy">philosophy</a>
+      <a href="#f-mainline">mainline</a>
+      <a href="#f-responsive">responsive</a>
+    </div>
+  </div>
+</nav>
+
+<!-- 英雄区 -->
+<header class="hero container">
+  <h1>7 个 CSS 文件，<span class="accent">各管各的事</span></h1>
+  <p class="hero-sub">
+    每个文件只负责一类职责。改颜色不动布局，改布局不动组件，改组件不动级别色。
+    任何一个需求，只打开一个文件就能完成。
+  </p>
+  <div class="load-order">
+    <a href="#f-base" class="load-chip"><span class="chip-dot"></span>base.css</a>
+    <span class="load-arrow"><i class="fas fa-chevron-right"></i></span>
+    <a href="#f-layout" class="load-chip"><span class="chip-dot"></span>layout.css</a>
+    <span class="load-arrow"><i class="fas fa-chevron-right"></i></span>
+    <a href="#f-components" class="load-chip"><span class="chip-dot"></span>components.css</a>
+    <span class="load-arrow"><i class="fas fa-chevron-right"></i></span>
+    <a href="#f-level" class="load-chip"><span class="chip-dot"></span>level.css</a>
+    <span class="load-arrow"><i class="fas fa-chevron-right"></i></span>
+    <a href="#f-philosophy" class="load-chip"><span class="chip-dot"></span>philosophy.css</a>
+    <span class="load-arrow"><i class="fas fa-chevron-right"></i></span>
+    <a href="#f-mainline" class="load-chip"><span class="chip-dot"></span>mainline.css</a>
+    <span class="load-arrow"><i class="fas fa-chevron-right"></i></span>
+    <a href="#f-responsive" class="load-chip"><span class="chip-dot"></span>responsive.css</a>
+  </div>
+  <div class="load-note">
+    <i class="fas fa-arrow-right"></i>
+    加载顺序即层叠顺序，后面的覆盖前面的。responsive 必须最后。
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- 总览表 -->
+  <section id="overview" class="reveal" style="scroll-margin-top:64px;">
+    <div class="overview-table">
+      <thead>
+        <tr>
+          <th>文件</th>
+          <th>一句话职责</th>
+          <th>管什么</th>
+          <th>不管什么</th>
+          <th>修改频率</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="ot-file"><span class="ot-dot" style="background:var(--fg-dim)"></span>base.css</td>
+          <td class="ot-one">全站地基，定义规则</td>
+          <td>重置、CSS变量、基础排版</td>
+          <td>布局、组件、颜色值</td>
+          <td>几乎不改</td>
+        </tr>
+        <tr>
+          <td class="ot-file"><span class="ot-dot" style="background:var(--cyan)"></span>layout.css</td>
+          <td class="ot-one">东西放在哪</td>
+          <td>导航栏、侧边栏、内容区、页脚</td>
+          <td>零件样式、颜色、组件形状</td>
+          <td>几乎不改</td>
+        </tr>
+        <tr>
+          <td class="ot-file"><span class="ot-dot" style="background:var(--green)"></span>components.css</td>
+          <td class="ot-one">零件长什么样</td>
+          <td>按钮、卡片、标签、树节点等22类</td>
+          <td>位置、级别色、板块专属样式</td>
+          <td>偶尔改</td>
+        </tr>
+        <tr>
+          <td class="ot-file"><span class="ot-dot" style="background:var(--accent)"></span>level.css</td>
+          <td class="ot-one">八个级别各自的颜色</td>
+          <td>--lv-color映射、级别专属组件</td>
+          <td>组件形状、布局、颜色值本身</td>
+          <td>可能微调</td>
+        </tr>
+        <tr>
+          <td class="ot-file"><span class="ot-dot" style="background:var(--red)"></span>philosophy.css</td>
+          <td class="ot-one">理念板块专属组件</td>
+          <td>铁律卡片、对比块、三遍法、节奏图</td>
+          <td>其他板块、通用组件</td>
+          <td>偶尔加新内容</td>
+        </tr>
+        <tr>
+          <td class="ot-file"><span class="ot-dot" style="background:var(--purple)"></span>mainline.css</td>
+          <td class="ot-one">能力主线专属组件</td>
+          <td>主线时间线、交叉矩阵、进度追踪</td>
+          <td>其他板块、通用组件</td>
+          <td>偶尔改</td>
+        </tr>
+        <tr>
+          <td class="ot-file"><span class="ot-dot" style="background:var(--orange)"></span>responsive.css</td>
+          <td class="ot-one">手机上怎么显示</td>
+          <td>断点覆盖、侧边栏抽屉、打印</td>
+          <td>桌面端样式（只覆盖不改）</td>
+          <td>测手机时改</td>
+        </tr>
+      </tbody>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 拆分原则 -->
+  <section id="principles" class="reveal" style="scroll-margin-top:64px;">
+    <div class="principles">
+      <div class="principle-card">
+        <div class="pc-icon" style="background:var(--accent-dim);color:var(--accent);"><i class="fas fa-lock"></i></div>
+        <h3>安全边界</h3>
+        <p>改A的时候不需要看B。每个"不需要碰"都是一个安全边界，边界越多，改错东西的概率越低。</p>
+      </div>
+      <div class="principle-card">
+        <div class="pc-icon" style="background:var(--cyan-dim);color:var(--cyan);"><i class="fas fa-arrow-right"></i></div>
+        <h3>单向依赖</h3>
+        <p>base ← layout ← components ← level/philosophy/mainline ← responsive。每个文件只依赖排在自己前面的文件，不存在循环依赖。</p>
+      </div>
+      <div class="principle-card">
+        <div class="pc-icon" style="background:var(--green-dim);color:var(--green);"><i class="fas fa-search"></i></div>
+        <h3>修改频率对齐</h3>
+        <p>改频率相同的东西放同一个文件。base和layout几乎不改，components偶尔改，responsive测手机时改。频率不同，文件不同。</p>
+      </div>
+      <div class="principle-card">
+        <div class="pc-icon" style="background:var(--red-dim);color:var(--red);"><i class="fas fa-eye-slash"></i></div>
+        <h3>按需加载</h3>
+        <p>做教案页只加载base+layout+components+level，不加载philosophy和mainline。不相关的代码不进入页面，找东西时少一半噪音。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 关系矩阵 -->
+  <div class="divider"></div>
+  <section class="reveal">
+    <div class="relation-matrix">
+      <table class="relation-table">
+        <thead>
+          <tr>
+            <th>改这个东西 →<br>打开这个文件</th>
+            <th>base</th>
+            <th>layout</th>
+            <th>components</th>
+            <th>level</th>
+            <th>philosophy</th>
+            <th>mainline</th>
+            <th>responsive</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>全站主色调</td>
+            <td class="rm-yes">改这里</td>
+            <td class="rm-no">—</td>
+            <td class="rm-no">—</td>
+            <td class="rm-no">—</td>
+            <td class="rm-no">—</td>
+            <td class="rm-no">—</td>
+            <td class="rm-no">—</td>
+          </tr>
+          <tr>
+            <td>导航栏高度</td>
+            <td class="rm-no">—</td>
+            <td class="rm-yes">改这里</td>
+            <td class="rm-no">—</td>
+            <td class="rm-no">—</td>
+            <td class="rm-no">—</td>
+            <td class="rm-no">—</td>
+            <td class="rm-no">—</td>
+          </tr>
+          <tr>
+            <td>按钮圆角</td>
+            <td class="rm-no">—</td>
+            <td class="rm-no">—</td>
+            <td class="rm-yes">改这里</td>
+            <td class="rm-no">—</td>
+            <td class="rm-no">—</td>
+            <td class="rm-no">—</td>
+            <td class="rm-no">—</td>
+          </tr>
+          <tr>
+            <td>L3 的强调色</td>
+            <td class="rm-no">—</td>
+            <td class="rm-no">—</td>
+            <td class="rm-no">—</td>
+            <td class="rm-yes">改这里</td>
+            <td class="rm-no">—</td>
+            <td class="rm-no">—</td>
+            <td class="rm-no">—</td>
+          </tr>
+          <tr>
+            <td>铁律对比块</td>
+            <td class="rm-no">—</td>
+            <td class="rm-no">—</td>
+            <td class="rm-no">—</td>
+            <td class="rm-no">—</td>
+            <td class="rm-yes">改这里</td>
+            <td class="rm-no">—</td>
+            <td class="rm-no">—</td>
+          </tr>
+          <tr>
+            <td>主线交叉矩阵</td>
+            <td class="rm-no">—</td>
+            <td class="rm-no">—</td>
+            <td class="rm-no">—</td>
+            <td class="rm-no">—</td>
+            <td class="rm-no">—</td>
+            <td class="rm-yes">改这里</td>
+            <td class="rm-no">—</td>
+          </tr>
+          <tr>
+            <td>手机上侧边栏</td>
+            <td class="rm-no">—</td>
+            <td class="rm-no">—</td>
+            <td class="rm-no">—</td>
+            <td class="rm-no">—</td>
+            <td class="rm-no">—</td>
+            <td class="rm-no">—</td>
+            <td class="rm-yes">改这里</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:11px;color:var(--fg-dim);text-align:center;margin-bottom:var(--sp-8);">
+      每一行只有一个"改这里"——这就是拆分的目标
+    </p>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ===== 1. base.css ===== -->
+  <section id="f-base" class="file-section reveal" style="scroll-margin-top:64px;">
+    <div class="file-header">
+      <div class="file-num" style="color:var(--fg-dim);">01</div>
+      <div class="file-info">
+        <div class="file-name"><span class="fn-dot" style="background:var(--fg-dim)"></span>base.css</div>
+        <div class="file-one-liner">全站的地基。不改样式，只定义规则。</div>
+        <div class="file-meta-row">
+          <div class="file-meta"><i class="fas fa-clock"></i> 修改频率：<strong>几乎不改</strong></div>
+          <div class="file-meta"><i class="fas fa-arrow-down"></i> 被依赖：<strong>所有其他6个文件</strong></div>
+          <div class="file-meta"><i class="fas fa-arrow-up"></i> 依赖：<strong>无</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="file-columns">
+      <div class="file-col">
+        <div class="file-col-title green"><i class="fas fa-check"></i> 管什么</div>
+        <ul class="comp-list">
+          <li><span class="comp-class">:root</span><span class="comp-desc">全站 CSS 变量的唯一真相源——颜色、间距、字号、圆角、字体、过渡</span></li>
+          <li><span class="comp-class">reset</span><span class="comp-desc">清掉浏览器默认 margin/padding，统一下盒模型</span></li>
+          <li><span class="comp-class">body</span><span class="comp-desc">全局字体、行高、背景色、最小高度</span></li>
+          <li><span class="comp-class">html</span><span class="comp-desc">滚动行为、滚动条样式</span></li>
+        </ul>
+      </div>
+      <div class="file-col">
+        <div class="file-col-title red"><i class="fas fa-ban"></i> 不管什么</div>
+        <ul class="dont-list">
+          <li><i class="fas fa-times"></i> 不定义任何布局（导航栏、侧边栏、grid）</li>
+          <li><i class="fas fa-times"></i> 不定义任何组件（按钮、卡片、标签）</li>
+          <li><i class="fas fa-times"></i> 不写任何具体颜色值在组件上（只定义变量）</li>
+          <li><i class="fas fa-times"></i> 不写媒体查询</li>
+        </ul>
+        <div class="file-col-title cyan" style="margin-top:var(--sp-5);"><i class="fas fa-wrench"></i> 什么时候打开</div>
+        <ul class="when-list">
+          <li><i class="fas fa-chevron-right"></i> 换全站字体</li>
+          <li><i class="fas fa-chevron-right"></i> 换主色（改 --accent 一个值，全站跟着变）</li>
+          <li><i class="fas fa-chevron-right"></i> 调整全局间距体系（比如把基准从8px改成6px）</li>
+          <li><i class="fas fa-chevron-right"></i> 加新的全局变量</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="var-showcase" style="margin-top:var(--sp-5);">
+      <div class="var-chip"><span class="var-swatch" style="background:var(--bg-deep)"></span>--bg-deep</div>
+      <div class="var-chip"><span class="var-swatch" style="background:var(--fg)"></span>--fg</div>
+      <div class="var-chip"><span class="var-swatch" style="background:var(--accent)"></span>--accent</div>
+      <div class="var-chip"><span class="var-swatch" style="background:var(--red)"></span>--red</div>
+      <div class="var-chip"><span class="var-swatch" style="background:var(--green)"></span>--green</div>
+      <div class="var-chip"><span class="var-swatch" style="background:var(--cyan)"></span>--cyan</div>
+      <div class="var-chip"><span class="var-swatch" style="background:var(--border)"></span>--border</div>
+      <div class="var-chip"><span class="var-swatch" style="background:var(--level3)"></span>--level3</div>
+    </div>
+    <p style="font-size:10px;color:var(--fg-dim);margin-top:4px;">这些变量定义在这里，其他6个文件永远不出现具体颜色值，只引用变量名。</p>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ===== 2. layout.css ===== -->
+  <section id="f-layout" class="file-section reveal" style="scroll-margin-top:64px;">
+    <div class="file-header">
+      <div class="file-num" style="color:var(--cyan);">02</div>
+      <div class="file-info">
+        <div class="file-name"><span class="fn-dot" style="background:var(--cyan)"></span>layout.css</div>
+        <div class="file-one-liner">管"东西放在哪"。导航栏、侧边栏、内容区、页脚的位置和尺寸。</div>
+        <div class="file-meta-row">
+          <div class="file-meta"><i class="fas fa-clock"></i> 修改频率：<strong>几乎不改</strong></div>
+          <div class="file-meta"><i class="fas fa-arrow-down"></i> 被依赖：<strong>components / level / philosophy / mainline / responsive</strong></div>
+          <div class="file-meta"><i class="fas fa-arrow-up"></i> 依赖：<strong>base.css</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="file-columns">
+      <div class="file-col">
+        <div class="file-col-title green"><i class="fas fa-check"></i> 管什么</div>
+        <ul class="comp-list">
+          <li><span class="comp-class">.top-bar</span><span class="comp-desc">顶部导航栏——高度56px、粘性定位、毛玻璃背景</span></li>
+          <li><span class="comp-class">.content-with-sidebar</span><span class="comp-desc">有侧边栏布局——左260px右自适应的grid</span></li>
+          <li><span class="comp-class">.content-fullwidth</span><span class="comp-desc">全宽布局——目录总览、汇总页</span></li>
+          <li><span class="comp-class">.content-narrow</span><span class="comp-desc">窄居中布局——铁律详情页，680px</span></li>
+          <li><span class="comp-class">.sidebar</span><span class="comp-desc">侧边栏——sticky定位、滚动条、最大高度</span></li>
+          <li><span class="comp-class">.page-header</span><span class="comp-desc">页面头部——面包屑、标题、元信息行的结构</span></li>
+          <li><span class="comp-class">.page-nav</span><span class="comp-desc">页面底部导航——上一课/下一课双列grid</span></li>
+          <li><span class="comp-class">.site-footer</span><span class="comp-desc">页脚</span></li>
+          <li><span class="comp-class">.container</span><span class="comp-desc">通用容器——最大宽度1100px水平居中</span></li>
+          <li><span class="comp-class">.page-body</span><span class="comp-desc">页面主体排版——h2/h3/p/pre/code的基础样式</span></li>
+        </ul>
+      </div>
+      <div class="file-col">
+        <div class="file-col-title red"><i class="fas fa-ban"></i> 不管什么</div>
+        <ul class="dont-list">
+          <li><i class="fas fa-times"></i> 不管按钮长什么样</li>
+          <li><i class="fas fa-times"></i> 不管卡片圆角和阴影</li>
+          <li><i class="fas fa-times"></i> 不管颜色（只引用base的变量）</li>
+          <li><i class="fas fa-times"></i> 不管级别色</li>
+          <li><i class="fas fa-times"></i> 不管板块专属组件</li>
+        </ul>
+        <div class="file-col-title cyan" style="margin-top:var(--sp-5);"><i class="fas fa-wrench"></i> 什么时候打开</div>
+        <ul class="when-list">
+          <li><i class="fas fa-chevron-right"></i> 导航栏高度要改（比如从56px改成48px）</li>
+          <li><i class="fas fa-chevron-right"></i> 侧边栏宽度要改（比如从260px改成240px）</li>
+          <li><i class="fas fa-chevron-right"></i> 内容区要加宽或缩窄</li>
+          <li><i class="fas fa-chevron-right"></i> 页面底部导航要改布局</li>
+          <li><i class="fas fa-chevron-right"></i> 加一种新的页面布局模式</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ===== 3. components.css ===== -->
+  <section id="f-components" class="file-section reveal" style="scroll-margin-top:64px;">
+    <div class="file-header">
+      <div class="file-num" style="color:var(--green);">03</div>
+      <div class="file-info">
+        <div class="file-name"><span class="fn-dot" style="background:var(--green)"></span>components.css</div>
+        <div class="file-one-liner">管"零件长什么样"。22类通用组件，按用途分四层。</div>
+        <div class="file-meta-row">
+          <div class="file-meta"><i class="fas fa-clock"></i> 修改频率：<strong>偶尔改</strong></div>
+          <div class="file-meta"><i class="fas fa-arrow-down"></i> 被依赖：<strong>level / philosophy / mainline / responsive</strong></div>
+          <div class="file-meta"><i class="fas fa-arrow-up"></i> 依赖：<strong>base.css + layout.css</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="file-columns">
+      <div class="file-col">
+        <div class="file-col-title green"><i class="fas fa-check"></i> 管什么（22类）</div>
+        <ul class="comp-list">
+          <li><span class="comp-class">.tree-*</span><span class="comp-desc">树形目录节点——箭头、图标、子节点竖线</span></li>
+          <li><span class="comp-class">.tag-*</span><span class="comp-desc">标签——核心/辅助/实践/加餐/课时等7种</span></li>
+          <li><span class="comp-class">.btn-*</span><span class="comp-desc">按钮——默认/主色/危险/幽灵/小号/图标/按钮组</span></li>
+          <li><span class="comp-class">.card-*</span><span class="comp-desc">卡片——默认/无内边距/图标卡/两列三列网格</span></li>
+          <li><span class="comp-class">.search-box</span><span class="comp-desc">搜索框——默认和大号两种</span></li>
+          <li><span class="comp-class">.trap-box</span><span class="comp-desc">教学陷阱警示框</span></li>
+          <li><span class="comp-class">.checklist-box</span><span class="comp-desc">检验标准清单（含可交互勾选版和进度条）</span></li>
+          <li><span class="comp-class">.alert-*</span><span class="comp-desc">提示框——警告/危险/成功/信息/强调5种</span></li>
+          <li><span class="comp-class">.badge</span><span class="comp-desc">徽章/徽标</span></li>
+          <li><span class="comp-class">.goal-list</span><span class="comp-desc">教学目标列表——必须/期望</span></li>
+          <li><span class="comp-class">.step-list</span><span class="comp-desc">教学步骤列表——带序号圆点</span></li>
+          <li><span class="comp-class">.hours-table</span><span class="comp-desc">课时分配表</span></li>
+          <li><span class="comp-class">.sim-table</span><span class="comp-desc">手动模拟表格——"画表格"教学工具</span></li>
+          <li><span class="comp-class">.code-block</span><span class="comp-desc">代码块——带语言标签和复制按钮</span></li>
+          <li><span class="comp-class">.tabs</span><span class="comp-desc">选项卡</span></li>
+          <li><span class="comp-class">.timeline-*</span><span class="comp-desc">时间线——竖线、圆点、级别标签、内容</span></li>
+          <li><span class="comp-class">.toolbar</span><span class="comp-desc">工具栏</span></li>
+          <li><span class="comp-class">blockquote</span><span class="comp-desc">引用块（含铁律引用特殊样式）</span></li>
+          <li><span class="comp-class">.empty-state</span><span class="comp-desc">空状态</span></li>
+          <li><span class="comp-class">.skeleton</span><span class="comp-desc">骨架屏加载占位</span></li>
+          <li><span class="comp-class">.back-to-top</span><span class="comp-desc">返回顶部按钮</span></li>
+          <li><span class="comp-class">.progress-*</span><span class="comp-desc">进度条、阅读进度条</span></li>
+        </ul>
+      </div>
+      <div class="file-col">
+        <div class="file-col-title red"><i class="fas fa-ban"></i> 不管什么</div>
+        <ul class="dont-list">
+          <li><i class="fas fa-times"></i> 不管这些组件放在页面哪个位置（layout管）</li>
+          <li><i class="fas fa-times"></i> 不管某个级别用什么颜色（level管）</li>
+          <li><i class="fas fa-times"></i> 不管理念板块专属组件（philosophy管）</li>
+          <li><i class="fas fa-times"></i> 不管主线板块专属组件（mainline管）</li>
+          <li><i class="fas fa-times"></i> 不写具体颜色值，只用base的变量</li>
+        </ul>
+        <div class="file-col-title cyan" style="margin-top:var(--sp-5);"><i class="fas fa-wrench"></i> 什么时候打开</div>
+        <ul class="when-list">
+          <li><i class="fas fa-chevron-right"></i> 加一种新的通用组件</li>
+          <li><i class="fas fa-chevron-right"></i> 调整现有组件的视觉细节（卡片阴影、按钮间距）</li>
+          <li><i class="fas fa-chevron-right"></i> 修改陷阱框或检验清单的结构</li>
+          <li><i class="fas fa-chevron-right"></i> 调整代码块的头部样式</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ===== 4. level.css ===== -->
+  <section id="f-level" class="file-section reveal" style="scroll-margin-top:64px;">
+    <div class="file-header">
+      <div class="file-num" style="color:var(--accent);">04</div>
+      <div class="file-info">
+        <div class="file-name"><span class="fn-dot" style="background:var(--accent)"></span>level.css</div>
+        <div class="file-one-liner">管"八个级别各自的颜色"。一个类名切换整个级别上下文。</div>
+        <div class="file-meta-row">
+          <div class="file-meta"><i class="fas fa-clock"></i> 修改频率：<strong>可能微调</strong></div>
+          <div class="file-meta"><i class="fas fa-arrow-down"></i> 被依赖：<strong>responsive</strong></div>
+          <div class="file-meta"><i class="fas fa-arrow-up"></i> 依赖：<strong>base + layout + components</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="file-columns">
+      <div class="file-col">
+        <div class="file-col-title green"><i class="fas fa-check"></i> 管什么</div>
+        <ul class="comp-list">
+          <li><span class="comp-class">.level-N</span><span class="comp-desc">变量映射——把 --lv-color 指向 --levelN，加 .level-3 全页自动用L3色</span></li>
+          <li><span class="comp-class">.lv-num</span><span class="comp-desc">级别序号圆圈——4种尺寸（xs/sm/默认/lg）、实心/描边</span></li>
+          <li><span class="comp-class">.lv-label</span><span class="comp-desc">级别文字标签——"L3 数组期"这种</span></li>
+          <li><span class="comp-class">染色</span><span class="comp-desc">用 --lv-color 覆盖components中定义的组件颜色：侧边栏激活态、核心标签、课时标签、检验清单圆点、陷阱框左边框、步骤列表、代码块头部、选项卡、引用块、阅读进度条</span></li>
+          <li><span class="comp-class">.lv-progress</span><span class="comp-desc">级别进度条——显示当前级别完成多少课时</span></li>
+          <li><span class="comp-class">.lv-timeline</span><span class="comp-desc">级别时间轴——知识点横向时间线</span></li>
+          <li><span class="comp-class">.lv-topic-grid</span><span class="comp-desc">级别概览卡片网格——知识点卡片hover顶部级别色细线</span></li>
+          <li><span class="comp-class">.lv-summary</span><span class="comp-desc">级别摘要信息卡——课时/周数/知识点数</span></li>
+          <li><span class="comp-class">.lv-difficulty</span><span class="comp-desc">难度指示器——填充方块表示1~8</span></li>
+          <li><span class="comp-class">.lv-transition</span><span class="comp-desc">级别过渡提示——"L3到L4能力发生了什么变化"</span></li>
+          <li><span class="comp-class">.levels-bar</span><span class="comp-desc">八级横向对比条——首页展示递进关系</span></li>
+        </ul>
+      </div>
+      <div class="file-col">
+        <div class="file-col-title red"><i class="fas fa-ban"></i> 不管什么</div>
+        <ul class="dont-list">
+          <li><i class="fas fa-times"></i> 不定义组件的形状和结构（components管）</li>
+          <li><i class="fas fa-times"></i> 不定义颜色值本身（base管 --level1~8）</li>
+          <li><i class="fas fa-times"></i> 不管布局（layout管）</li>
+          <li><i class="fas fa-times"></i> 不管其他板块的专属样式</li>
+        </ul>
+        <div class="file-col-title accent" style="margin-top:var(--sp-5);"><i class="fas fa-star"></i> 核心机制</div>
+        <div style="padding:var(--sp-3)var(--sp-4);background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);font-size:12px;color:var(--fg-muted);line-height:1.8;margin-bottom:var(--sp-4);">
+          components.css 里的组件只认 <code style="font-family:monospace;font-size:10px;background:var(--bg-elevated);padding:1px 4px;border-radius:3px;color:var(--accent);">--lv-color</code>，不写死颜色值。<br><br>
+          level.css 做 <code style="font-family:monospace;font-size:10px;background:var(--bg-elevated);padding:1px 4px;border-radius:3px;color:var(--accent);">.level-3 { --lv-color: var(--level3); }</code> 这一次映射。<br><br>
+          组件不知道自己处于哪个级别，也不需要知道。级别的切换是上层的事。
+        </div>
+        <div class="file-col-title cyan"><i class="fas fa-wrench"></i> 什么时候打开</div>
+        <ul class="when-list">
+          <li><i class="fas fa-chevron-right"></i> 新增一种级别专属组件</li>
+          <li><i class="fas fa-chevron-right"></i> 调整某个级别色在某种组件上的表现</li>
+          <li><i class="fas fa-chevron-right"></i> 加L9/L10时扩展变量映射</li>
+          <li><i class="fas fa-chevron-right"></i> 调整级别页面的顶部光晕氛围</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ===== 5. philosophy.css ===== -->
+  <section id="f-philosophy" class="file-section reveal" style="scroll-margin-top:64px;">
+    <div class="file-header">
+      <div class="file-num" style="color:var(--red);">05</div>
+      <div class="file-info">
+        <div class="file-name"><span class="fn-dot" style="background:var(--red)"></span>philosophy.css</div>
+        <div class="file-one-liner">管"教学理念板块的专属组件"。只在理念相关页面出现，其他页面不加载。</div>
+        <div class="file-meta-row">
+          <div class="file-meta"><i class="fas fa-clock"></i> 修改频率：<strong>偶尔加新内容</strong></div>
+          <div class="file-meta"><i class="fas fa-arrow-down"></i> 被依赖：<strong>responsive</strong></div>
+          <div class="file-meta"><i class="fas fa-arrow-up"></i> 依赖：<strong>base + layout + components</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="file-columns">
+      <div class="file-col">
+        <div class="file-col-title green"><i class="fas fa-check"></i> 管什么（12类）</div>
+        <ul class="comp-list">
+          <li><span class="comp-class">.laws-grid</span><span class="comp-desc">铁律索引卡片——2×2网格，hover红色竖条</span></li>
+          <li><span class="comp-class">.law-detail-*</span><span class="comp-desc">铁律详情页——大号序号、一句话高亮块</span></li>
+          <li><span class="comp-class">.law-compare</span><span class="comp-desc">"错误做法 vs 正确做法"左右对比块</span></li>
+          <li><span class="comp-class">.law-one-liner</span><span class="comp-desc">一句话总结的高亮块</span></li>
+          <li><span class="comp-class">.three-pass</span><span class="comp-desc">"裸用→组合→变体"三列可视化</span></li>
+          <li><span class="comp-class">.understand-first</span><span class="comp-desc">"先理解后背"流程图（含错误顺序打叉版）</span></li>
+          <li><span class="comp-class">.versus-table</span><span class="comp-desc">"考点 vs 能力终点"对照表</span></li>
+          <li><span class="comp-class">.issue-card</span><span class="comp-desc">致命编排问题卡片——顶部渐变线</span></li>
+          <li><span class="comp-class">.rhythm-*</span><span class="comp-desc">教学节奏——八级方块图、条形图、关键提示</span></li>
+          <li><span class="comp-class">.trap-grid</span><span class="comp-desc">陷阱汇总页网格布局和严重度标记</span></li>
+          <li><span class="comp-class">.check-level-group</span><span class="comp-desc">检验标准汇总页按级别折叠展示</span></li>
+          <li><span class="comp-class">.law-ref</span><span class="comp-desc">教案页中引用铁律的内嵌引用块</span></li>
+        </ul>
+      </div>
+      <div class="file-col">
+        <div class="file-col-title red"><i class="fas fa-ban"></i> 不管什么</div>
+        <ul class="dont-list">
+          <li><i class="fas fa-times"></i> 不重定义 components 已有的 .trap-box / .checklist-box 基础样式</li>
+          <li><i class="fas fa-times"></i> 不管其他板块（级别教案、主线、辅助资源）</li>
+          <li><i class="fas fa-times"></i> 不写通用组件</li>
+        </ul>
+        <div class="file-col-title cyan" style="margin-top:var(--sp-5);"><i class="fas fa-wrench"></i> 什么时候打开</div>
+        <ul class="when-list">
+          <li><i class="fas fa-chevron-right"></i> 加一条新的铁律详情页</li>
+          <li><i class="fas fa-chevron-right"></i> 调整对比块的布局</li>
+          <li><i class="fas fa-chevron-right"></i> 修改教学节奏图的样式</li>
+          <li><i class="fas fa-chevron-right"></i> 在教案页中新增一种理念引用样式</li>
+        </ul>
+        <div style="padding:var(--sp-3)var(--sp-4);background:var(--green-dim);border:1px solid rgba(76,175,125,0.15);border-radius:var(--radius-md);font-size:11px;color:#a0d4bc;line-height:1.7;margin-top:var(--sp-4);">
+          <strong style="color:var(--green);">按需加载：</strong>做L3的数组教案页，不加载这个文件。做理念首页或铁律详情页，才加载。不相关的代码不进入页面。
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ===== 6. mainline.css ===== -->
+  <section id="f-mainline" class="file-section reveal" style="scroll-margin-top:64px;">
+    <div class="file-header">
+      <div class="file-num" style="color:var(--purple);">06</div>
+      <div class="file-info">
+        <div class="file-name"><span class="fn-dot" style="background:var(--purple)"></span>mainline.css</div>
+        <div class="file-one-liner">管"能力主线专属组件"。只在主线相关页面出现，其他页面不加载。</div>
+        <div class="file-meta-row">
+          <div class="file-meta"><i class="fas fa-clock"></i> 修改频率：<strong>偶尔改</strong></div>
+          <div class="file-meta"><i class="fas fa-arrow-down"></i> 被依赖：<strong>responsive</strong></div>
+          <div class="file-meta"><i class="fas fa-arrow-up"></i> 依赖：<strong>base + layout + components</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="file-columns">
+      <div class="file-col">
+        <div class="file-col-title green"><i class="fas fa-check"></i> 管什么（11类）</div>
+        <ul class="comp-list">
+          <li><span class="comp-class">.mainline-grid</span><span class="comp-desc">五条主线总览布局，递归线标注为"最重要"</span></li>
+          <li><span class="comp-class">.ml-timeline-*</span><span class="comp-desc">主线详情页纵向时间线——每个节点是卡片，比总览更详细</span></li>
+          <li><span class="comp-class">.cross-matrix-table</span><span class="comp-desc">五条主线×八级交叉矩阵</span></li>
+          <li><span class="comp-class">.ml-progress</span><span class="comp-desc">单条主线整体完成度——分段进度条（done/current/pending）</span></li>
+          <li><span class="comp-class">.ml-deps</span><span class="comp-desc">主线间依赖关系——"数组DP线依赖递归线"</span></li>
+          <li><span class="comp-class">.ml-lesson-ref</span><span class="comp-desc">教案页底部"本课属于哪些主线"引用区（含位置指示器）</span></li>
+          <li><span class="comp-class">.sidebar-mainlines</span><span class="comp-desc">侧边栏底部"本级别涉及的主线"迷你展示</span></li>
+          <li><span class="comp-class">.ml-parallel</span><span class="comp-desc">多条主线并行对比视图</span></li>
+          <li><span class="comp-class">.mainline-stats</span><span class="comp-desc">主线详情页统计条——跨级别数、总课时</span></li>
+          <li><span class="comp-class">.ml-timeline-bridge</span><span class="comp-desc">时间线节点间的"衔接说明"</span></li>
+          <li><span class="comp-class">.timeline-buffer</span><span class="comp-desc">时间线中"缓冲期"特殊标注</span></li>
+        </ul>
+      </div>
+      <div class="file-col">
+        <div class="file-col-title red"><i class="fas fa-ban"></i> 不管什么</div>
+        <ul class="dont-list">
+          <li><i class="fas fa-times"></i> 不重定义 components 已有的 .mainline-card / .timeline-* 基础样式</li>
+          <li><i class="fas fa-times"></i> 不管其他板块（理念、级别教案、辅助资源）</li>
+          <li><i class="fas fa-times"></i> 不写通用组件</li>
+        </ul>
+        <div class="file-col-title cyan" style="margin-top:var(--sp-5);"><i class="fas fa-wrench"></i> 什么时候打开</div>
+        <ul class="when-list">
+          <li><i class="fas fa-chevron-right"></i> 加一条新的能力主线详情页</li>
+          <li><i class="fas fa-chevron-right"></i> 调整交叉矩阵的样式</li>
+          <li><i class="fas fa-chevron-right"></i> 修改主线进度条的视觉</li>
+          <li><i class="fas fa-chevron-right"></i> 调整教案页底部的主线引用区</li>
+        </ul>
+        <div style="padding:var(--sp-3)var(--sp-4);background:var(--purple-dim);border:1px solid rgba(154,92,208,0.15);border-radius:var(--radius-md);font-size:11px;color:#c8a8e0;line-height:1.7;margin-top:var(--sp-4);">
+          <strong style="color:var(--purple);">按需加载：</strong>做L5的贪心教案页，不加载这个文件。做主线总览或递归线详情页，才加载。
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ===== 7. responsive.css ===== -->
+  <section id="f-responsive" class="file-section reveal" style="scroll-margin-top:64px;">
+    <div class="file-header">
+      <div class="file-num" style="color:var(--orange);">07</div>
+      <div class="file-info">
+        <div class="file-name"><span class="fn-dot" style="background:var(--orange)"></span>responsive.css</div>
+        <div class="file-one-liner">管"手机上怎么显示"。只做覆盖，不改桌面端，不用 !important。</div>
+        <div class="file-meta-row">
+          <div class="file-meta"><i class="fas fa-clock"></i> 修改频率：<strong>测手机时改</strong></div>
+          <div class="file-meta"><i class="fas fa-arrow-down"></i> 被依赖：<strong>无</strong></div>
+          <div class="file-meta"><i class="fas fa-arrow-up"></i> 依赖：<strong>前面所有6个文件</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="file-columns">
+      <div class="file-col">
+        <div class="file-col-title green"><i class="fas fa-check"></i> 管什么</div>
+        <ul class="comp-list">
+          <li><span class="comp-class">@media ≤768px</span><span class="comp-desc">主断点——侧边栏变抽屉、多列变单列、树形缩进收紧、隐藏部分标签</span></li>
+          <li><span class="comp-class">@media ≤480px</span><span class="comp-desc">小屏微调——字号再降、间距再收、组件极限压缩</span></li>
+          <li><span class="comp-class">@media 769~1024px</span><span class="comp-desc">平板横屏——侧边栏缩窄、网格列数调整</span></li>
+          <li><span class="comp-class">.sidebar.open</span><span class="comp-desc">移动端侧边栏抽屉——fixed全屏、transform滑入</span></li>
+          <li><span class="comp-class">.sidebar-overlay</span><span class="comp-desc">抽屉遮罩——点击关闭侧边栏</span></li>
+          <li><span class="comp-class">@media print</span><span class="comp-desc">打印——隐藏导航/交互元素、侧边栏变内联、去背景色保留结构</span></li>
+          <li><span class="comp-class">reduced-motion</span><span class="comp-desc">无障碍——禁用所有动画和过渡</span></li>
+          <li><span class="comp-class">high contrast</span><span class="comp-desc">无障碍——加粗边框、提高弱色对比度</span></li>
+        </ul>
+      </div>
+      <div class="file-col">
+        <div class="file-col-title red"><i class="fas fa-ban"></i> 不管什么</div>
+        <ul class="dont-list">
+          <li><i class="fas fa-times"></i> 不定义桌面端样式（只覆盖）</li>
+          <li><i class="fas fa-times"></i> 不新增组件（只调整已有组件在手机上的表现）</li>
+          <li><i class="fas fa-times"></i> 不用 !important（靠加载顺序保证优先级）</li>
+          <li><i class="fas fa-times"></i> 不写新的CSS变量</li>
+        </ul>
+        <div class="file-col-title accent" style="margin-top:var(--sp-5);"><i class="fas fa-star"></i> 为什么必须最后加载</div>
+        <div style="padding:var(--sp-3)var(--sp-4);background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);font-size:12px;color:var(--fg-muted);line-height:1.8;margin-bottom:var(--sp-4);">
+          CSS层叠规则：后加载的覆盖先加载的。<br><br>
+          responsive 里的 <code style="font-family:monospace;font-size:10px;background:var(--bg-elevated);padding:1px 4px;border-radius:3px;color:var(--accent);">@media</code> 只在手机上生效，但它能覆盖前面所有文件的同名选择器。如果它不是最后加载，前面的文件里如果也写了媒体查询，优先级会乱。<br><br>
+          写顺序也必须是最后：你要先知道桌面端的最终样式长什么样，才能知道手机上要覆盖什么。
+        </div>
+        <div class="file-col-title cyan"><i class="fas fa-wrench"></i> 什么时候打开</div>
+        <ul class="when-list">
+          <li><i class="fas fa-chevron-right"></i> 手机上侧边栏挡了内容</li>
+          <li><i class="fas fa-chevron-right"></i> 某个表格在手机上溢出</li>
+          <li><i class="fas fa-chevron-right"></i> 树形目录嵌套太深在手机上看不清</li>
+          <li><i class="fas fa-chevron-right"></i> 打印出来的页面排版有问题</li>
+          <li><i class="fas fa-chevron-right"></i> 加了新组件后需要补手机端适配</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 依赖关系图 -->
+    <div class="dep-graph" style="margin-top:var(--sp-6);">
+      <div style="font-size:10px;font-weight:700;color:var(--fg-dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:var(--sp-2);">完整依赖链</div>
+      <div class="dep-row">
+        <span class="dep-file" style="color:var(--fg-dim);">base.css</span>
+        <span class="dep-arrow"><i class="fas fa-arrow-down"></i></span>
+        <span class="dep-desc">无依赖，所有文件的起点</span>
+      </div>
+      <div class="dep-row">
+        <span class="dep-file" style="color:var(--cyan);">layout.css</span>
+        <span class="dep-arrow"><i class="fas fa-arrow-down"></i></span>
+        <span class="dep-desc">依赖 base 的变量</span>
+      </div>
+      <div class="dep-row">
+        <span class="dep-file" style="color:var(--green);">components.css</span>
+        <span class="dep-arrow"><i class="fas fa-arrow-down"></i></span>
+        <span class="dep-desc">依赖 base + layout 的容器</span>
+      </div>
+      <div class="dep-row" style="gap:var(--sp-1);">
+        <span class="dep-arrow" style="margin-left:42px;"><i class="fas fa-arrow-down"></i></span>
+      </div>
+      <div class="dep-row" style="gap:var(--sp-3);">
+        <span class="dep-file" style="color:var(--accent);">level.css</span>
+        <span class="dep-desc" style="font-size:9px;">三者互不依赖，可按需加载</span>
+        <span class="dep-file" style="color:var(--red);">philosophy.css</span>
+        <span class="dep-file" style="color:var(--purple);">mainline.css</span>
+      </div>
+      <div class="dep-row" style="gap:var(--sp-1);">
+        <span class="dep-arrow" style="margin-left:42px;"><i class="fas fa-arrow-down"></i></span>
+      </div>
+      <div class="dep-row">
+        <span class="dep-file" style="color:var(--orange);">responsive.css</span>
+        <span class="dep-arrow"><i class="fas fa-arrow-down"></i></span>
+        <span class="dep-desc">依赖前面所有文件，覆盖它们的手机端样式</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <strong>CSS 架构说明</strong><br>
+    7 个文件 · 单向依赖 · 按需加载 · 安全边界
+  </div>
+</footer>
+
+<script>
+  // 滚动渐入
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.reveal').forEach(function(el) {
+    observer.observe(el);
+  });
+
+  // 导航高亮
+  var navLinks = document.querySelectorAll('.top-bar-nav a');
+  var sections = document.querySelectorAll('.file-section, #overview, #principles');
+
+  window.addEventListener('scroll', function() {
+    var scrollY = window.scrollY + 80;
+    sections.forEach(function(sec) {
+      var top = sec.offsetTop;
+      var height = sec.offsetHeight;
+      var id = sec.getAttribute('id');
+      if (scrollY >= top && scrollY < top + height) {
+        navLinks.forEach(function(link) {
+          link.style.color = '';
+          if (link.getAttribute('href') === '#' + id) {
+            link.style.color = 'var(--accent)';
+          }
+        });
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

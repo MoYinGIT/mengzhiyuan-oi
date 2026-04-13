@@ -1,0 +1,425 @@
+/* ============================================
+   蒙知苑·OI - philosophy.css
+   职责：理念板块专属组件（铁律卡片、对比块、三遍法、节奏图）
+   修改频率：偶尔加新内容
+   ============================================ */
+
+/* ---- 铁律卡片 ---- */
+.iron-law-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-6);
+  margin-bottom: var(--sp-4);
+  transition: all var(--transition-base);
+  position: relative;
+  overflow: hidden;
+}
+
+.iron-law-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.iron-law-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--accent);
+}
+
+.iron-law-header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-4);
+}
+
+.iron-law-num {
+  font-family: var(--font-serif);
+  font-size: 48px;
+  font-weight: 900;
+  color: var(--accent);
+  opacity: 0.2;
+  line-height: 1;
+}
+
+.iron-law-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: var(--sp-2);
+}
+
+.iron-law-subtitle {
+  font-size: 14px;
+  color: var(--fg-muted);
+}
+
+.iron-law-content {
+  padding-left: calc(48px + var(--sp-4));
+}
+
+.iron-law-content p {
+  color: var(--fg-muted);
+  line-height: 1.8;
+  margin-bottom: var(--sp-3);
+}
+
+.iron-law-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* ---- 对比块 ---- */
+.comparison-block {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-4);
+  margin: var(--sp-6) 0;
+}
+
+.comparison-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-5);
+}
+
+.comparison-item.wrong {
+  border-left: 4px solid var(--red);
+}
+
+.comparison-item.right {
+  border-left: 4px solid var(--green);
+}
+
+.comparison-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: var(--sp-3);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.comparison-item.wrong .comparison-label {
+  color: var(--red);
+}
+
+.comparison-item.right .comparison-label {
+  color: var(--green);
+}
+
+.comparison-content {
+  font-size: 14px;
+  color: var(--fg-muted);
+  line-height: 1.7;
+}
+
+/* ---- 三遍学习法组件 ---- */
+.three-pass-detail {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-4);
+  margin: var(--sp-6) 0;
+}
+
+.pass-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-5);
+  position: relative;
+  transition: all var(--transition-base);
+}
+
+.pass-card:hover {
+  border-color: var(--accent);
+}
+
+.pass-card::before {
+  content: attr(data-pass);
+  position: absolute;
+  top: -12px;
+  left: var(--sp-4);
+  background: var(--accent);
+  color: var(--bg-deep);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: var(--radius-sm);
+}
+
+.pass-card h4 {
+  font-size: 16px;
+  font-weight: 700;
+  margin: var(--sp-2) 0 var(--sp-3);
+}
+
+.pass-card p {
+  font-size: 13px;
+  color: var(--fg-muted);
+  line-height: 1.7;
+  margin-bottom: var(--sp-3);
+}
+
+.pass-example {
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-3);
+  font-size: 12px;
+  color: var(--fg-dim);
+}
+
+.pass-example strong {
+  color: var(--accent);
+  display: block;
+  margin-bottom: var(--sp-1);
+}
+
+/* ---- 节奏时间线 ---- */
+.rhythm-timeline {
+  position: relative;
+  padding: var(--sp-4) 0;
+}
+
+.rhythm-timeline::before {
+  content: '';
+  position: absolute;
+  left: 20px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--border);
+}
+
+.rhythm-item {
+  display: flex;
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-6);
+  position: relative;
+}
+
+.rhythm-dot {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--fg-muted);
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+.rhythm-item.active .rhythm-dot {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+  color: var(--accent);
+}
+
+.rhythm-content {
+  flex: 1;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-4);
+}
+
+.rhythm-content h4 {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: var(--sp-2);
+}
+
+.rhythm-content p {
+  font-size: 13px;
+  color: var(--fg-muted);
+  margin: 0;
+}
+
+.rhythm-meta {
+  display: flex;
+  gap: var(--sp-4);
+  margin-top: var(--sp-3);
+  font-size: 12px;
+  color: var(--fg-dim);
+}
+
+/* ---- 数据对比表 ---- */
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--sp-4) 0;
+  font-size: 13px;
+}
+
+.compare-table th,
+.compare-table td {
+  padding: var(--sp-3) var(--sp-4);
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.compare-table th {
+  background: var(--bg-elevated);
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.compare-table td {
+  color: var(--fg-muted);
+}
+
+.compare-table .highlight-bad {
+  color: var(--red);
+}
+
+.compare-table .highlight-good {
+  color: var(--green);
+}
+
+/* ---- 理念导航卡片 ---- */
+.philosophy-nav {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--sp-4);
+  margin: var(--sp-6) 0;
+}
+
+.philosophy-nav-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-5);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-4);
+  transition: all var(--transition-base);
+  text-decoration: none;
+  color: inherit;
+}
+
+.philosophy-nav-card:hover {
+  border-color: var(--accent);
+  transform: translateX(4px);
+}
+
+.philosophy-nav-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.philosophy-nav-content h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: var(--sp-1);
+}
+
+.philosophy-nav-content p {
+  font-size: 13px;
+  color: var(--fg-muted);
+  margin: 0;
+}
+
+/* ---- 里程碑时间线 ---- */
+.milestone-timeline {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  margin: var(--sp-8) 0;
+  padding: 0 var(--sp-4);
+}
+
+.milestone-timeline::before {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: 40px;
+  right: 40px;
+  height: 2px;
+  background: var(--border);
+}
+
+.milestone-node {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  flex: 1;
+}
+
+.milestone-dot {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  margin: 0 auto var(--sp-3);
+}
+
+.milestone-node.completed .milestone-dot {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+  color: var(--accent);
+}
+
+.milestone-label {
+  font-size: 11px;
+  color: var(--fg-muted);
+  line-height: 1.4;
+}
+
+.milestone-label strong {
+  display: block;
+  color: var(--fg);
+  font-size: 12px;
+  margin-bottom: 2px;
+}
+
+/* ---- 响应式 ---- */
+@media (max-width: 768px) {
+  .comparison-block,
+  .three-pass-detail,
+  .philosophy-nav {
+    grid-template-columns: 1fr;
+  }
+  
+  .iron-law-content {
+    padding-left: 0;
+  }
+  
+  .iron-law-header {
+    flex-direction: column;
+    gap: var(--sp-2);
+  }
+  
+  .milestone-timeline {
+    flex-direction: column;
+    gap: var(--sp-4);
+  }
+  
+  .milestone-timeline::before {
+    display: none;
+  }
+}

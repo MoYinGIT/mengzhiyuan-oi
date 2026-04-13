@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L6 编程六级图论期 · 蒙知苑·OI</title>
+  <meta name="description" content="L6编程六级图论期：40课时，学习图的表示、DFS/BFS、最短路径、最小生成树、拓扑排序。">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../assets/css/base.css">
+  <link rel="stylesheet" href="../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../assets/css/components.css">
+  <link rel="stylesheet" href="../../assets/css/teaching-visuals.css">
+  <link rel="stylesheet" href="../../assets/css/level.css">
+  
+  <style>
+    :root { --lv-color: var(--level6); --lv-dim: var(--level6-dim); }
+  </style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../philosophy/index.html">教学理念</a>
+        <a href="../../mainlines/index.html">能力主线</a>
+        <a href="../../index.html#levels" class="active">八级体系</a>
+        <a href="../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+  
+  <div class="mobile-menu">
+    <a href="../../philosophy/index.html">教学理念</a>
+    <a href="../../mainlines/index.html">能力主线</a>
+    <a href="../../index.html#levels">八级体系</a>
+    <a href="../../resources/index.html">学习资源</a>
+  </div>
+
+  <header class="lv-hero">
+    <div class="container">
+      <div class="breadcrumb" style="justify-content: center;">
+        <a href="../../index.html">首页</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>八级体系</span>
+      </div>
+      <div class="lv-badge" style="border-color: var(--level6); color: var(--level6);">
+        <i class="fas fa-project-diagram"></i> 编程图论期
+      </div>
+      <h1 class="lv-title">L6 编程六级图论期</h1>
+      <p style="color: var(--fg-muted); max-width: 600px; margin: 0 auto;">
+        图论是竞赛的核心模块。从图的表示到最短路、生成树、拓扑排序——建立网络思维
+      </p>
+      <div class="lv-stats">
+        <div class="lv-stat">
+          <div class="lv-stat-num">40</div>
+          <div class="lv-stat-label">总课时</div>
+        </div>
+        <div class="lv-stat">
+          <div class="lv-stat-num">10</div>
+          <div class="lv-stat-label">学习周数</div>
+        </div>
+        <div class="lv-stat">
+          <div class="lv-stat-num">5</div>
+          <div class="lv-stat-label">核心知识点</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container">
+
+      <div class="coach-quote reveal">
+        <p>
+          L6是竞赛生必须迈过的一道坎。图论不仅是GESP高阶和CSP-J/S的必考内容，
+          更是后续动态规划、网络流、数据结构优化的基础。
+        </p>
+        <p>
+          很多学生怕图论，觉得它"很抽象"。但其实图论和生活息息相关：
+          导航软件找最短路径、社交网络找共同好友、项目管理中的任务依赖——这些都是图。
+        </p>
+        <p style="margin-bottom: 0;">
+          L6的目标不是让学生背模板，而是让他们真正理解<strong>为什么图能建模这些问题</strong>，
+          以及<strong>不同算法背后的直觉</strong>。
+        </p>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2 class="reveal">核心知识点</h2>
+      <div class="lv-topics reveal">
+        <a href="lessons/L6-01-图的表示.html" class="lv-topic-card">
+          <div class="lv-topic-icon"><i class="fas fa-network-wired"></i></div>
+          <div class="lv-topic-title">图的表示</div>
+          <div class="lv-topic-desc">邻接矩阵、邻接表、边集、图的存储方式选择</div>
+          <div class="lv-topic-meta">
+            <span><i class="fas fa-clock"></i> 8课时</span>
+            <span><i class="fas fa-book"></i> 第1课</span>
+          </div>
+        </a>
+        <a href="lessons/L6-02-图的DFS与BFS.html" class="lv-topic-card">
+          <div class="lv-topic-icon"><i class="fas fa-search"></i></div>
+          <div class="lv-topic-title">图的DFS与BFS</div>
+          <div class="lv-topic-desc">连通分量、判环、拓扑序检测、图的遍历模板</div>
+          <div class="lv-topic-meta">
+            <span><i class="fas fa-clock"></i> 8课时</span>
+            <span><i class="fas fa-book"></i> 第2课</span>
+          </div>
+        </a>
+        <a href="lessons/L6-03-最短路径.html" class="lv-topic-card">
+          <div class="lv-topic-icon"><i class="fas fa-route"></i></div>
+          <div class="lv-topic-title">最短路径</div>
+          <div class="lv-topic-desc">Dijkstra、Bellman-Ford、SPFA、Floyd、算法选择</div>
+          <div class="lv-topic-meta">
+            <span><i class="fas fa-clock"></i> 8课时</span>
+            <span><i class="fas fa-book"></i> 第3课</span>
+          </div>
+        </a>
+        <a href="lessons/L6-04-最小生成树.html" class="lv-topic-card">
+          <div class="lv-topic-icon"><i class="fas fa-tree"></i></div>
+          <div class="lv-topic-title">最小生成树</div>
+          <div class="lv-topic-desc">Kruskal、Prim、并查集、贪心正确性理解</div>
+          <div class="lv-topic-meta">
+            <span><i class="fas fa-clock"></i> 8课时</span>
+            <span><i class="fas fa-book"></i> 第4课</span>
+          </div>
+        </a>
+        <a href="lessons/L6-05-拓扑排序.html" class="lv-topic-card">
+          <div class="lv-topic-icon"><i class="fas fa-sort-amount-down-alt"></i></div>
+          <div class="lv-topic-title">拓扑排序</div>
+          <div class="lv-topic-desc">Kahn算法、DFS拓扑序、DAG上的DP</div>
+          <div class="lv-topic-meta">
+            <span><i class="fas fa-clock"></i> 8课时</span>
+            <span><i class="fas fa-book"></i> 第5课</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2 class="reveal">课时列表</h2>
+      <div class="lesson-list reveal">
+        <a href="lessons/L6-01-图的表示.html" class="lesson-item">
+          <div class="lesson-num">01</div>
+          <div class="lesson-content">
+            <div class="lesson-title">图的表示</div>
+            <div class="lesson-desc">邻接矩阵、邻接表、边集、图的存储方式选择</div>
+          </div>
+          <div class="lesson-hours">8课时</div>
+        </a>
+        <a href="lessons/L6-02-图的DFS与BFS.html" class="lesson-item">
+          <div class="lesson-num">02</div>
+          <div class="lesson-content">
+            <div class="lesson-title">图的DFS与BFS</div>
+            <div class="lesson-desc">连通分量、判环、拓扑序检测、图的遍历模板</div>
+          </div>
+          <div class="lesson-hours">8课时</div>
+        </a>
+        <a href="lessons/L6-03-最短路径.html" class="lesson-item">
+          <div class="lesson-num">03</div>
+          <div class="lesson-content">
+            <div class="lesson-title">最短路径</div>
+            <div class="lesson-desc">Dijkstra、Bellman-Ford、SPFA、Floyd、算法选择</div>
+          </div>
+          <div class="lesson-hours">8课时</div>
+        </a>
+        <a href="lessons/L6-04-最小生成树.html" class="lesson-item">
+          <div class="lesson-num">04</div>
+          <div class="lesson-content">
+            <div class="lesson-title">最小生成树</div>
+            <div class="lesson-desc">Kruskal、Prim、并查集、贪心正确性理解</div>
+          </div>
+          <div class="lesson-hours">8课时</div>
+        </a>
+        <a href="lessons/L6-05-拓扑排序.html" class="lesson-item">
+          <div class="lesson-num">05</div>
+          <div class="lesson-content">
+            <div class="lesson-title">拓扑排序</div>
+            <div class="lesson-desc">Kahn算法、DFS拓扑序、DAG上的DP</div>
+          </div>
+          <div class="lesson-hours">8课时</div>
+        </a>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2 class="reveal">能力主线交汇</h2>
+      <div class="reveal">
+        <div class="card" style="margin-bottom: var(--sp-4);">
+          <div class="card-header">
+            <div class="card-icon" style="background: var(--level6-dim); color: var(--level6);">
+              <i class="fas fa-project-diagram"></i>
+            </div>
+            <h3 class="card-title">图论线 - L6全面启动</h3>
+          </div>
+          <p class="card-desc">
+            图论线是八级体系中最后一条启动的主线。L6将系统学习图的基础算法，为L7-L8的高级内容奠基。
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon" style="background: var(--level3-dim); color: var(--level3);">
+              <i class="fas fa-code-branch"></i>
+            </div>
+            <h3 class="card-title">递归线 - L6分水岭</h3>
+          </div>
+          <p class="card-desc">
+            图的DFS是递归线在图论中的核心应用。L3启动→L4基础→L5搜索→L6图论，递归线在此完成关键升华。
+          </p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2 class="reveal">升级检验标准</h2>
+      <div class="checklist-box reveal">
+        <h4><i class="fas fa-clipboard-check"></i> L6 升级检查清单</h4>
+        <ul>
+          <li>能根据题目特点选择邻接矩阵或邻接表存储图</li>
+          <li>能用DFS/BFS求图的连通分量、判断是否存在环</li>
+          <li>能根据图的特点（有无负权边、单源/多源）选择合适的最短路径算法</li>
+          <li>能独立写出Kruskal算法，并理解并查集在其中的作用</li>
+          <li>能用Kahn算法或DFS求拓扑序，并判断有向图是否存在环</li>
+          <li class="blocker">如果以上任何一条不满足，不要进入L7</li>
+        </ul>
+      </div>
+
+      <div class="coach-quote reveal">
+        <p style="margin-bottom: 0;">
+          <strong>给家长的话：</strong>L6开始，每道练习题可能需要30分钟甚至更久。
+          图论题的特点是"想通了很简单，想不通很崩溃"。请给孩子足够的耐心，
+          鼓励他们多画图、多手动模拟算法过程。
+        </p>
+      </div>
+
+      <div class="lesson-nav reveal">
+        <a href="../L5-编程五级-搜索期/index.html" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> L5 编程搜索期
+        </a>
+        <a href="lessons/L6-01-图的表示.html" class="btn btn-primary" style="background: var(--level6); border-color: var(--level6);">
+          开始学习第一课 <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container">
+      <div class="footer-links">
+        <a href="../../philosophy/index.html">教学理念</a>
+        <a href="../../mainlines/index.html">能力主线</a>
+        <a href="../../index.html#levels">八级体系</a>
+        <a href="../../resources/index.html">学习资源</a>
+      </div>
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+    </div>
+  </footer>
+
+  <script src="../../assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L4-04 递归基础 · 蒙知苑·OI</title>
+  <meta name="description" content="学习递归三要素、递归执行过程、递归与迭代的对比，建立递归思维。">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../../assets/css/base.css">
+  <link rel="stylesheet" href="../../../assets/css/layout.css">
+  <link rel="stylesheet" href="../../../assets/css/components.css">
+  <link rel="stylesheet" href="../../../assets/css/teaching-visuals.css">
+  <link rel="stylesheet" href="../../../assets/css/level.css">
+  
+  <style>
+    :root { --lv-color: var(--level4); --lv-dim: var(--level4-dim); }
+  </style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../../../index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels" class="active">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+  
+  <div class="mobile-menu">
+    <a href="../../../philosophy/index.html">教学理念</a>
+    <a href="../../../mainlines/index.html">能力主线</a>
+    <a href="../../../index.html#levels">八级体系</a>
+    <a href="../../../resources/index.html">学习资源</a>
+  </div>
+
+  <div class="lesson-top-info">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../../../index.html">首页</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="../index.html">L4 函数期</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>L4-04</span>
+      </div>
+      <div class="lesson-header-row">
+        <div>
+          <h1 class="lesson-title-main">递归基础</h1>
+          <p class="lesson-subtitle">递归三要素、递归执行过程、递归与迭代的对比</p>
+        </div>
+        <div class="lesson-meta">
+          <div class="meta-item"><i class="fas fa-clock"></i> 8课时</div>
+          <div class="meta-item"><i class="fas fa-calendar"></i> 约2周</div>
+          <div class="meta-item"><i class="fas fa-signal"></i> 难度 <span class="difficulty-star"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="main-content">
+    <div class="container">
+
+      <div class="goals-card reveal">
+        <h4><i class="fas fa-bullseye"></i> 本课三维目标</h4>
+        <div class="goals-grid">
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--red-dim); color: var(--red);">知识</span>
+            <span class="goal-text">递归定义、终止条件、递归调用、递归展开过程</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--green-dim); color: var(--green);">技能</span>
+            <span class="goal-text">能独立写出阶乘、斐波那契、汉诺塔等经典递归程序</span>
+          </div>
+          <div class="goal-item">
+            <span class="goal-label" style="background: var(--blue-dim); color: var(--blue);">思维</span>
+            <span class="goal-text">建立"把问题交给更小的自己解决"的递归信念</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="coach-quote reveal">
+        <p>
+          递归是很多学生的"鬼门关"，也是竞赛生与业余爱好者的分水岭。
+        </p>
+        <p>
+          学不会递归的学生，到L6的搜索会寸步难行。但递归其实不需要"理解"，需要的是<strong>信任</strong>——
+          信任"更小的子问题已经被解决"，你只需要负责把当前问题拆成更小的子问题。
+        </p>
+        <p style="margin-bottom: 0;">
+          我的教学策略是：先讲故事（汉诺塔、阶乘），再画展开图，最后写代码。
+          不要一上来就讲数学归纳法。
+        </p>
+      </div>
+
+      <section class="reveal">
+        <h2>1. 什么是递归？</h2>
+        <p>
+          递归就是：<strong>函数调用自己</strong>。
+        </p>
+        <p>
+          听起来像绕口令？看一个最简单的例子：阶乘。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">阶乘的递归写法</span>
+            <button class="copy-btn" data-clipboard-target="#code1">复制</button>
+          </div>
+          <pre><code id="code1" class="language-cpp">long long factorial(int n) {
+    if (n == 0 || n == 1) return 1;  // 终止条件
+    return n * factorial(n - 1);      // 调用自己，但规模更小
+}</code></pre>
+        </div>
+        <p>
+          <code class="inline-code">factorial(5)</code> 的计算过程：
+        </p>
+        <div class="visual-demo" data-type="mermaid">
+graph TD
+    A[factorial5] --> B[5 * factorial4]
+    B --> C[4 * factorial3]
+    C --> D[3 * factorial2]
+    D --> E[2 * factorial1]
+    E --> F[return 1]
+    E --> G[return 2 * 1 = 2]
+    D --> H[return 3 * 2 = 6]
+    C --> I[return 4 * 6 = 24]
+    B --> J[return 5 * 24 = 120]
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>2. 递归三要素</h2>
+        <p>写一个正确的递归函数，必须包含三个要素：</p>
+        <ol>
+          <li>
+            <strong>终止条件（Base Case）</strong><br>
+            什么时候停止递归？如果没有终止条件，函数会无限调用自己，导致<strong>栈溢出</strong>。
+          </li>
+          <li>
+            <strong>递归调用（Recursive Call）</strong><br>
+            函数如何调用自己？每次调用的规模必须比当前更小，向终止条件靠近。
+          </li>
+          <li>
+            <strong>合并结果（Combine）</strong><br>
+            如何利用子问题的结果，得到当前问题的结果？
+          </li>
+        </ol>
+        <div class="note-box">
+          <p>
+            <strong>教练口诀：</strong>"终止、调用、合并"——缺一个，递归必错。
+          </p>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>3. 递归的执行过程：调用栈</h2>
+        <p>
+          每次函数调用，系统都会在<strong>栈</strong>中分配一段空间，保存当前函数的参数和局部变量。
+          递归时，这些栈帧一层层叠加，直到触发终止条件，再一层层返回。
+        </p>
+        <div class="visual-demo" data-type="memory" data-memory='[
+          {"addr":"栈顶","cells":["n=1","return 1","",""],"var":"factorial(1)"},
+          {"addr":"","cells":["n=2","2*?","",""],"var":"factorial(2)"},
+          {"addr":"","cells":["n=3","3*?","",""],"var":"factorial(3)"},
+          {"addr":"栈底","cells":["n=4","4*?","",""],"var":"factorial(4)"}
+        ]'></div>
+        <p>
+          如果递归太深（比如 <code class="inline-code">factorial(100000)</code>），栈空间会被耗尽，程序崩溃。
+          这就是为什么有些问题虽然可以递归，但竞赛中更倾向于用迭代或记忆化。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>4. 经典递归：汉诺塔</h2>
+        <p>
+          汉诺塔是讲解递归最好的故事之一。规则：三根柱子，n个盘子从上到下由小到大。
+          目标是把所有盘子从A柱移到C柱，每次只能移动一个盘子，大盘不能压小盘。
+        </p>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-title">汉诺塔递归代码</span>
+            <button class="copy-btn" data-clipboard-target="#code2">复制</button>
+          </div>
+          <pre><code id="code2" class="language-cpp">void hanoi(int n, char from, char temp, char to) {
+    if (n == 1) {
+        cout << from << " -> " << to << endl;
+        return;
+    }
+    hanoi(n - 1, from, to, temp);    // 1. 把上面 n-1 个从 from 移到 temp
+    cout << from << " -> " << to << endl; // 2. 把最底下的从 from 移到 to
+    hanoi(n - 1, temp, from, to);    // 3. 把 n-1 个从 temp 移到 to
+}</code></pre>
+        </div>
+        <p>
+          汉诺塔的核心思想：把"移动n个盘子"拆成"移动n-1个盘子"——这正是递归的精髓。
+        </p>
+      </section>
+
+      <section class="reveal">
+        <h2>5. 递归 vs 迭代</h2>
+        <p>
+          任何可以用递归解决的问题，理论上也可以用迭代解决。两者的对比：
+        </p>
+        <table style="width: 100%; border-collapse: collapse; margin-top: var(--sp-4);">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--border);">
+              <th style="text-align: left; padding: var(--sp-3);">特性</th>
+              <th style="text-align: left; padding: var(--sp-3);">递归</th>
+              <th style="text-align: left; padding: var(--sp-3);">迭代</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border-dim);">
+              <td style="padding: var(--sp-3);">代码可读性</td>
+              <td style="padding: var(--sp-3);">通常更简洁、贴近数学定义</td>
+              <td style="padding: var(--sp-3);">可能需要更多辅助变量</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-dim);">
+              <td style="padding: var(--sp-3);">空间复杂度</td>
+              <td style="padding: var(--sp-3);">需要栈空间，可能溢出</td>
+              <td style="padding: var(--sp-3);">通常只需要 O(1) 额外空间</td>
+            </tr>
+            <tr>
+              <td style="padding: var(--sp-3);">适用场景</td>
+              <td style="padding: var(--sp-3);">树、图、分治、搜索</td>
+              <td style="padding: var(--sp-3);">线性遍历、动态规划</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="note-box">
+          <p>
+            <strong>L4阶段不要求深入优化</strong>，重点是让学生"敢写递归"、"会写递归"。
+            递归转迭代的技巧在L5-L6再系统讲解。
+          </p>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <section class="reveal">
+        <h2>IOI教练常见教学陷阱</h2>
+        <div class="traps-grid">
+          <div class="trap-card">
+            <div class="trap-title">陷阱1：试图"完全理解"递归的每一步</div>
+            <p class="trap-desc">
+              很多学生在脑子里模拟递归展开，越想越乱。
+              要告诉他们：写递归时只需要关注"当前层"和"终止条件"，不要试图追踪所有层。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱2：忘记写终止条件</div>
+            <p class="trap-desc">
+              没有终止条件的递归会导致无限循环和栈溢出（Runtime Error）。
+              这是初学者写递归最常见的错误。
+            </p>
+          </div>
+          <div class="trap-card">
+            <div class="trap-title">陷阱3：过早引入记忆化搜索</div>
+            <p class="trap-desc">
+              记忆化搜索是优化手段，不是入门内容。L4阶段先让学生写出裸递归，
+              体会到重复计算的慢，后面再教优化，印象更深。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <h2>课后练习题</h2>
+        <div class="exercise-list">
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">1</span>
+              <h4 class="exercise-title">递归求阶乘</h4>
+              <span class="exercise-tag easy">入门</span>
+            </div>
+            <p>用递归实现 <code class="inline-code">factorial(n)</code>，并画出 n=4 时的调用栈。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">2</span>
+              <h4 class="exercise-title">递归求幂</h4>
+              <span class="exercise-tag easy">入门</span>
+            </div>
+            <p>用递归实现 <code class="inline-code">pow(a, n)</code>，即求 a 的 n 次方（假设 n 是非负整数）。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">3</span>
+              <h4 class="exercise-title">汉诺塔</h4>
+              <span class="exercise-tag medium">重点</span>
+            </div>
+            <p>输入 n，输出把 n 个盘子从 A 柱移到 C 柱的每一步移动方案。</p>
+          </div>
+          <div class="exercise-item">
+            <div class="exercise-header">
+              <span class="exercise-id">4</span>
+              <h4 class="exercise-title">递归翻转字符串</h4>
+              <span class="exercise-tag hard">挑战</span>
+            </div>
+            <p>用递归实现字符串翻转。例如输入 "abc"，输出 "cba"。</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="checklist-box reveal">
+        <h4><i class="fas fa-clipboard-check"></i> 本课自测清单</h4>
+        <ul>
+          <li>能说出递归三要素：终止条件、递归调用、合并结果</li>
+          <li>能独立写出阶乘的递归实现</li>
+          <li>理解递归调用的栈展开过程</li>
+          <li>能写出汉诺塔的递归代码并解释其思想</li>
+          <li>知道递归没有终止条件会导致栈溢出</li>
+          <li class="blocker">如果任何一条不满足，不要进入L4-05分治初探</li>
+        </ul>
+      </div>
+
+      <div class="lesson-nav reveal">
+        <a href="L4-03-变量作用域.html" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> 上一课：变量作用域
+        </a>
+        <a href="L4-05-分治初探.html" class="btn btn-primary" style="background: var(--level4); border-color: var(--level4);">
+          下一课：分治初探 <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container">
+      <div class="footer-links">
+        <a href="../../../philosophy/index.html">教学理念</a>
+        <a href="../../../mainlines/index.html">能力主线</a>
+        <a href="../../../index.html#levels">八级体系</a>
+        <a href="../../../resources/index.html">学习资源</a>
+      </div>
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+    </div>
+  </footer>
+
+  <script src="../../../assets/js/main.js"></script>
+</body>
+</html>
