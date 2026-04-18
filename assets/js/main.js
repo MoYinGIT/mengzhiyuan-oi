@@ -110,6 +110,20 @@
     });
   }
 
+  // ---- 教学可视化组件懒加载 ----
+  function initTeachingVisuals() {
+    const visuals = document.querySelectorAll('.visual-demo, [data-type="mermaid"], [data-type="tracker"], [data-type="memory"]');
+    if (!visuals.length) return;
+    
+    const script = document.createElement('script');
+    script.src = (document.querySelector('script[src*="main.js"]')?.src.includes('/lessons/') ? '../../../' : '../../') + 'assets/js/teaching-visuals.js';
+    script.onload = () => {
+      if (window.TeachingVisuals) window.TeachingVisuals.init();
+    };
+    script.onerror = () => console.warn('[蒙知苑·OI] teaching-visuals.js 加载失败');
+    document.head.appendChild(script);
+  }
+
   // ---- 初始化 ----
   function init() {
     initMobileMenu();
@@ -117,6 +131,7 @@
     initCodeCopy();
     initSmoothScroll();
     initActiveNav();
+    initTeachingVisuals();
     
     console.log('[蒙知苑·OI] 主脚本初始化完成');
   }
