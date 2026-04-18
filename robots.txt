@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /rulesdata/
+
+Sitemap: https://moyingit.github.io/mengzhiyuan-oi/sitemap.xml

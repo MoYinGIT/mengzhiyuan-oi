@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 · 页面未找到 · 蒙知苑·OI</title>
+  <meta name="description" content="蒙知苑·OI - 404页面未找到">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <style>
+    :root { --lv-color: var(--accent); --lv-dim: var(--accent-dim); }
+    .error-container { text-align: center; padding: var(--sp-16) var(--sp-4); }
+    .error-code { font-family: 'JetBrains Mono', monospace; font-size: 120px; font-weight: 900; color: var(--level4); line-height: 1; margin-bottom: var(--sp-4); }
+    .error-title { font-size: 24px; font-weight: 700; margin-bottom: var(--sp-3); }
+    .error-desc { color: var(--fg-muted); max-width: 480px; margin: 0 auto var(--sp-6); }
+    .error-actions { display: flex; gap: var(--sp-3); justify-content: center; flex-wrap: wrap; }
+  </style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="index.html" class="top-bar-logo">蒙知苑<span>OI</span></a>
+      <div class="top-bar-nav">
+        <a href="philosophy/index.html">教学理念</a>
+        <a href="mainlines/index.html">能力主线</a>
+        <a href="index.html#levels">八级体系</a>
+        <a href="resources/index.html">学习资源</a>
+      </div>
+      <button class="mobile-menu-btn" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+  <div class="mobile-menu">
+    <a href="philosophy/index.html">教学理念</a>
+    <a href="mainlines/index.html">能力主线</a>
+    <a href="index.html#levels">八级体系</a>
+    <a href="resources/index.html">学习资源</a>
+  </div>
+
+  <main class="main-content">
+    <div class="container">
+      <div class="error-container reveal">
+        <div class="error-code">404</div>
+        <h1 class="error-title">页面未找到</h1>
+        <p class="error-desc">
+          就像递归函数没有写终止条件，你似乎走到了一个死胡同。<br>
+          不要慌，退栈返回上一帧，重新选择一条路径。
+        </p>
+        <div class="error-actions">
+          <a href="index.html" class="btn btn-primary" style="background: var(--level4); border-color: var(--level4);">
+            <i class="fas fa-home"></i> 返回首页
+          </a>
+          <a href="javascript:history.back()" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> 返回上一页
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: var(--sp-12);">
+    <div class="container">
+      <div class="footer-links">
+        <a href="philosophy/index.html">教学理念</a>
+        <a href="mainlines/index.html">能力主线</a>
+        <a href="index.html#levels">八级体系</a>
+        <a href="resources/index.html">学习资源</a>
+      </div>
+      <p>蒙知苑·OI · IOI金牌教练教案体系</p>
+    </div>
+  </footer>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
