@@ -90,6 +90,16 @@
         </p>
       </div>
 
+      <div class="reveal">
+        <div class="trap-box" style="margin-bottom: var(--sp-4);">
+          <div class="trap-title"><i class="fas fa-ban"></i> 🚫 L4 绝对禁止事项</div>
+          <ol style="padding-left: var(--sp-5); margin: var(--sp-2) 0 0;">
+            <li><strong>禁止使用 <code>std::sort</code></strong>：排序过程是"用代码模拟操作"的最佳肌肉训练，直接用 <code>sort()</code> 等于放弃了这 6 个课时的训练价值。</li>
+            <li><strong>禁止在此阶段讲递归函数</strong>：必须确认学生已在 L3 完成了纸笔推演，否则递归与函数引用传递混合讲解会导致认知过载。</li>
+          </ol>
+        </div>
+      </div>
+
       <div class="divider"></div>
 
       <h2 class="reveal">核心知识点</h2>
@@ -185,6 +195,53 @@
           </div>
           <div class="lesson-hours">8课时</div>
         </a>
+      </div>
+
+      <div class="divider"></div>
+
+      <h2 class="reveal">D 级 Boss 战（里程碑考核）</h2>
+      <div class="reveal">
+        <div class="card" style="margin-bottom: var(--sp-4);">
+          <div class="card-header">
+            <div class="card-icon" style="background: var(--level4-dim); color: var(--level4);">
+              <i class="fas fa-bug"></i>
+            </div>
+            <h3 class="card-title">MY4D01：深空探测器底层指令解码（D主Boss）</h3>
+          </div>
+          <div class="card-desc">
+            <ul style="padding-left: var(--sp-5);">
+              <li><strong>考点</strong>：全局变量污染 + 多层调用链。</li>
+              <li><strong>通过标准</strong>：必须完美 AC，且能口述每一步 S 和 P 的变化，否则判定为"手比脑子快"的假 AC。</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom: var(--sp-4); border: 2px solid var(--red);">
+          <div class="card-header">
+            <div class="card-icon" style="background: var(--red-dim); color: var(--red);">
+              <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h3 class="card-title">MY4D02：引用传递陷阱（D副Boss）⚠️ v2.0 重出</h3>
+          </div>
+          <div class="card-desc">
+            <div class="note-box" style="background: var(--red-dim); border-left-color: var(--red); margin-bottom: var(--sp-3);">
+              <p style="margin-bottom: 0;"><strong>🚨 废弃说明</strong>：旧版题目「跃迁光缆铺设评估」（考查逆序对计数）<strong>已永久移除</strong>。<strong>原因</strong>：违反前置依赖隔离机制。L4 学生未学归并排序，无法理解逆序对，强行做题 100% 会导致心态崩溃并放弃竞赛。该题已移至 L5 分治线作为 C 级常规题。</p>
+            </div>
+            <ul style="padding-left: var(--sp-5);">
+              <li><strong>新题考点</strong>：数组传参的引用语义陷阱。</li>
+              <li><strong>题目场景</strong>：函数接收数组参数后，在函数内部对数组执行了排序或修改操作。</li>
+              <li><strong>致命陷阱</strong>：学生以为"传数组是传副本"（值传递思维），但实际上数组传参本质是传首地址（引用语义），导致主函数输出原始首尾元素时发现已被改变。</li>
+              <li><strong>交叉验证维度</strong>：D主考<strong>调试思维</strong>（追踪状态变化）；D副考<strong>语义理解</strong>（画内存图证明传参机制）。</li>
+              <li><strong>通过标准</strong>：
+                <ul>
+                  <li>AC 且能画出内存图 → 通过。</li>
+                  <li>WA 但能在 5 分钟内说出"我错在以为传数组是深拷贝" → 残血通过。</li>
+                  <li>WA 且说不出原因 → 重做，不准看题解。</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
 
       <div class="divider"></div>

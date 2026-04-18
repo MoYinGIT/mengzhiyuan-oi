@@ -188,6 +188,42 @@
 
       <div class="divider"></div>
 
+      <h2 class="reveal">递归入门（6h 加餐 · 强烈建议）</h2>
+      <div class="reveal">
+        <div class="trap-box" style="margin-bottom: var(--sp-4);">
+          <div class="trap-title"><i class="fas fa-skull-crossbones"></i> ⚠️ 教练防越权红线（v2.0 强制执行）</div>
+          <p>本板块题目（MY3C14~MY3C19，由 L4 迁入）<strong>严禁打开 IDE 写代码！</strong></p>
+          <p>违反前置依赖隔离机制：L3 学生尚未学习函数语法，要求写递归函数是教学事故。</p>
+          <p style="margin-bottom: 0;"><strong>正确用法</strong>：仅作为纸笔推演材料，让学生手动画俄罗斯套娃的调用树。</p>
+        </div>
+
+        <div class="card" style="margin-bottom: var(--sp-4);">
+          <div class="card-header">
+            <div class="card-icon" style="background: var(--level3-dim); color: var(--level3);">
+              <i class="fas fa-list-ol"></i>
+            </div>
+            <h3 class="card-title">教学执行顺序</h3>
+          </div>
+          <div class="card-desc">
+            <ol style="padding-left: var(--sp-5);">
+              <li><strong>俄罗斯套娃故事</strong>（1h）：不写代码，只用手模拟 3 个盘子的移动。</li>
+              <li><strong>递归遍历数组</strong>（1h）：对照题目 MY3C14（找不到的宝藏），纸笔推演正序和逆序的区别。</li>
+              <li><strong>递归求和/求最值</strong>（1h）：延伸 MY3C15（零次幂陷阱），重点训练 n=0 的基线陷阱。</li>
+              <li><strong>递归基线陷阱</strong>（1h）：交叉训练 MY3C15 + MY3C17 + MY3C19，防手误写错 <code>if(n==n-1)</code>。</li>
+              <li><strong>递归输出顺序</strong>（1h）：对照 MY3C16（无法停止的倒计时），体会"先打印 vs 先递归"的区别。</li>
+              <li><strong>递归经典 vs 循环</strong>（1h）：对照 MY3C18（空盘汉诺塔），总结递归思想。</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="trap-box" style="background: var(--red-dim); border-left-color: var(--red);">
+          <div class="trap-title" style="color: var(--red);"><i class="fas fa-ban"></i> 🚫 如果在 OJ 系统中发现学生提交了这几道题的 C++ 代码</div>
+          <p style="margin-bottom: 0;"><strong>处理方式</strong>：直接判定作业无效。理由："肌肉记忆优先于语法完备，在没有建立函数调用栈帧认知前，背递归代码只会摧毁后续 L6 的搜索学习。"</p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
       <h2 class="reveal">能力主线交汇</h2>
       <div class="reveal">
         <div class="card" style="margin-bottom: var(--sp-4);">
