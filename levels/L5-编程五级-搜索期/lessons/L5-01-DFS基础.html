@@ -86,6 +86,30 @@
         </div>
       </div>
 
+      <section class="reveal" style="margin-bottom: var(--sp-8);">
+        <div class="note-box" style="border-left-color: var(--level5); background: linear-gradient(135deg, rgba(16,185,129,0.05) 0%, rgba(16,185,129,0.02) 100%);">
+          <h3 style="color: var(--level5); margin-top: 0;"><i class="fas fa-unlock-alt"></i> 🎉 第一课：API 解禁仪式</h3>
+          <p>
+            你们在L4用肉体扛过了选择排序的折磨——找最小值、交换、再找、再交换，每一轮都在草稿纸上画出了数组的状态。
+            你们的手指已经形成了"排序"的机械反射，你们的大脑已经理解了排序的本质。
+          </p>
+          <p style="margin-top: var(--sp-3);">
+            <strong>作为奖励，从今天起，你们可以使用 <code>std::sort()</code> 了。</strong>
+          </p>
+          <p style="margin-top: var(--sp-3); color: var(--fg-dim);">
+            但请记住：<code>std::sort()</code> 不是拐杖，而是铠甲。它是用来保护已经练成肌肉的人，而不是给还没练肌肉的人偷懒的。
+            如果你L4的排序没有过关，使用 <code>sort()</code> 就是在给自己的漏洞盖被子。
+          </p>
+          <div class="visual-demo" data-type="tracker" data-tracker='[
+            {"step":"L4-第1轮：找最小值","vars":[{"name":"训练阶段","value":"手写选择排序","highlight":true},{"name":"状态","value":"🚫 sort() 禁用"},{"name":"肌肉值","value":"▮▯▯▯▯ 20%"}]},
+            {"step":"L4-第2轮：交换+画状态","vars":[{"name":"训练阶段","value":"草稿纸模拟","highlight":true},{"name":"状态","value":"🚫 sort() 禁用"},{"name":"肌肉值","value":"▮▮▮▯▯ 60%"}]},
+            {"step":"L4-第3轮：形成机械反射","vars":[{"name":"训练阶段","value":"手指记住流程","highlight":true},{"name":"状态","value":"🚫 sort() 禁用"},{"name":"肌肉值","value":"▮▮▮▮▮ 100%"}]},
+            {"step":"🎉 L5-API解禁仪式","vars":[{"name":"训练阶段","value":"std::sort() 解锁","highlight":true},{"name":"状态","value":"✅ 已解锁"},{"name":"肌肉值","value":"🏆 铠甲激活"}]}
+          ]' style="margin-top: var(--sp-4);"></div>
+          <p style="font-size: 12px; color: var(--fg-dim); margin-top: var(--sp-2);">▲ 肌肉训练进度条：只有达到100%才能解锁 API</p>
+        </div>
+      </section>
+
       <section class="reveal">
         <h2>1. 什么是DFS？</h2>
         <p>

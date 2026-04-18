@@ -193,26 +193,42 @@
           <div class="timeline-stage-marker" style="border-color: var(--level3); color: var(--level3);">2</div>
           <div class="timeline-stage-content">
             <div class="timeline-stage-header">
-              <span class="timeline-stage-title">L3末 - 递归入门</span>
+              <span class="timeline-stage-title">L3末 - 递归入门（降维执行）</span>
               <span class="timeline-stage-badge" style="background: var(--level3-dim); color: var(--level3);">6课时</span>
             </div>
             <div class="timeline-stage-desc">
-              <strong>目标：</strong>理解递归是另一种循环，建立递归信任。
+              <strong>目标：</strong>把"写代码"降级为"画图"，让大脑先形成"拆分子问题"的思维肌肉，把"写递归函数"的语法肌肉留给L4。
               <br><br>
-              <strong>内容：</strong>
+              <strong>内容（全程禁止打开IDE）：</strong>
               <ul style="margin: var(--sp-2) 0;">
-                <li>递归遍历数组（正序、逆序）</li>
-                <li>递归求和、求最值</li>
-                <li>递归三要素：终止条件、当前任务、递归调用</li>
+                <li>在黑板上画递归树（阶乘、斐波那契的展开图）</li>
+                <li>用纸笔推导汉诺塔状态转移</li>
+                <li>递归三要素：终止条件、当前任务、递归调用（只讲概念，不写代码）</li>
               </ul>
+              <div class="visual-demo" data-type="mermaid" style="margin-top: var(--sp-4);">
+graph TD
+    A[factorial3] --> B[3 * factorial2]
+    B --> C[2 * factorial1]
+    C --> D[return 1]
+    C --> E[return 2 * 1 = 2]
+    B --> F[return 3 * 2 = 6]
+    style A fill:#f59e0b,color:#fff
+    style D fill:#10b981,color:#fff
+    style F fill:#3b82f6,color:#fff
+              </div>
+              <p style="font-size: 12px; color: var(--fg-dim); margin-top: var(--sp-2);">▲ 课堂板书：手绘阶乘递归树（只画图，不写函数）</p>
             </div>
             <div class="timeline-stage-check">
               <strong>检验标准</strong>
               <ul style="margin: var(--sp-2) 0 0; padding-left: var(--sp-4);">
-                <li>能独立写出递归版数组遍历</li>
+                <li>能手绘4层阶乘的递归树</li>
+                <li>能手推3层汉诺塔的完整移动步骤</li>
                 <li>能说出递归三要素</li>
-                <li>遇到类似题目能快速套用</li>
+                <li>本阶段不写任何递归代码</li>
               </ul>
+            </div>
+            <div class="coach-quote" style="margin-top: var(--sp-3);">
+              <p style="margin-bottom: 0; font-size: 13px;"><strong>肌肉记忆优先：</strong>L3学生的语法肌肉尚未牢固，此时强行写递归函数会陷入"语法报错+逻辑混乱"的双重困境。全部6课时用于纸笔推演，让思维肌肉先长出来。</p>
             </div>
           </div>
         </div>

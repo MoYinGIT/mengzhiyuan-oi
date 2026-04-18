@@ -115,13 +115,22 @@
               <span class="timeline-stage-badge" style="background: var(--level4-dim); color: var(--level4);">启动</span>
             </div>
             <div class="timeline-stage-desc">
-              <strong>核心内容：</strong>
+              <strong>核心内容（暴力肌肉化）：</strong>
               <ul style="margin: var(--sp-2) 0;">
-                <li>选择排序、冒泡排序（理解排序本质）</li>
-                <li>插入排序（近乎有序的优化）</li>
+                <li>选择排序、冒泡排序（<strong>禁止使用 <code>sort()</code></strong>）</li>
+                <li>强制要求学生在草稿纸上画出<strong>每一轮交换后的数组状态</strong></li>
+                <li>插入排序（近乎有序的优化，同样要求手绘数组状态）</li>
                 <li>排序的应用（查找、去重、贪心）</li>
               </ul>
-              <strong>思维目标：</strong>理解"为什么排序"比"怎么排序"更重要
+              <strong>思维目标：</strong>把"写代码"转化为"用代码模拟手工操作"，直到手指形成"找最小值→交换到末尾"的机械反射。
+              <div class="visual-demo" data-type="tracker" data-tracker='[
+                {"step":"初始数组","vars":[{"name":"a[0]","value":"5"},{"name":"a[1]","value":"3"},{"name":"a[2]","value":"8"},{"name":"a[3]","value":"1"},{"name":"a[4]","value":"2"}]},
+                {"step":"第1轮：找最小值1，与a[0]交换","vars":[{"name":"a[0]","value":"1","highlight":true},{"name":"a[1]","value":"3"},{"name":"a[2]","value":"8"},{"name":"a[3]","value":"5","highlight":true},{"name":"a[4]","value":"2"}]},
+                {"step":"第2轮：找最小值2，与a[1]交换","vars":[{"name":"a[0]","value":"1"},{"name":"a[1]","value":"2","highlight":true},{"name":"a[2]","value":"8"},{"name":"a[3]","value":"5"},{"name":"a[4]","value":"3","highlight":true}]},
+                {"step":"第3轮：找最小值3，已在a[2]","vars":[{"name":"a[0]","value":"1"},{"name":"a[1]","value":"2"},{"name":"a[2]","value":"3","highlight":true},{"name":"a[3]","value":"5"},{"name":"a[4]","value":"8"}]},
+                {"step":"完成：有序数组 [1,2,3,5,8]","vars":[{"name":"a[0]","value":"1"},{"name":"a[1]","value":"2"},{"name":"a[2]","value":"3"},{"name":"a[3]","value":"5"},{"name":"a[4]","value":"8"}]}
+              ]' style="margin-top: var(--sp-4);"></div>
+              <p style="font-size: 12px; color: var(--fg-dim); margin-top: var(--sp-2);">▲ 草稿纸标准：每轮交换后必须画出当前数组状态（红色=本轮交换位置）</p>
             </div>
           </div>
         </div>
@@ -182,8 +191,8 @@
       </div>
 
       <div class="reveal">
-        <h3>Q2：实际编程中需要手写排序吗？</h3>
-        <p>通常不需要，sort()函数足够。但学习排序的价值在于理解分治思想。就像学微积分不是为了手算积分表，而是为了理解变化的本质。</p>
+        <h3>Q2：L4阶段可以用 <code>sort()</code> 吗？</h3>
+        <p><strong>绝对禁止。</strong>L4阶段不仅禁止用 <code>sort()</code>，还要强制要求学生在草稿纸上画出每一轮交换后的数组状态。这是"暴力肌肉化"训练——把"写代码"转化为"用代码模拟手工操作"，直到手指形成"找最小值→交换到末尾"的机械反射。<code>sort()</code> 会在L5第一节课的"API解禁仪式"中正式解锁。</p>
       </div>
 
       <div style="display: flex; justify-content: space-between; margin-top: var(--sp-8);">

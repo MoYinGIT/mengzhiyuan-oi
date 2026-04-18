@@ -95,6 +95,25 @@
       </div>
 
       <section class="reveal">
+        <div class="note-box" style="border-left-color: var(--level4);">
+          <p>
+            <strong>🚫 L4排序铁律（暴力肌肉化）：</strong>本阶段禁止调用任何现成排序函数（包括 <code>sort()</code>）。
+            写选择排序、冒泡排序时，必须在草稿纸上画出<strong>每一轮交换后的数组状态</strong>。
+            把"写代码"转化为"用代码模拟手工操作"，直到手指形成"找最小值→交换到末尾"的机械反射。
+            <code>sort()</code> 是L5的奖励，不是L4的拐杖。
+          </p>
+        </div>
+        <div class="visual-demo" data-type="tracker" data-tracker='[
+          {"step":"初始数组","vars":[{"name":"a[0]","value":"5"},{"name":"a[1]","value":"3"},{"name":"a[2]","value":"8"},{"name":"a[3]","value":"1"},{"name":"a[4]","value":"2"}]},
+          {"step":"第1轮：找最小值1，与a[0]交换","vars":[{"name":"a[0]","value":"1","highlight":true},{"name":"a[1]","value":"3"},{"name":"a[2]","value":"8"},{"name":"a[3]","value":"5","highlight":true},{"name":"a[4]","value":"2"}]},
+          {"step":"第2轮：找最小值2，与a[1]交换","vars":[{"name":"a[0]","value":"1"},{"name":"a[1]","value":"2","highlight":true},{"name":"a[2]","value":"8"},{"name":"a[3]","value":"5"},{"name":"a[4]","value":"3","highlight":true}]},
+          {"step":"第3轮：找最小值3，已在a[2]","vars":[{"name":"a[0]","value":"1"},{"name":"a[1]","value":"2"},{"name":"a[2]","value":"3","highlight":true},{"name":"a[3]","value":"5"},{"name":"a[4]","value":"8"}]},
+          {"step":"完成：有序数组 [1,2,3,5,8]","vars":[{"name":"a[0]","value":"1"},{"name":"a[1]","value":"2"},{"name":"a[2]","value":"3"},{"name":"a[3]","value":"5"},{"name":"a[4]","value":"8"}]}
+        ]' style="margin-top: var(--sp-4);"></div>
+        <p style="font-size: 12px; color: var(--fg-dim); margin-top: var(--sp-2);">▲ 草稿纸标准：每轮交换后必须画出当前数组状态（红色=本轮交换位置）</p>
+      </section>
+
+      <section class="reveal">
         <h2>1. 分治思想：Divide and Conquer</h2>
         <p>分治算法的三个步骤：</p>
         <ol>
