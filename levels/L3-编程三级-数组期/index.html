@@ -197,17 +197,27 @@
           <p style="margin-bottom: 0;"><strong>正确用法</strong>：仅使用纸笔进行推演，让学生手动画各类递归游戏的调用树，例：汉诺塔、老和尚讲故事、俄罗斯套娃等。</p>
         </div>
 
-        <div class="visual-demo" data-type="tracker" data-tracker='[
-          {"step":"第0层：原问题","vars":[{"name":"问题","value":"把4个盘从A柱移到B柱","highlight":true},{"name":"思路","value":"先把上面3个盘移开→移最大盘→再把3个盘移过来"}]},
-          {"step":"第1层：子问题1（自我相似）","vars":[{"name":"问题","value":"把3个盘从A柱移到C柱","highlight":true},{"name":"思路","value":"先把上面2个盘移开→移第3个盘→再把2个盘移过来"}]},
-          {"step":"第2层：子问题的子问题","vars":[{"name":"问题","value":"把2个盘从A柱移到B柱","highlight":true},{"name":"思路","value":"先把上面1个盘移开→移第2个盘→再把1个盘移过来"}]},
-          {"step":"第3层：最小问题（基线）","vars":[{"name":"问题","value":"把1个盘从A柱移到C柱","highlight":true},{"name":"操作","value":"🟢 直接移动：A → C"}]},
-          {"step":"返回第2层：继续完成","vars":[{"name":"完成","value":"2个盘已成功从A→B","highlight":true},{"name":"发现","value":"解决2个盘的方法和4个盘一模一样！"}]},
-          {"step":"返回第1层：继续完成","vars":[{"name":"完成","value":"3个盘已成功从A→C","highlight":true},{"name":"下一步","value":"🟢 移动最大盘：A → B"}]},
-          {"step":"第1层：子问题2（自我相似）","vars":[{"name":"问题","value":"把3个盘从C柱移到B柱","highlight":true},{"name":"关键","value":"方法和子问题1完全相同，只是柱子的名字换了"}]},
-          {"step":"第0层：原问题完成","vars":[{"name":"完成","value":"4个盘全部从A→B","highlight":true},{"name":"核心发现","value":"大问题和小问题的解法长得一模一样 = 递归"}]}
-        ]' style="margin-top: var(--sp-4);"></div>
-        <p style="font-size: 12px; color: var(--fg-dim); margin-top: var(--sp-2);">▲ 课堂板书：汉诺塔4盘递归推演表（绿色=实际移动操作，红色=自我相似的核心发现）</p>
+        <div class="visual-demo" data-type="mermaid" style="margin-top: var(--sp-4);">
+graph TD
+    A["hanoi4 A→B<br/>把4个盘从A移到B"] --> B["hanoi3 A→C<br/>先把上面3个盘从A移到C"]
+    A --> C["move A→B<br/>把最大的盘从A移到B"]
+    A --> D["hanoi3 C→B<br/>再把3个盘从C移到B"]
+    B --> E["hanoi2 A→B"]
+    B --> F["move A→C"]
+    B --> G["hanoi2 B→C"]
+    D --> H["hanoi2 C→A"]
+    D --> I["move C→B"]
+    D --> J["hanoi2 A→B"]
+    E --> K["hanoi1 A→C"]
+    E --> L["move A→B"]
+    E --> M["hanoi1 C→B"]
+    style A fill:#f59e0b,color:#fff
+    style C fill:#10b981,color:#fff
+    style I fill:#10b981,color:#fff
+    style F fill:#10b981,color:#fff
+    style L fill:#10b981,color:#fff
+        </div>
+        <p style="font-size: 12px; color: var(--fg-dim); margin-top: var(--sp-2);">▲ 课堂板书：汉诺塔4盘递归调用树（橙色=起点，绿色=实际移动操作）</p>
 
       </div>
 
