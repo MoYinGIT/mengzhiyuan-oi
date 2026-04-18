@@ -199,23 +199,35 @@
 
         <div class="visual-demo" data-type="mermaid" style="margin-top: var(--sp-4);">
 graph TD
-    A["hanoi4 A→B<br/>把4个盘从A移到B"] --> B["hanoi3 A→C<br/>先把上面3个盘从A移到C"]
-    A --> C["move A→B<br/>把最大的盘从A移到B"]
-    A --> D["hanoi3 C→B<br/>再把3个盘从C移到B"]
-    B --> E["hanoi2 A→B"]
-    B --> F["move A→C"]
-    B --> G["hanoi2 B→C"]
-    D --> H["hanoi2 C→A"]
-    D --> I["move C→B"]
-    D --> J["hanoi2 A→B"]
-    E --> K["hanoi1 A→C"]
-    E --> L["move A→B"]
-    E --> M["hanoi1 C→B"]
+    A["hanoi4 A→C<br/>把4个盘从A移到C"] --> B["hanoi3 A→B<br/>先把上面3个盘从A移到B"]
+    A --> C["move A→C<br/>把最大的盘从A移到C"]
+    A --> D["hanoi3 B→C<br/>再把3个盘从B移到C"]
+    B --> E["hanoi2 A→C"]
+    B --> F["move A→B"]
+    B --> G["hanoi2 C→B"]
+    D --> H["hanoi2 B→A"]
+    D --> I["move B→C"]
+    D --> J["hanoi2 A→C"]
+    E --> K["hanoi1 A→B"]
+    E --> L["move A→C"]
+    E --> M["hanoi1 B→C"]
+    G --> N["hanoi1 C→A"]
+    G --> O["move C→B"]
+    G --> P["hanoi1 A→B"]
+    H --> Q["hanoi1 B→C"]
+    H --> R["move B→A"]
+    H --> S["hanoi1 C→A"]
+    J --> T["hanoi1 A→B"]
+    J --> U["move A→C"]
+    J --> V["hanoi1 B→C"]
     style A fill:#f59e0b,color:#fff
     style C fill:#10b981,color:#fff
-    style I fill:#10b981,color:#fff
     style F fill:#10b981,color:#fff
+    style I fill:#10b981,color:#fff
     style L fill:#10b981,color:#fff
+    style O fill:#10b981,color:#fff
+    style R fill:#10b981,color:#fff
+    style U fill:#10b981,color:#fff
         </div>
         <p style="font-size: 12px; color: var(--fg-dim); margin-top: var(--sp-2);">▲ 课堂板书：汉诺塔4盘递归调用树（橙色=起点，绿色=实际移动操作）</p>
 
